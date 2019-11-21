@@ -1,0 +1,47 @@
+<html>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    Loading...
+</body>
+</html>
+
+<style>
+    body {
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        background: lightgray; 
+        font-family: 'Open Sans'; 
+        font-size: 4rem;
+    }
+</style>
+
+<script>
+    var product = '[Product]';
+    var platform = 'Telegram';
+    var clientId = '[ClientId]';
+
+    fetch('https://plex.tv/api/v2/pins.json?strong=true', {
+        method: 'POST',
+    	headers: {
+    		'X-Plex-Product': product,
+    		'X-Plex-Platform': platform,
+    		'X-Plex-Device': product + ' (' + platform + ')',
+    		'X-Plex-Client-Identifier': clientId,
+    	}
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(pin) {
+    	window.location.replace('https://app.plex.tv/auth#'
+    		+ '?context[device][product]=' + product
+    		+ '&context[device][environment]=bundled'
+    		+ '&context[device][layout]=mobile'
+    		+ '&context[device][platform]=' + platform
+    		+ '&context[device][device]=' + product + '%20(' + platform + ')'
+    		+ '&clientID=' + clientId
+    		+ '&forwardUrl=https://telegram.me/' + product + '?start=' + pin.id + '-' + clientId
+    		+ '&code=' + pin.code);
+    });
+</script>

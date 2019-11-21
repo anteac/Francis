@@ -1,0 +1,7 @@
+<mat-card class="page" [class.loading]="loading">
+  <app-nav-bar></app-nav-bar>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</mat-card>
+<mat-spinner *ngIf="loading" class="loader">

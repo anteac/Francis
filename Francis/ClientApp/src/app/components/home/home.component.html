@@ -1,0 +1,13 @@
+<p>
+  Telegram status:
+  <span *ngIf="loadingTelegram" class="loading">Loading...</span>
+  <span *ngIf="!loadingTelegram && telegramStatus" class="success">Running</span>
+  <span *ngIf="!loadingTelegram && !telegramStatus" class="error">Stopped</span>
+</p>
+<p>
+  Ombi status:
+  <span *ngIf="loadingOmbi" class="loading">Loading...</span>
+  <span *ngIf="!loadingOmbi && ombiStatus" class="success">Accessible</span>
+  <span *ngIf="!loadingOmbi && !ombiStatus" class="error">Unavailable</span>
+</p>
+<button mat-raised-button color="primary" (click)="getStatuses()">Refresh Statuses</button>

@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  .page {
+    margin-top: 16px;
+
+    .container {
+      padding-top: 16px;
+    }
+
+    &.loading {
+      filter: blur(1px);
+      pointer-events: none;
+    }
+  }
+
+  .loader {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}

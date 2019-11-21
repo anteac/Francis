@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  flex-direction: column;
+
+  .status {
+    margin: 16px;
+    text-align: center;
+
+    &.success {
+      color: green;
+    }
+
+    &.error {
+      color: darkred;
+    }
+  }
+}
