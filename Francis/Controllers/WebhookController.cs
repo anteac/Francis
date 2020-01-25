@@ -34,7 +34,7 @@ namespace Francis.Controllers
         [HttpPost]
         public async Task Webhook(Notification notification)
         {
-            var requestId = long.Parse(notification.RequestId);
+            long.TryParse(notification.RequestId, out var requestId);
 
             var requestedUser = _context.Users.FirstOrDefault(x => x.UserName == notification.RequestedUser);
             if (requestedUser != null && notification.Type != null && !requestedUser.WatchedItems.Any(x => x.RequestId == requestId))
@@ -45,6 +45,7 @@ namespace Francis.Controllers
 
             var handler = notification.NotificationType switch
             {
+                NotificationType.Test => HandleTest(notification),
                 NotificationType.NewRequest => HandleNewRequest(notification, requestId),
                 NotificationType.RequestApproved => HandleRequestApproved(notification, requestId),
                 NotificationType.RequestDeclined => HandleRequestDenied(notification, requestId),
@@ -55,6 +56,11 @@ namespace Francis.Controllers
         }
 
         private string FormatAnswer(Notification notification, string message) => $"{notification.Title} ({notification.Type} - {notification.Year})\n\n{message}";
+
+        private async Task HandleTest(Notification notification)
+        {
+            await _client.Client.SendTextMessageAsync(_options.Value.AdminChat, "This is a test message from Ombi! If you received this, your configuration is valid.");
+        }
 
         private async Task HandleNewRequest(Notification notification, long requestId)
         {
