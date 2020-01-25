@@ -60,7 +60,7 @@ namespace Francis.Controllers
         [HttpGet("logs/{file}")]
         public FileStreamResult GetLogFiles(string file)
         {
-            var path = Path.Combine("logs", file);
+            var path = Path.Combine(_logsfolder, file);
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             return File(stream, "text/plain; charset=UTF-8");
         }
