@@ -527,9 +527,6 @@ MigrationBackup/
 
 # End of https://www.gitignore.io/api/angular,dotnetcore,aspnetcore,visualstudio,visualstudiocode
 
-
 *.Development.json
 *.Production.json
 launchSettings.json
-app.db
-Francis/logs
