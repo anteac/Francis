@@ -9,6 +9,7 @@ import { MessengerService } from '../../services/messenger/messenger.service';
 })
 export class LogsComponent {
 
+  error: string;
   logFiles: string[] = [];
 
   constructor(private http: HttpClient, private messenger: MessengerService) {
@@ -19,6 +20,9 @@ export class LogsComponent {
     this.messenger.loading.next(true);
     this.http.get<string[]>('monitoring/logs').subscribe(logFiles => {
       this.logFiles = logFiles;
+      this.messenger.loading.next(false);
+    }, () => {
+      this.error = 'An error occured while retrieving list of log files.'
       this.messenger.loading.next(false);
     });
   }

@@ -1,3 +1,4 @@
 <mat-action-list>
   <a *ngFor="let logFile of logFiles" (click)="openLogFile(logFile)" mat-list-item>{{logFile}}</a>
 </mat-action-list>
+<p *ngIf="error" class="status error">{{error}}</p>
