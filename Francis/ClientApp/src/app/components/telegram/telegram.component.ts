@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AboutTelegramBot } from '../../models/generated/AboutTelegramBot';
 import { TelegramOptions } from '../../models/generated/TelegramOptions';
-import { MessengerService } from '../../services/messenger/messenger.service';
+import { MessengerService } from '../../services/messenger.service';
 
 @Component({
   selector: 'app-telegram',

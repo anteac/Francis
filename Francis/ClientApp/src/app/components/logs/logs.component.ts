@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MessengerService } from '../../services/messenger/messenger.service';
+import { MessengerService } from '../../services/messenger.service';
 
 @Component({
   selector: 'app-logs',

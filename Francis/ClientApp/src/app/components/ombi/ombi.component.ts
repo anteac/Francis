@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AboutOmbi } from '../../models/generated/AboutOmbi';
 import { OmbiOptions } from '../../models/generated/OmbiOptions';
-import { MessengerService } from '../../services/messenger/messenger.service';
+import { MessengerService } from '../../services/messenger.service';
 
 @Component({
   selector: 'app-ombi',

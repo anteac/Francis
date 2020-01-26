@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MessengerService } from './services/messenger/messenger.service';
+import { MessengerService } from './services/messenger.service';
 
 @Component({
   selector: 'app-root',
