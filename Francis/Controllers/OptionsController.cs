@@ -1,7 +1,7 @@
 using Francis.Database.Options;
 using Francis.Models.Ombi;
 using Francis.Models.Telegram;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Services.Factories;
 using Francis.Telegram.Client;
 using Francis.Toolbox.Helpers;

@@ -1,7 +1,7 @@
 using Francis.Database;
 using Francis.Database.Entities;
 using Francis.Models.Notification;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Telegram.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -36,7 +36,7 @@ namespace Francis.Controllers
         {
             long.TryParse(notification.RequestId, out var requestId);
 
-            var requestedUser = _context.Users.FirstOrDefault(x => x.UserName == notification.RequestedUser);
+            var requestedUser = _context.BotUsers.FirstOrDefault(x => x.UserName == notification.RequestedUser);
             if (requestedUser != null && notification.Type != null && !requestedUser.WatchedItems.Any(x => x.RequestId == requestId))
             {
                 requestedUser.WatchedItems.Add(WatchedItem.From(requestId, notification.Type.Value, requestedUser));
@@ -78,7 +78,7 @@ namespace Francis.Controllers
 
         private async Task HandleRequestApproved(Notification notification, long requestId)
         {
-            var users = _context.Users.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
                 await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request has been approved. It will be available soon!"));
@@ -87,7 +87,7 @@ namespace Francis.Controllers
 
         private async Task HandleRequestDenied(Notification notification, long requestId)
         {
-            var users = _context.Users.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
                 await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request has been denied... Maybe your request doesn't match the conditions?"));
@@ -96,7 +96,7 @@ namespace Francis.Controllers
 
         private async Task HandleRequestAvailable(Notification notification, long requestId)
         {
-            var users = _context.Users.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
                 await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request is available. You can watch it now!"));

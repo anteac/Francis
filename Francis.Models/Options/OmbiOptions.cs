@@ -1,4 +1,4 @@
-namespace Francis.Options
+namespace Francis.Models.Options
 {
     public class OmbiOptions
     {

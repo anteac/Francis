@@ -1,6 +1,6 @@
 using Francis.Database;
 using Francis.Models;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Services.Clients;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -42,7 +42,7 @@ namespace Francis.Services.Factories
                 client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
                 client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
 
-                var botUser = _context.Users.Find(_capture.Data.Chat.Id);
+                var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
                 var ombiUser = service.GetUser(botUser.OmbiId).Result;
                 client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
 

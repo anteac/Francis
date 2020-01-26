@@ -28,7 +28,7 @@ namespace Francis.Controllers
         [HttpGet]
         public async Task<ActionResult> Auth(string clientId)
         {
-            var user = _context.Users.FirstOrDefault(x => x.ClientId == clientId);
+            var user = _context.BotUsers.FirstOrDefault(x => x.ClientId == clientId);
             if (user == null)
             {
                 return NotFound(null);

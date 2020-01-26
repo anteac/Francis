@@ -1,5 +1,5 @@
 using Francis.Database.Options;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Services.Clients;
 using Francis.Services.Factories;
 using Microsoft.Extensions.Configuration;

@@ -1,7 +1,7 @@
 using Francis.Database;
 using Francis.Extensions;
 using Francis.Models;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Telegram.Answers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -64,7 +64,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<Message>>().Data = e.Message;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.Users.Find(e.Message.Chat.Id);
+                var user = context.BotUsers.Find(e.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<MessageAnswer>()
                     .FirstOrDefault(x => x.Public == !(user?.PlexToken != null) && x.CanProcess);
@@ -101,7 +101,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<CallbackQuery>>().Data = e.CallbackQuery;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.Users.Find(e.CallbackQuery.Message.Chat.Id);
+                var user = context.BotUsers.Find(e.CallbackQuery.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<CallbackAnswer>()
                     .FirstOrDefault(x => x.Public == !(user?.PlexToken != null) && x.CanProcess);

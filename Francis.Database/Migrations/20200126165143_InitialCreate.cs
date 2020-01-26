@@ -7,19 +7,7 @@ namespace Francis.Database.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Options",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Options", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
+                name: "BotUsers",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -32,7 +20,19 @@ namespace Francis.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_BotUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Options",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Options", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,9 +52,9 @@ namespace Francis.Database.Migrations
                 {
                     table.PrimaryKey("PK_Progressions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Progressions_Users_BotUserId",
+                        name: "FK_Progressions_BotUsers_BotUserId",
                         column: x => x.BotUserId,
-                        principalTable: "Users",
+                        principalTable: "BotUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -73,9 +73,9 @@ namespace Francis.Database.Migrations
                 {
                     table.PrimaryKey("PK_WatchedItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WatchedItems_Users_UserId",
+                        name: "FK_WatchedItems_BotUsers_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "BotUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -103,7 +103,7 @@ namespace Francis.Database.Migrations
                 name: "WatchedItems");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "BotUsers");
         }
     }
 }

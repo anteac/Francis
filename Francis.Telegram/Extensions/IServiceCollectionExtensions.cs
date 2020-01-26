@@ -1,6 +1,6 @@
 using Francis.Database.Options;
 using Francis.Models;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Telegram.Answers;
 using Francis.Telegram.Answers.CallbackAnswers;
 using Francis.Telegram.Answers.MessageAnswers;

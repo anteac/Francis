@@ -9,7 +9,7 @@ namespace Francis.Database
         private static bool _migrated = false;
 
 
-        public DbSet<BotUser> Users { get; set; }
+        public DbSet<BotUser> BotUsers { get; set; }
 
         public DbSet<Progression> Progressions { get; set; }
 
@@ -33,6 +33,8 @@ namespace Francis.Database
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
             builder.Entity<RequestProgression>(entity =>
             {
                 entity.Property(x => x.ExcludedIds).HasJsonConversion();

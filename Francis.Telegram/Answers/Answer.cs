@@ -1,7 +1,7 @@
 using Francis.Database;
 using Francis.Database.Entities;
 using Francis.Models;
-using Francis.Options;
+using Francis.Models.Options;
 using Francis.Services.Clients;
 using Francis.Telegram.Client;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,7 +57,7 @@ namespace Francis.Telegram.Answers
             Ombi = provider.GetRequiredService<IOmbiService>();
             Logger = provider.GetRequiredService<ILogger<Answer<TData>>>();
 
-            User = Context.Users.Find(UserId);
+            User = Context.BotUsers.Find(UserId);
 
             var parameters = FullCommand.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             var queue = new Queue<string>(parameters);

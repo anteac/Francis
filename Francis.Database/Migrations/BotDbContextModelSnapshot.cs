@@ -39,7 +39,7 @@ namespace Francis.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("BotUsers");
                 });
 
             modelBuilder.Entity("Francis.Database.Entities.OptionValue", b =>

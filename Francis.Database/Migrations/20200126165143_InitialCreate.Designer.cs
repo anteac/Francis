@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Francis.Database.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20200119224527_InitialCreate")]
+    [Migration("20200126165143_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace Francis.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("BotUsers");
                 });
 
             modelBuilder.Entity("Francis.Database.Entities.OptionValue", b =>
