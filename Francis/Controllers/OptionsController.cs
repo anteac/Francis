@@ -56,7 +56,7 @@ namespace Francis.Controllers
             _updater.Save(options);
             _bot.Initialize();
             await _bot.Client.SendTextMessageAsync(options.AdminChat, "Hello Francis' administrator, if you received this message, this means your configuration is valid.");
-            if (!await WebResource.Exists(options.BaseUrl)) throw new ArgumentException("Invalid public base URL");
+            if (!await WebResource.Exists(options.BaseUrl + "/auth/ping")) throw new ArgumentException("Invalid public base URL");
             if (!Directory.Exists(options.MediaLocation)) throw new ArgumentException("Invalid media location");
             return await _bot.Client.GetMeAsync();
         }
