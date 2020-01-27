@@ -17,13 +17,13 @@ namespace Francis.Telegram.Answers.MessageAnswers
         public override async Task Execute()
         {
             var sizes = new[] { "B", "KB", "MB", "GB", "TB" };
-            double lenght = new DriveInfo(Options.Value.MediaLocation.Split('/')[0] + '/').AvailableFreeSpace;
+            double length = new DriveInfo(Options.Value.MediaLocation).AvailableFreeSpace;
             int order;
-            for (order = 0; lenght >= 1024 && order < sizes.Length - 1; order++)
+            for (order = 0; length >= 1024 && order < sizes.Length - 1; order++)
             {
-                lenght /= 1024;
+                length /= 1024;
             }
-            var result = string.Format("{0:0.##} {1}", lenght, sizes[order]);
+            var result = string.Format("{0:0.##} {1}", length, sizes[order]);
 
             await Bot.Client.SendTextMessageAsync(Data.Chat, result);
 

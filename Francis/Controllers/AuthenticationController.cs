@@ -25,6 +25,9 @@ namespace Francis.Controllers
         }
 
 
+        [HttpHead]
+        public NoContentResult Ping() => NoContent();
+
         [HttpGet]
         public async Task<ActionResult> Auth(string clientId)
         {
@@ -48,8 +51,5 @@ namespace Francis.Controllers
 
             return File(Encoding.UTF8.GetBytes(templateString), "text/html");
         }
-
-        [HttpGet("ping")]
-        public OkResult Ping() => Ok();
     }
 }
