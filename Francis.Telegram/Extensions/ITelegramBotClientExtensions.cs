@@ -2,6 +2,7 @@ using Francis.Models;
 using Francis.Telegram.Client;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Francis.Extensions
 {
@@ -12,9 +13,9 @@ namespace Francis.Extensions
             return bot.Client.EditMessageTextAsync(message.Chat, message.MessageId, item?.AsString(text) ?? text ?? message.Text);
         }
 
-        public static Task<Message> EditCaption(this ITelegramClient bot, Message message, string text = null, RequestItem item = null)
+        public static Task<Message> EditCaption(this ITelegramClient bot, Message message, string text = null, RequestItem item = null, InlineKeyboardMarkup replies = null)
         {
-            return bot.Client.EditMessageCaptionAsync(message.Chat, message.MessageId, item?.AsString(text) ?? text ?? message.Caption);
+            return bot.Client.EditMessageCaptionAsync(message.Chat, message.MessageId, item?.AsString(text) ?? text ?? message.Caption, replies);
         }
 
         public static Task<Message> RemoveActions(this ITelegramClient bot, long chatId, int messageId)

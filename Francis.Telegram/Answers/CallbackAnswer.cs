@@ -22,7 +22,9 @@ namespace Francis.Telegram.Answers
 
         protected async Task HandleNewQuery(RequestItem item)
         {
+            //TODO: This method does not belong to this class
             //TODO: Fix duplicate code
+
             if (item.Available)
             {
                 Context.WatchedItems.Add(WatchedItem.From(item, User));
@@ -61,7 +63,7 @@ namespace Francis.Telegram.Answers
                     item.RequestId = (await Ombi.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
                     break;
                 case RequestType.TvShow:
-                    item.RequestId = (await Ombi.RequestTv(new { tvDbId = item.Id })).RequestId;
+                    item.RequestId = (await Ombi.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
                     break;
             }
 

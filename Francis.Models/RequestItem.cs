@@ -1,6 +1,7 @@
 using Francis.Models.Notification;
 using Francis.Models.Ombi;
 using System;
+using System.Collections.Generic;
 
 namespace Francis.Models
 {
@@ -25,6 +26,8 @@ namespace Francis.Models
         public bool Denied { get; set; }
 
         public bool Requested { get; set; }
+
+        public List<SeasonRequest> Seasons { get; set; }
 
 
         public string AsString(string message) => $"{Title} ({Type} - {Year})\n\n{message}";
@@ -69,6 +72,7 @@ namespace Francis.Models
             Approved = item.Approved,
             Denied = item.Denied ?? false,
             Available = item.Available,
+            Seasons = item.SeasonRequests,
         };
     }
 }

@@ -1,5 +1,9 @@
-﻿namespace Francis.Models.Ombi
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Francis.Models.Ombi
 {
+    //TODO: Remove nullables on models
     public class TvSearchResult : ItemSearchResult
     {
         public string[] Aliases { get; set; }
@@ -21,5 +25,29 @@
         public bool? LatestSeason { get; set; }
         public bool? FullyAvailable { get; set; }
         public bool? PartlyAvailable { get; set; }
+
+        public List<SeasonRequest> SeasonRequests { get; set; }
+
+        public IEnumerable<EpisodeRequest> AllEpisodes => SeasonRequests.SelectMany(x => x.Episodes);
+        public IEnumerable<EpisodeRequest> FirstEpisodes => SeasonRequests.First().Episodes;
+        public IEnumerable<EpisodeRequest> LatestEpisodes => SeasonRequests.Last().Episodes;
+    }
+
+    public class SeasonRequest
+    {
+        public int SeasonNumber { get; set; }
+
+        public List<EpisodeRequest> Episodes { get; set; }
+    }
+
+    public class EpisodeRequest
+    {
+        public int? EpisodeNumber { get; set; }
+
+        public bool? Requested { get; set; }
+
+        public bool? Approved { get; set; }
+
+        public bool? Available { get; set; }
     }
 }

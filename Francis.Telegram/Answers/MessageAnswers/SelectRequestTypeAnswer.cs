@@ -7,14 +7,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Francis.Telegram.Answers.MessageAnswers
 {
-    public class SelectTypeAnswer : MessageAnswer
+    public class SelectRequestTypeAnswer : MessageAnswer
     {
         internal override bool CanProcess => true;
 
         protected override bool HasProgression => true;
 
 
-        public SelectTypeAnswer(IServiceProvider provider) : base(provider)
+        public SelectRequestTypeAnswer(IServiceProvider provider) : base(provider)
         { }
 
 

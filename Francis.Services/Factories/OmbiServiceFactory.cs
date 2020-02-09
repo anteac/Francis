@@ -37,6 +37,8 @@ namespace Francis.Services.Factories
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
 
+            //TODO: improve error handling to avoid false positive
+
             try
             {
                 client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);

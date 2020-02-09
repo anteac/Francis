@@ -25,10 +25,11 @@ namespace Francis.Extensions
             services.AddScoped<MessageAnswer, StartAnonymousAnswer>();
             services.AddScoped<MessageAnswer, DiskUsageAnswer>();
             services.AddScoped<MessageAnswer, HelpAnswer>();
-            services.AddScoped<MessageAnswer, SelectTypeAnswer>();
+            services.AddScoped<MessageAnswer, SelectRequestTypeAnswer>();
 
             services.AddScoped<CallbackAnswer, NextMovieAnswer>();
             services.AddScoped<CallbackAnswer, NextTvShowAnswer>();
+            services.AddScoped<CallbackAnswer, SelectTvSeasonsAnswer>();
             services.AddScoped<CallbackAnswer, RequestMovieAnswer>();
             services.AddScoped<CallbackAnswer, ApproveMovieAnswer>();
             services.AddScoped<CallbackAnswer, DenyMovieAnswer>();
