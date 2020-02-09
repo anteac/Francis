@@ -35,7 +35,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
             User.UserName = ombiUser.UserName;
             User.OmbiId = ombiUser.Id;
 
-            await Bot.Client.SendTextMessageAsync(chatId: Data.Chat, text: "Successfully authenticated!");
+            await Bot.Client.SendTextMessageAsync(chatId: Data.Chat, text: $"Hello {User.UserName}! 😃\nNow that I know you, ask for help with /help to start!");
 
             Logger.LogInformation($"Telegram user '{Data.From.Username}' ({Data.From.FirstName} {Data.From.LastName}) successfully authenticated as '{User.UserName}'");
         }
