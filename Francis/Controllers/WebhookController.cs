@@ -55,7 +55,15 @@ namespace Francis.Controllers
             await handler;
         }
 
-        private string FormatAnswer(Notification notification, string message) => $"{notification.Title} ({notification.Type} - {notification.Year})\n\n{message}";
+        private string FormatAnswer(Notification notification, string message)
+        {
+            var result = $"{notification.Title} ({notification.Type} - {notification.Year})\n\n";
+            if (!string.IsNullOrEmpty(notification.SeasonsList) && !string.IsNullOrEmpty(notification.EpisodesList))
+            {
+                result += $"Season(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}\n\n";
+            }
+            return result + message;
+        }
 
         private async Task HandleTest(Notification notification)
         {
