@@ -25,7 +25,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Bot.Client.EditMessageCaptionAsync(Data.Message.Chat, Data.Message.MessageId, Data.Message.Caption + "\n\nApproved !");
 
-            Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' (requested by user '{User.UserName}') has been approved");
+            Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been approved");
         }
     }
 }

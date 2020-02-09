@@ -17,6 +17,8 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
+            //TODO: Add ability to give a deny reasons
+
             long requestId = long.Parse(Parameters[0]);
 
             var requests = await Ombi.GetMovieRequests();
@@ -26,7 +28,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             //TODO: Find a way to give a reason
             await Bot.Client.EditMessageCaptionAsync(Data.Message.Chat, Data.Message.MessageId, Data.Message.Caption + "\n\nDenied...");
 
-            Logger.LogInformation($"{RequestType.Movie} '{request.Title}' (requested by user '{User.UserName}') has been denied");
+            Logger.LogInformation($"{RequestType.Movie} '{request.Title}' has been denied");
         }
     }
 }

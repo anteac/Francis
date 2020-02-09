@@ -26,7 +26,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             //TODO: Find a way to give a reason
             await Bot.Client.EditMessageCaptionAsync(Data.Message.Chat, Data.Message.MessageId, Data.Message.Caption + "\n\nDenied...");
 
-            Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' (requested by user '{User.UserName}') has been denied");
+            Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been denied");
         }
     }
 }
