@@ -32,17 +32,20 @@ namespace Francis.Services.Factories
         }
 
 
-        public IOmbiService Create()
+        public IOmbiService Create(bool fromBot = true)
         {
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
-
-            //TODO: improve error handling to avoid false positive
 
             try
             {
                 client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
                 client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
+
+                if (!fromBot)
+                {
+                    return service;
+                }
 
                 var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
                 var ombiUser = service.GetUser(botUser.OmbiId).Result;

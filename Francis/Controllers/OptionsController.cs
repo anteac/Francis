@@ -74,7 +74,7 @@ namespace Francis.Controllers
         public async Task<AboutOmbi> UpdateOmbiOptions(OmbiOptions options)
         {
             _updater.Save(options);
-            return await _ombi.Create().About();
+            return await _ombi.Create(false).About();
         }
     }
 }
