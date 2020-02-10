@@ -49,28 +49,28 @@ namespace Francis.Models
         public static implicit operator RequestItem(MovieSearchResult item) => new RequestItem
         {
             Id = item.Id,
-            RequestId = item.RequestId ?? 0,
+            RequestId = item.RequestId,
             Type = RequestType.Movie,
             Title = item.Title,
             Image = $"https://image.tmdb.org/t/p/w300{item.PosterPath}",
             Year = item.ReleaseDate?.Year ?? 0,
             Requested = item.Requested,
             Approved = item.Approved,
-            Denied = item.Denied ?? false,
+            Denied = item.Denied,
             Available = item.Available,
         };
 
         public static implicit operator RequestItem(TvSearchResult item) => new RequestItem
         {
             Id = item.Id,
-            RequestId = item.RequestId ?? 0,
+            RequestId = item.RequestId,
             Type = RequestType.TvShow,
             Title = item.Title,
             Image = item.Banner,
             Year = item.FirstAired != null && int.TryParse(item.FirstAired.Split('-')[0], out var result) ? result : 0,
             Requested = item.Requested,
             Approved = item.Approved,
-            Denied = item.Denied ?? false,
+            Denied = item.Denied,
             Available = item.Available,
             Seasons = item.SeasonRequests,
         };

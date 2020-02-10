@@ -3,12 +3,11 @@ using System.Linq;
 
 namespace Francis.Models.Ombi
 {
-    //TODO: Remove nullables on models
     public class TvSearchResult : ItemSearchResult
     {
         public string[] Aliases { get; set; }
         public string Banner { get; set; }
-        public long? SeriesId { get; set; }
+        public long SeriesId { get; set; }
         public string Status { get; set; }
         public string FirstAired { get; set; }
         public string Network { get; set; }
@@ -19,12 +18,12 @@ namespace Francis.Models.Ombi
         public string AirsDayOfWeek { get; set; }
         public string AirsTime { get; set; }
         public string Rating { get; set; }
-        public long? SiteRating { get; set; }
-        public bool? RequestAll { get; set; }
-        public bool? FirstSeason { get; set; }
-        public bool? LatestSeason { get; set; }
-        public bool? FullyAvailable { get; set; }
-        public bool? PartlyAvailable { get; set; }
+        public long SiteRating { get; set; }
+        public bool RequestAll { get; set; }
+        public bool FirstSeason { get; set; }
+        public bool LatestSeason { get; set; }
+        public bool FullyAvailable { get; set; }
+        public bool PartlyAvailable { get; set; }
 
         public List<SeasonRequest> SeasonRequests { get; set; }
 
@@ -42,12 +41,10 @@ namespace Francis.Models.Ombi
 
     public class EpisodeRequest
     {
-        public int? EpisodeNumber { get; set; }
-
-        public bool? Requested { get; set; }
-
-        public bool? Approved { get; set; }
-
-        public bool? Available { get; set; }
+        public int EpisodeNumber { get; set; }
+        public bool Requested { get; set; }
+        public bool Approved { get; set; }
+        public bool Denied { get; set; }
+        public bool Available { get; set; }
     }
 }

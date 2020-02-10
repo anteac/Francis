@@ -23,29 +23,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             //TODO: Try to add Denied on Ombi
 
-            result.Requested = seasons switch
-            {
-                TvShowSeasons.All => result.AllEpisodes.All(x => x.Requested.Value),
-                TvShowSeasons.First => result.FirstEpisodes.All(x => x.Requested.Value),
-                TvShowSeasons.Last => result.LatestEpisodes.All(x => x.Requested.Value),
-                _ => result.Requested,
-            };
-
-            result.Approved = seasons switch
-            {
-                TvShowSeasons.All => result.AllEpisodes.All(x => x.Approved.Value),
-                TvShowSeasons.First => result.FirstEpisodes.All(x => x.Approved.Value),
-                TvShowSeasons.Last => result.LatestEpisodes.All(x => x.Approved.Value),
-                _ => result.Approved,
-            };
-
-            result.Available = seasons switch
-            {
-                TvShowSeasons.All => result.AllEpisodes.All(x => x.Available.Value),
-                TvShowSeasons.First => result.FirstEpisodes.All(x => x.Available.Value),
-                TvShowSeasons.Last => result.LatestEpisodes.All(x => x.Available.Value),
-                _ => result.Available,
-            };
+            result.Requested = GetStatus(result, seasons, x => x.Requested) ?? result.Requested;
+            result.Approved = GetStatus(result, seasons, x => x.Approved) ?? result.Approved;
+            result.Denied = GetStatus(result, seasons, x => x.Denied) ?? result.Denied;
+            result.Available = GetStatus(result, seasons, x => x.Requested) ?? result.Available;
 
             result.SeasonRequests = seasons switch
             {
@@ -55,6 +36,17 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             };
 
             await HandleNewQuery(result);
+        }
+
+        public static bool? GetStatus(TvSearchResult result, TvShowSeasons seasons, Func<EpisodeRequest, bool> selector)
+        {
+            return seasons switch
+            {
+                TvShowSeasons.All => result.AllEpisodes.All(selector),
+                TvShowSeasons.First => result.FirstEpisodes.All(selector),
+                TvShowSeasons.Last => result.LatestEpisodes.All(selector),
+                _ => null,
+            };
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Francis.Models.Notification;
+using Francis.Models.Notification;
 
 namespace Francis.Models.Ombi
 {
@@ -11,10 +11,10 @@ namespace Francis.Models.Ombi
         public RequestType Type { get; set; }
         public long Id { get; set; }
         public bool Approved { get; set; }
-        public bool? Denied { get; set; }
+        public bool Denied { get; set; }
         public string DeniedReason { get; set; }
         public bool Requested { get; set; }
-        public long? RequestId { get; set; }
+        public long RequestId { get; set; }
         public bool Available { get; set; }
         public string PlexUrl { get; set; }
         public string EmbyUrl { get; set; }
@@ -22,7 +22,7 @@ namespace Francis.Models.Ombi
         public string ImdbId { get; set; }
         public string TheTvDbId { get; set; }
         public string TheMovieDbId { get; set; }
-        public bool? Subscribed { get; set; }
-        public bool? ShowSubscribe { get; set; }
+        public bool Subscribed { get; set; }
+        public bool ShowSubscribe { get; set; }
     }
 }

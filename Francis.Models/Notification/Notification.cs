@@ -1,4 +1,4 @@
-﻿namespace Francis.Models.Notification
+namespace Francis.Models.Notification
 {
     public class Notification
     {
@@ -34,6 +34,6 @@
         public string UserPreference { get; set; }
         public string DenyReason { get; set; }
         public string AvailableDate { get; set; }
-        public NotificationType? NotificationType { get; set; }
+        public NotificationType NotificationType { get; set; }
     }
 }
