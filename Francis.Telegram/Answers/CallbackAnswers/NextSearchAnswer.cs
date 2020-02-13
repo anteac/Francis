@@ -1,8 +1,8 @@
 using Francis.Database.Entities;
 using Francis.Models;
+using Francis.Models.Notification;
 using Francis.Toolbox.Extensions;
 using Francis.Toolbox.Helpers;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -24,15 +24,18 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Uknown progress status");
+            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
 
-            var movies = await Ombi.SearchMovie(progression.Search);
-            var tvs = await Ombi.SearchTv(progression.Search);
-
-            var item = (await GetItems()).First(x => !progression.ExcludedIds.Contains(x.Id));
+            var item = (await GetItems()).FirstOrDefault(x => !progression.ExcludedIds.Contains(x.Id));
+            if (item == null)
+            {
+                progression.Status = RequestStatus.Error;
+                await Bot.Client.EditMessageTextAsync(Data.Message.Chat, Data.Message.MessageId, "I'm sorry, I could not find anything that matches your search... Are you sure you typed the name correctly?");
+                Logger.LogError($"User '{User.UserName}' could not find any suitable media that matches '{progression.Search}'.");
+                return;
+            }
 
             progression.ExcludedIds.Add(item.Id);
-            Context.Entry(progression).State = EntityState.Modified;
 
             //TODO: Cleanup this mess
             var defaultPoster = Assembly.GetExecutingAssembly().GetResource("Assets.default_poster.png");
@@ -40,8 +43,15 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var caption = item.AsString("Is this what you are looking for?");
             var keyboard = new InlineKeyboardMarkup(new[]
             {
-                    InlineKeyboardButton.WithCallbackData("Exactly!", $"/chose_{item.Type} {item.Id}"),
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Exactly!", $"/chose_{item.Type} {progression.Id} {item.Id}"),
                     InlineKeyboardButton.WithCallbackData("Next...", $"/next_{item.Type} {progression.Id}"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {progression.Id}"),
+                }
             });
 
             if (progression.ExcludedIds.Count() == 1)

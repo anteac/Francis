@@ -51,4 +51,10 @@ namespace Francis.Services.Clients
         [Put("/api/v1/Request/tv/deny")]
         public Task DenyTv([Body] object body);
     }
+
+    public interface IBotOmbiService : IOmbiService
+    {
+        [Get("/api/v1/Settings/about")]
+        public new Task<AboutOmbi> About();
+    }
 }

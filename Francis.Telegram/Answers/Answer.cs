@@ -23,7 +23,7 @@ namespace Francis.Telegram.Answers
 
         protected IOptionsSnapshot<TelegramOptions> Options { get; }
 
-        protected IOmbiService Ombi { get; }
+        protected IBotOmbiService Ombi { get; }
 
         protected ILogger Logger { get; }
 
@@ -54,7 +54,7 @@ namespace Francis.Telegram.Answers
             Context = provider.GetRequiredService<BotDbContext>();
             Bot = provider.GetRequiredService<ITelegramClient>();
             Options = provider.GetRequiredService<IOptionsSnapshot<TelegramOptions>>();
-            Ombi = provider.GetRequiredService<IOmbiService>();
+            Ombi = provider.GetRequiredService<IBotOmbiService>();
             Logger = provider.GetRequiredService<ILogger<Answer<TData>>>();
 
             User = Context.BotUsers.Find(UserId);

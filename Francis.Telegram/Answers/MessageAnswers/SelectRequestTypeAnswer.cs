@@ -30,8 +30,15 @@ namespace Francis.Telegram.Answers.MessageAnswers
                 text: "What kind of media are you looking for?",
                 replyMarkup: new InlineKeyboardMarkup(new[]
                 {
-                      InlineKeyboardButton.WithCallbackData($"{RequestType.Movie}", $"/next_{RequestType.Movie} {progression.Id}"),
-                      InlineKeyboardButton.WithCallbackData($"{RequestType.TvShow}", $"/next_{RequestType.TvShow} {progression.Id}"),
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData($"{RequestType.Movie}", $"/next_{RequestType.Movie} {progression.Id}"),
+                        InlineKeyboardButton.WithCallbackData($"{RequestType.TvShow}", $"/next_{RequestType.TvShow} {progression.Id}"),
+                    },
+                    new[]
+                    {
+                        InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {progression.Id}"),
+                    }
                 })
             );
 

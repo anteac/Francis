@@ -32,34 +32,33 @@ namespace Francis.Services.Factories
         }
 
 
-        public IOmbiService Create(bool fromBot = true)
+        public IOmbiService CreateGlobal()
         {
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
 
-            try
+            client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
+            client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
+
+            return service;
+        }
+
+        public IBotOmbiService CreateForBot()
+        {
+            var client = new HttpClient();
+            var service = RestService.For<IBotOmbiService>(client);
+
+            client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
+            client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
+
+            var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
+            var ombiUser = service.GetUser(botUser.OmbiId).Result;
+            client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
+
+            if (botUser.UserName != ombiUser.UserName)
             {
-                client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
-                client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
-
-                if (!fromBot)
-                {
-                    return service;
-                }
-
-                var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
-                var ombiUser = service.GetUser(botUser.OmbiId).Result;
-                client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
-
-                if (botUser.UserName != ombiUser.UserName)
-                {
-                    botUser.UserName = ombiUser.UserName;
-                    _context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"An error occured while creating {nameof(IOmbiService)}");
+                botUser.UserName = ombiUser.UserName;
+                _context.SaveChanges();
             }
 
             return service;

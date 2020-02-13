@@ -17,7 +17,8 @@ namespace Francis.Extensions
 
             services.AddScoped(provider => RestService.For<IPlexService>("https://plex.tv"));
             services.AddScoped<OmbiServiceFactory>();
-            services.AddScoped(provider => provider.GetRequiredService<OmbiServiceFactory>().Create());
+            services.AddScoped(provider => provider.GetRequiredService<OmbiServiceFactory>().CreateGlobal());
+            services.AddScoped(provider => provider.GetRequiredService<OmbiServiceFactory>().CreateForBot());
 
             return services;
         }

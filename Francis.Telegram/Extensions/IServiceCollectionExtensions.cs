@@ -31,6 +31,7 @@ namespace Francis.Extensions
             services.AddScoped<CallbackAnswer, NextTvShowAnswer>();
             services.AddScoped<CallbackAnswer, SelectTvSeasonsAnswer>();
             services.AddScoped<CallbackAnswer, RequestMovieAnswer>();
+            services.AddScoped<CallbackAnswer, CancelRequestAnswer>();
             services.AddScoped<CallbackAnswer, ApproveMovieAnswer>();
             services.AddScoped<CallbackAnswer, DenyMovieAnswer>();
             services.AddScoped<CallbackAnswer, RequestTvAnswer>();

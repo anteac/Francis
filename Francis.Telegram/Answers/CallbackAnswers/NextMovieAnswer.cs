@@ -18,7 +18,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         protected override async Task<RequestItem[]> GetItems()
         {
-            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Uknown progress status");
+            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
 
             var items = await Ombi.SearchMovie(progression.Search);
             return items.Select(x => (RequestItem)x).ToArray();

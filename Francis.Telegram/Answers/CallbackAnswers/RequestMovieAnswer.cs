@@ -15,7 +15,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            var result = await Ombi.GetMovie(long.Parse(Parameters[0]));
+            var result = await Ombi.GetMovie(long.Parse(Parameters[1]));
 
             await HandleNewQuery(result);
         }

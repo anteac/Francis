@@ -16,6 +16,8 @@ namespace Francis.Database.Entities
 
         public RequestType Type { get; set; }
 
+        public RequestStatus Status { get; set; } = RequestStatus.Pending;
+
         public List<long> ExcludedIds { get; set; } = new List<long>();
     }
 }

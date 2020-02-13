@@ -25,6 +25,9 @@ namespace Francis.Telegram.Answers
             //TODO: This method does not belong to this class
             //TODO: Fix duplicate code
 
+            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
+            progression.Status = RequestStatus.Success;
+
             if (item.Available)
             {
                 Context.WatchedItems.Add(WatchedItem.From(item, User));
