@@ -45,20 +45,39 @@ namespace Francis.Services.Factories
 
         public IBotOmbiService CreateForBot()
         {
+            var options = _options.CurrentValue;
+            var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
+
+            if (botUser == null || options.BaseUrl == null || options.ApiKey == null)
+            {
+                return null;
+            }
+
             var client = new HttpClient();
             var service = RestService.For<IBotOmbiService>(client);
 
             client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
             client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
 
-            var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
-            var ombiUser = service.GetUser(botUser.OmbiId).Result;
-            client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
-
-            if (botUser.UserName != ombiUser.UserName)
+            if (botUser.OmbiId == null)
             {
-                botUser.UserName = ombiUser.UserName;
-                _context.SaveChanges();
+                return service;
+            }
+
+            try
+            {
+                var ombiUser = service.GetUser(botUser.OmbiId).Result;
+                client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
+
+                if (botUser.UserName != ombiUser.UserName)
+                {
+                    botUser.UserName = ombiUser.UserName;
+                    _context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occured while trying to contact Ombi");
             }
 
             return service;

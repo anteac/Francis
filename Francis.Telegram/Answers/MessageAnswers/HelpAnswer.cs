@@ -21,6 +21,7 @@ Francis, at your service!
 
 /help - Display this message
 /disk - Get remaining free space
+/logout - Remove all I know about you
 
 Any other message will be considered as a search!
 ");
