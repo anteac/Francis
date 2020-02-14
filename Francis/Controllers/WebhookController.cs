@@ -3,13 +3,12 @@ using Francis.Database.Entities;
 using Francis.Models.Notification;
 using Francis.Models.Options;
 using Francis.Telegram.Client;
+using Francis.Telegram.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
-using Francis.Telegram.Extensions;
 
 namespace Francis.Controllers
 {

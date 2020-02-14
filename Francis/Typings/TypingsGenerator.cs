@@ -1,6 +1,6 @@
 using Francis.Models.Ombi;
-using Francis.Models.Telegram;
 using Francis.Models.Options;
+using Francis.Models.Telegram;
 using Reinforced.Typings.Fluent;
 using System;
 using System.IO;

@@ -1,6 +1,6 @@
 using Francis.Database.Entities;
-using Francis.Telegram.Extensions;
 using Francis.Telegram.Contexts;
+using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;

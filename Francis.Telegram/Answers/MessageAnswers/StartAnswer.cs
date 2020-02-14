@@ -1,6 +1,6 @@
-using Francis.Telegram.Extensions;
 using Francis.Services.Clients;
 using Francis.Telegram.Contexts;
+using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;

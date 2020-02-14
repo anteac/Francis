@@ -1,7 +1,7 @@
 using Francis.Database.Entities;
-using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
+using Francis.Telegram.Extensions;
 using System;
 using System.Threading.Tasks;
 

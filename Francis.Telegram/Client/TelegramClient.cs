@@ -1,18 +1,16 @@
 using Francis.Database;
-using Francis.Telegram.Extensions;
 using Francis.Models;
 using Francis.Models.Options;
 using Francis.Telegram.Answers;
+using Francis.Telegram.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Francis.Telegram.Client
 {
