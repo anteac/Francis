@@ -17,9 +17,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override async Task Execute()
         {
             Context.Database.RemoveRange(Context.Database.Progressions.Where(x => x.ChatId == Context.User.Id));
-            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.UserId == Context.User.Id));
+            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.ChatId == Context.User.Id));
             Context.Database.Remove(Context.User);
 
+            await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.UserName} has just successfully logout.");
             await Context.Bot.EditMessage(Context.Message, @"
 Alright, I delete everything!
 

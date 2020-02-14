@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Francis.Database.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20200213191310_RequestProgressionStatus")]
-    partial class RequestProgressionStatus
+    [Migration("20200214201319_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,6 @@ namespace Francis.Database.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ClientId")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("OmbiId")
                         .HasColumnType("TEXT");
@@ -88,18 +85,21 @@ namespace Francis.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<long?>("BotUserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ChatId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("ItemType")
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("RequestId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("BotUserId");
 
                     b.ToTable("WatchedItems");
                 });
@@ -132,11 +132,9 @@ namespace Francis.Database.Migrations
 
             modelBuilder.Entity("Francis.Database.Entities.WatchedItem", b =>
                 {
-                    b.HasOne("Francis.Database.Entities.BotUser", "User")
+                    b.HasOne("Francis.Database.Entities.BotUser", "BotUser")
                         .WithMany("WatchedItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BotUserId");
                 });
 #pragma warning restore 612, 618
         }

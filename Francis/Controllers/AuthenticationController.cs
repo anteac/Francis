@@ -29,9 +29,9 @@ namespace Francis.Controllers
         public NoContentResult Ping() => NoContent();
 
         [HttpGet]
-        public async Task<ActionResult> Auth(string clientId)
+        public async Task<ActionResult> Auth(long clientId)
         {
-            var user = _context.BotUsers.FirstOrDefault(x => x.ClientId == clientId);
+            var user = _context.BotUsers.FirstOrDefault(x => x.Id == clientId);
             if (user == null)
             {
                 return NotFound(null);
@@ -47,7 +47,7 @@ namespace Francis.Controllers
 
             var templateString = reader.ReadToEnd()
                 .Replace($"[Product]", bot.Username)
-                .Replace($"[ClientId]", user.ClientId);
+                .Replace($"[ClientId]", user.Id.ToString());
 
             return File(Encoding.UTF8.GetBytes(templateString), "text/html");
         }

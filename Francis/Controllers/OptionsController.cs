@@ -7,7 +7,6 @@ using Francis.Telegram.Client;
 using Francis.Telegram.Extensions;
 using Francis.Toolbox.Helpers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.IO;
@@ -24,7 +23,6 @@ namespace Francis.Controllers
         private readonly DatabaseOptionsUpdater _updater;
         private readonly IOptionsSnapshot<TelegramOptions> _telegramOptions;
         private readonly IOptionsSnapshot<OmbiOptions> _ombiOptions;
-        private readonly ILogger<OptionsController> _logger;
 
 
         public OptionsController(
@@ -32,8 +30,7 @@ namespace Francis.Controllers
             IOmbiService ombi,
             DatabaseOptionsUpdater updater,
             IOptionsSnapshot<TelegramOptions> telegramOptions,
-            IOptionsSnapshot<OmbiOptions> ombiOptions,
-            ILogger<OptionsController> logger
+            IOptionsSnapshot<OmbiOptions> ombiOptions
         )
         {
             _bot = bot;
@@ -41,7 +38,6 @@ namespace Francis.Controllers
             _updater = updater;
             _telegramOptions = telegramOptions;
             _ombiOptions = ombiOptions;
-            _logger = logger;
         }
 
 

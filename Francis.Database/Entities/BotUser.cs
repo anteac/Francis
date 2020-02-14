@@ -8,8 +8,6 @@ namespace Francis.Database.Entities
 
         public string UserName { get; set; }
 
-        public string ClientId { get; set; }
-
         public string OmbiId { get; set; }
 
         public string PlexToken { get; set; }

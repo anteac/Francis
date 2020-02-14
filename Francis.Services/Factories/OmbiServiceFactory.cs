@@ -16,14 +16,14 @@ namespace Francis.Services.Factories
         private readonly BotDbContext _context;
         private readonly DataCapture<Message> _capture;
         private readonly ILogger<OmbiServiceFactory> _logger;
-        private readonly IOptionsMonitor<OmbiOptions> _options;
+        private readonly IOptionsSnapshot<OmbiOptions> _options;
 
 
         public OmbiServiceFactory(
             BotDbContext context,
             DataCapture<Message> capture,
             ILogger<OmbiServiceFactory> logger,
-            IOptionsMonitor<OmbiOptions> options)
+            IOptionsSnapshot<OmbiOptions> options)
         {
             _context = context;
             _capture = capture;
@@ -37,15 +37,15 @@ namespace Francis.Services.Factories
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
 
-            client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
-            client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
+            client.BaseAddress = new Uri(_options.Value.BaseUrl);
+            client.DefaultRequestHeaders.Add("ApiKey", _options.Value.ApiKey);
 
             return service;
         }
 
         public IBotOmbiService CreateForBot()
         {
-            var options = _options.CurrentValue;
+            var options = _options.Value;
             var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
 
             if (botUser == null || options.BaseUrl == null || options.ApiKey == null)
@@ -56,8 +56,8 @@ namespace Francis.Services.Factories
             var client = new HttpClient();
             var service = RestService.For<IBotOmbiService>(client);
 
-            client.BaseAddress = new Uri(_options.CurrentValue.BaseUrl);
-            client.DefaultRequestHeaders.Add("ApiKey", _options.CurrentValue.ApiKey);
+            client.BaseAddress = new Uri(options.BaseUrl);
+            client.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
 
             if (botUser.OmbiId == null)
             {

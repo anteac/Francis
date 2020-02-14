@@ -2,7 +2,6 @@ using Francis.Services.Clients;
 using Francis.Telegram.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,19 +15,16 @@ namespace Francis.Controllers
         private readonly ITelegramClient _bot;
         private readonly IOmbiService _ombi;
         private readonly string _logsfolder;
-        private readonly ILogger<MonitoringController> _logger;
 
 
         public MonitoringController(
             ITelegramClient bot,
             IOmbiService ombi,
-            IConfigurationRoot configuration,
-            ILogger<MonitoringController> logger
+            IConfigurationRoot configuration
         )
         {
             _bot = bot;
             _ombi = ombi;
-            _logger = logger;
 
             var pattern = configuration.GetSection("Serilog:WriteTo:1:Args:path").Get<string>();
             _logsfolder = Path.GetDirectoryName(pattern);

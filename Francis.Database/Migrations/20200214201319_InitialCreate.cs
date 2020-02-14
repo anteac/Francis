@@ -13,7 +13,6 @@ namespace Francis.Database.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     UserName = table.Column<string>(nullable: true),
-                    ClientId = table.Column<string>(nullable: true),
                     OmbiId = table.Column<string>(nullable: true),
                     PlexToken = table.Column<string>(nullable: true),
                     RequestProgressionId = table.Column<int>(nullable: true)
@@ -46,6 +45,7 @@ namespace Francis.Database.Migrations
                     Discriminator = table.Column<string>(nullable: false),
                     Search = table.Column<string>(nullable: true),
                     Type = table.Column<int>(nullable: true),
+                    Status = table.Column<int>(nullable: true),
                     ExcludedIds = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -65,19 +65,20 @@ namespace Francis.Database.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<long>(nullable: false),
+                    ChatId = table.Column<long>(nullable: false),
                     ItemType = table.Column<int>(nullable: false),
-                    RequestId = table.Column<long>(nullable: false)
+                    RequestId = table.Column<long>(nullable: false),
+                    BotUserId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_WatchedItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WatchedItems_BotUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_WatchedItems_BotUsers_BotUserId",
+                        column: x => x.BotUserId,
                         principalTable: "BotUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -86,9 +87,9 @@ namespace Francis.Database.Migrations
                 column: "BotUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_WatchedItems_UserId",
+                name: "IX_WatchedItems_BotUserId",
                 table: "WatchedItems",
-                column: "UserId");
+                column: "BotUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

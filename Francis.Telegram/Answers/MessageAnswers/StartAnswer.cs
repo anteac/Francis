@@ -36,6 +36,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
             Context.User.UserName = ombiUser.UserName;
             Context.User.OmbiId = ombiUser.Id;
 
+            await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.UserName} has just successfully authenticated.");
             await Context.Bot.SendMessage(Context.Message.Chat, $"Hello {Context.User.UserName}! 😃\nNow that I know you, type /help to start!");
 
             Context.Logger.LogInformation($"Telegram user '{Context.Message.From.Username}' ({Context.Message.From.FirstName} {Context.Message.From.LastName}) successfully authenticated as '{Context.User.UserName}'");
