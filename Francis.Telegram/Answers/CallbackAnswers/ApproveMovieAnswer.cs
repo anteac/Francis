@@ -9,7 +9,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class ApproveMovieAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Context.Command == $"/approve_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/approve_{RequestType.Movie}";
 
 
         public ApproveMovieAnswer(CallbackAnswerContext context) : base(context)

@@ -4,11 +4,11 @@ namespace Francis.Telegram.Client
 {
     public interface ITelegramClient
     {
-        public ITelegramBotClient Client { get; }
+        ITelegramBotClient Client { get; }
 
-        public bool Running { get; }
+        bool Running { get; }
 
 
-        public void Initialize();
+        void Initialize();
     }
 }

@@ -4,54 +4,34 @@ using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
-    public abstract class RequestMediaAnswer : TelegramAnswer
+    public abstract class RequestMediaAnswer : TelegramAnswer<RequestProgression>
     {
-        public RequestMediaAnswer(CallbackAnswerContext context) : base(context)
+        public RequestMediaAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
         { }
 
 
         protected async Task HandleNewRequest(RequestItem item)
         {
-            //TODO: This method does not belong to this class
-            //TODO: Fix duplicate code
+            Context.Progression.Status = RequestStatus.Success;
 
-            var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
-            progression.Status = RequestStatus.Success;
+            var message = item.OmbiStatus switch
+            {
+                RequestOmbiStatus.Requested => "has already been requested! I will tell you when it will be approved.",
+                RequestOmbiStatus.Denied => "has already been requested and denied... Maybe your request doesn't match the conditions?",
+                RequestOmbiStatus.Approved => "has already been requested and approved! I will tell you when it becomes available.",
+                RequestOmbiStatus.Available => "is already available. You can watch it now !",
+                _ => null,
+            };
 
-            if (item.Available)
+            if (message != null)
             {
                 Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
-                await Context.Bot.EditMessage(Context.Message, $"This {item.Type} is already available. You can watch it now !", item);
-                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already available item: {item.Title} ({item.Type} - {item.Year})");
-                return;
-            }
-
-            if (item.Approved)
-            {
-                Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
-                await Context.Bot.EditMessage(Context.Message, $"This {item.Type} as already been requested and approved! I will tell you when it becomes available.", item);
-                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already approved item: {item.Title} ({item.Type} - {item.Year})");
-                return;
-            }
-
-            if (item.Denied)
-            {
-                Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
-                await Context.Bot.EditMessage(Context.Message, $"This {item.Type} as already been requested and denied... Maybe your request doesn't match the conditions?", item);
-                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already denied item: {item.Title} ({item.Type} - {item.Year})");
-                return;
-            }
-
-            if (item.Requested)
-            {
-                Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
-                await Context.Bot.EditMessage(Context.Message, $"This {item.Type} as already been requested! I will tell you when it will be approved.", item);
-                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already requested item: {item.Title} ({item.Type} - {item.Year})");
+                await Context.Bot.EditMessage(Context.Message, $"This {item.Type} {message}", item);
+                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already {item.OmbiStatus} item: {item.Title} ({item.Type} - {item.Year})");
                 return;
             }
 

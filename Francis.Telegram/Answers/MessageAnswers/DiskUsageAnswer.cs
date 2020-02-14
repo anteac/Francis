@@ -8,7 +8,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
 {
     public class DiskUsageAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Context.Command == "/disk";
+        public override bool CanProcess => Context.Command == "/disk";
 
 
         public DiskUsageAnswer(MessageAnswerContext context) : base(context)

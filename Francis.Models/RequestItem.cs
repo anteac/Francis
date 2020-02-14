@@ -30,6 +30,14 @@ namespace Francis.Models
         public List<SeasonRequest> Seasons { get; set; }
 
 
+        public RequestOmbiStatus OmbiStatus =>
+            Available ? RequestOmbiStatus.Available :
+            Approved ? RequestOmbiStatus.Approved :
+            Denied ? RequestOmbiStatus.Denied :
+            Requested ? RequestOmbiStatus.Requested :
+            RequestOmbiStatus.None;
+
+
         public string AsString(string message) => $"{Title} ({Type} - {Year})\n\n{message}";
 
 

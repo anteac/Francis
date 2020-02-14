@@ -1,3 +1,4 @@
+using Francis.Database.Entities;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using System.Threading.Tasks;
@@ -6,10 +7,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class RequestMovieAnswer : RequestMediaAnswer
     {
-        internal override bool CanProcess => Context.Command == $"/chose_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/chose_{RequestType.Movie}";
 
 
-        public RequestMovieAnswer(CallbackAnswerContext context) : base(context)
+        public RequestMovieAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
         { }
 
 

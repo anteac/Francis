@@ -7,7 +7,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
 {
     public class HelpAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Context.Command == "/help" || Context.Command == "/start";
+        public override bool CanProcess => Context.Command == "/help" || Context.Command == "/start";
 
 
         public HelpAnswer(MessageAnswerContext context) : base(context)

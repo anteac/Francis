@@ -10,11 +10,11 @@ namespace Francis.Telegram.Answers.MessageAnswers
 {
     public class StartAnonymousAnswer : TelegramAnswer
     {
-        internal override bool Public => true;
+        public override bool Public => true;
 
-        internal override bool CanProcess => true;
+        public override bool CanProcess => true;
 
-        internal override int Priority => -1;
+        public override int Priority => -1;
 
 
         public StartAnonymousAnswer(MessageAnswerContext context) : base(context)

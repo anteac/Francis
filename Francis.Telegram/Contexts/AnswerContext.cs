@@ -11,7 +11,13 @@ using Telegram.Bot.Types;
 
 namespace Francis.Telegram.Contexts
 {
-    public class AnswerContext
+    public interface IAnswerContext
+    {
+        BotDbContext Database { get; }
+    }
+
+    public class AnswerContext<TProgression> : IAnswerContext
+        where TProgression : Progression
     {
         public Message Message { get; set; }
 
@@ -34,7 +40,7 @@ namespace Francis.Telegram.Contexts
         public string[] Parameters { get; set; }
 
 
-        public Progression Progression => Database.Progressions.Find(int.Parse(Parameters[0]));
+        public TProgression Progression => Database.Progressions.Find(int.Parse(Parameters[0])) as TProgression;
 
 
         public AnswerContext(
@@ -44,7 +50,7 @@ namespace Francis.Telegram.Contexts
             ITelegramClient bot,
             IOptionsSnapshot<TelegramOptions> options,
             IBotOmbiService ombi,
-            ILogger<AnswerContext> logger
+            ILogger<AnswerContext<TProgression>> logger
         )
         {
             Message = message;

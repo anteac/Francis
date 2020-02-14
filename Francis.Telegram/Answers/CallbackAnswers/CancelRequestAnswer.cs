@@ -2,24 +2,22 @@ using Francis.Database.Entities;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
-using System;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
-    public class CancelRequestAnswer : TelegramAnswer
+    public class CancelRequestAnswer : TelegramAnswer<RequestProgression>
     {
-        internal override bool CanProcess => Context.Command == $"/cancel";
+        public override bool CanProcess => Context.Command == $"/cancel";
 
 
-        public CancelRequestAnswer(CallbackAnswerContext context) : base(context)
+        public CancelRequestAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
-            progression.Status = RequestStatus.Canceled;
+            Context.Progression.Status = RequestStatus.Canceled;
 
             await Context.Bot.EditMessage(Context.Message, "Aye aye sir, I canceled your request !");
         }

@@ -1,9 +1,7 @@
-using Francis.Database.Entities;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -11,7 +9,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class SelectTvSeasonsAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Context.Command == $"/chose_{RequestType.TvShow}";
+        public override bool CanProcess => Context.Command == $"/chose_{RequestType.TvShow}";
 
 
         public SelectTvSeasonsAnswer(CallbackAnswerContext context) : base(context)
@@ -20,21 +18,19 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
-
             var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
 
             await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.First}", $"/seasons {progression.Id} {result.TheTvDbId} {TvShowSeasons.First}"),
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.Last}", $"/seasons {progression.Id} {result.TheTvDbId} {TvShowSeasons.Last}"),
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.All}", $"/seasons {progression.Id} {result.TheTvDbId} {TvShowSeasons.All}"),
+                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.First}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.First}"),
+                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.Last}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.Last}"),
+                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.All}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.All}"),
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {progression.Id}"),
+                    InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {Context.Progression.Id}"),
                 }
             }));
 

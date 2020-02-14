@@ -1,26 +1,36 @@
+using Francis.Database.Entities;
 using Francis.Telegram.Contexts;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers
 {
-    public abstract class TelegramAnswer
+    public abstract class TelegramAnswer<TProgression> : ITelegramAnswer
+        where TProgression : Progression
     {
-        internal AnswerContext Context { get; set; }
+        IAnswerContext ITelegramAnswer.Context => Context;
+
+        public AnswerContext<TProgression> Context { get; set; }
 
 
-        internal virtual bool Public => false;
+        public virtual bool Public => false;
 
-        internal abstract bool CanProcess { get; }
+        public abstract bool CanProcess { get; }
 
-        internal virtual int Priority => 0;
+        public virtual int Priority => 0;
 
 
-        public TelegramAnswer(AnswerContext context)
+        public TelegramAnswer(AnswerContext<TProgression> context)
         {
             Context = context;
         }
 
 
         public abstract Task Execute();
+    }
+
+    public abstract class TelegramAnswer : TelegramAnswer<Progression>
+    {
+        public TelegramAnswer(AnswerContext<Progression> context) : base(context)
+        { }
     }
 }

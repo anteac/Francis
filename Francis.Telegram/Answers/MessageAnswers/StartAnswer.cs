@@ -11,9 +11,9 @@ namespace Francis.Telegram.Answers.MessageAnswers
     {
         private readonly IPlexService _plexService;
 
-        internal override bool Public => true;
+        public override bool Public => true;
 
-        internal override bool CanProcess => Context.Command == "/start" && Context.Parameters.Length > 0;
+        public override bool CanProcess => Context.Command == "/start" && Context.Parameters.Length > 0;
 
 
         public StartAnswer(MessageAnswerContext context, IPlexService plexService) : base(context)

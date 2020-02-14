@@ -21,16 +21,18 @@ namespace Francis.Telegram.Extensions
             services.AddSingleton<ITelegramClient, TelegramClient>();
 
             services.AddScoped(typeof(DataCapture<>));
+            services.AddScoped(typeof(MessageAnswerContext<>));
             services.AddScoped<MessageAnswerContext>();
+            services.AddScoped(typeof(CallbackAnswerContext<>));
             services.AddScoped<CallbackAnswerContext>();
 
             var types = Assembly.GetExecutingAssembly().GetTypes().Where(
-                x => !x.IsAbstract && typeof(TelegramAnswer).IsAssignableFrom(x)
+                x => !x.IsAbstract && typeof(ITelegramAnswer).IsAssignableFrom(x)
             );
 
             foreach (var type in types)
             {
-                services.AddScoped(typeof(TelegramAnswer), type);
+                services.AddScoped(typeof(ITelegramAnswer), type);
             }
 
             return services;

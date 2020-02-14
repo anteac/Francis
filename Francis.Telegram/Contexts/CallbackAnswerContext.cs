@@ -1,4 +1,5 @@
 using Francis.Database;
+using Francis.Database.Entities;
 using Francis.Models;
 using Francis.Models.Options;
 using Francis.Services.Clients;
@@ -9,7 +10,21 @@ using Telegram.Bot.Types;
 
 namespace Francis.Telegram.Contexts
 {
-    public class CallbackAnswerContext : AnswerContext
+    public class CallbackAnswerContext<TProgression> : AnswerContext<TProgression>
+        where TProgression : Progression
+    {
+        public CallbackAnswerContext(
+            DataCapture<CallbackQuery> capture,
+            BotDbContext context,
+            ITelegramClient bot,
+            IOptionsSnapshot<TelegramOptions> options,
+            IBotOmbiService ombi,
+            ILogger<CallbackAnswerContext<TProgression>> logger
+        ) : base(capture.Data?.Data, capture.Data?.Message, context, bot, options, ombi, logger)
+        { }
+    }
+
+    public class CallbackAnswerContext : CallbackAnswerContext<Progression>
     {
         public CallbackAnswerContext(
             DataCapture<CallbackQuery> capture,
@@ -18,7 +33,7 @@ namespace Francis.Telegram.Contexts
             IOptionsSnapshot<TelegramOptions> options,
             IBotOmbiService ombi,
             ILogger<CallbackAnswerContext> logger
-        ) : base(capture.Data?.Data, capture.Data?.Message, context, bot, options, ombi, logger)
+        ) : base(capture, context, bot, options, ombi, logger)
         { }
     }
 }

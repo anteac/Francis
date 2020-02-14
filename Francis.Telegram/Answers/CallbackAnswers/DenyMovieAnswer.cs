@@ -9,7 +9,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class DenyMovieAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Context.Command == $"/deny_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/deny_{RequestType.Movie}";
 
 
         public DenyMovieAnswer(CallbackAnswerContext context) : base(context)
@@ -18,8 +18,6 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            //TODO: Add ability to give a deny reasons
-
             long requestId = long.Parse(Context.Parameters[0]);
 
             var requests = await Context.Ombi.GetMovieRequests();

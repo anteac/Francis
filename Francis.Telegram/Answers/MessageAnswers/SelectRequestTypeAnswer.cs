@@ -10,9 +10,9 @@ namespace Francis.Telegram.Answers.MessageAnswers
 {
     public class SelectRequestTypeAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => true;
+        public override bool CanProcess => true;
 
-        internal override int Priority => -1;
+        public override int Priority => -1;
 
 
         public SelectRequestTypeAnswer(MessageAnswerContext context) : base(context)

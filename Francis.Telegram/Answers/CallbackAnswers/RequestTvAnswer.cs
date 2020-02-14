@@ -1,3 +1,4 @@
+using Francis.Database.Entities;
 using Francis.Models.Notification;
 using Francis.Models.Ombi;
 using Francis.Telegram.Contexts;
@@ -11,10 +12,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
     public class RequestTvAnswer : RequestMediaAnswer
     {
 
-        internal override bool CanProcess => Context.Command == $"/seasons";
+        public override bool CanProcess => Context.Command == $"/seasons";
 
 
-        public RequestTvAnswer(CallbackAnswerContext context) : base(context)
+        public RequestTvAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
         { }
 
 
@@ -23,8 +24,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
             var seasons = (TvShowSeasons)Enum.Parse(typeof(TvShowSeasons), Context.Parameters[2]);
 
-            //TODO: Try to add Denied on Ombi
-
+            //TODO: Try to add Denied on Ombi for episodes
             result.Requested = GetStatus(result, seasons, x => x.Requested) ?? result.Requested;
             result.Approved = GetStatus(result, seasons, x => x.Approved) ?? result.Approved;
             result.Denied = GetStatus(result, seasons, x => x.Denied) ?? result.Denied;
