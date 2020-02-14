@@ -1,19 +1,17 @@
 :host {
   display: flex;
-  justify-content: center;
-  position: relative;
+  margin: 8px;
 
   .page {
-    margin-top: 16px;
+    min-width: 0;
 
-    .container {
+    .content {
       padding-top: 16px;
     }
+  }
 
-    &.loading {
-      filter: blur(1px);
-      pointer-events: none;
-    }
+  .flex-padding {
+    flex: 1;
   }
 
   .loader {
@@ -23,5 +21,10 @@
     bottom: 0;
     left: 0;
     right: 0;
+  }
+
+  .loading {
+    filter: blur(1px);
+    pointer-events: none;
   }
 }

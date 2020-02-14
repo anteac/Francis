@@ -1,7 +1,9 @@
+<div class="flex-padding"></div>
 <mat-card class="page" [class.loading]="loading">
   <app-nav-bar></app-nav-bar>
-  <div class="container">
+  <div class="content">
     <router-outlet></router-outlet>
   </div>
 </mat-card>
-<mat-spinner *ngIf="loading" class="loader">
+<mat-spinner *ngIf="loading" class="loader"></mat-spinner>
+<div class="flex-padding"></div>
