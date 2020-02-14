@@ -1,14 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogsComponent } from './components/logs/logs.component';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { OmbiComponent } from './components/ombi/ombi.component';
 import { TelegramComponent } from './components/telegram/telegram.component';
 
@@ -16,7 +15,6 @@ import { TelegramComponent } from './components/telegram/telegram.component';
   declarations: [
     AppComponent,
 
-    NavBarComponent,
     HomeComponent,
     TelegramComponent,
     OmbiComponent,
@@ -41,6 +39,8 @@ import { TelegramComponent } from './components/telegram/telegram.component';
     MatCardModule,
     MatProgressSpinnerModule,
     MatListModule,
+    MatSidenavModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

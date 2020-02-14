@@ -1,13 +1,19 @@
-:host {
+.page {
+  position: relative;
   display: flex;
-  margin: 8px;
+  padding: 8px;
 
-  .page {
-    min-width: 0;
+  .menu-button {
+    margin: -8px 0 8px -8px;
+  }
 
-    .content {
-      padding-top: 16px;
-    }
+  .nav-bar {
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .content {
+    flex-basis: 600px;
   }
 
   .flex-padding {
@@ -26,5 +32,14 @@
   .loading {
     filter: blur(1px);
     pointer-events: none;
+  }
+}
+
+.mat-sidenav-container {
+  height: 100%;
+
+  .mat-sidenav-content {
+    background-color: lightskyblue;
+    overflow: auto;
   }
 }

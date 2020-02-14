@@ -1,3 +1,4 @@
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { Component } from '@angular/core';
 import { MessengerService } from './services/messenger.service';
 
@@ -8,10 +9,25 @@ import { MessengerService } from './services/messenger.service';
 })
 export class AppComponent {
 
-  loading: boolean = false;
+  navLinks = [
+    { path: '/', label: 'Home' },
+    { path: '/telegram', label: 'Telegram Options' },
+    { path: '/ombi', label: 'Ombi Options' },
+    { path: '/logs', label: 'Logs' },
+  ];
 
-  constructor(private messenger: MessengerService) {
+  loading: boolean = false;
+  onMobile: boolean = false;
+
+  constructor(private messenger: MessengerService, breakpointObserver: BreakpointObserver) {
     this.messenger.loading.subscribe(loading => this.loading = loading);
+
+    breakpointObserver.observe([
+      Breakpoints.HandsetLandscape,
+      Breakpoints.HandsetPortrait
+    ]).subscribe(result => {
+      this.onMobile = result.matches;
+    });
   }
 
 }

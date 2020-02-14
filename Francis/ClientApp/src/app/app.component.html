@@ -1,9 +1,44 @@
-<div class="flex-padding"></div>
-<mat-card class="page" [class.loading]="loading">
-  <app-nav-bar></app-nav-bar>
-  <div class="content">
-    <router-outlet></router-outlet>
+<mat-sidenav-container *ngIf="onMobile else innerContent" #sidenav>
+  <mat-sidenav mode="over">
+
+    <mat-list role="list">
+      <mat-list-item role="listitem" *ngFor="let link of navLinks">
+        <button mat-button [routerLink]="link.path" (click)="sidenav.close()">{{link.label}}</button>
+      </mat-list-item>
+    </mat-list>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-container *ngTemplateOutlet="innerContent; context: { sidenav: sidenav }"></ng-container>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<ng-template #innerContent let-sidenav="sidenav">
+
+  <div class="page">
+    <div class="flex-padding"></div>
+    <mat-card class="content" [class.loading]="loading">
+
+      <button *ngIf="onMobile" mat-icon-button class="menu-button" (click)="sidenav.open()">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <nav *ngIf="!onMobile" mat-tab-nav-bar class="nav-bar">
+        <a mat-tab-link
+           *ngFor="let link of navLinks"
+           [routerLink]="link.path"
+           routerLinkActive #rla="routerLinkActive"
+           [routerLinkActiveOptions]="{ exact: true }"
+           [active]="rla.isActive">
+          {{link.label}}
+        </a>
+      </nav>
+
+      <router-outlet></router-outlet>
+
+    </mat-card>
+    <mat-spinner *ngIf="loading" class="loader"></mat-spinner>
+    <div class="flex-padding"></div>
   </div>
-</mat-card>
-<mat-spinner *ngIf="loading" class="loader"></mat-spinner>
-<div class="flex-padding"></div>
+
+</ng-template>

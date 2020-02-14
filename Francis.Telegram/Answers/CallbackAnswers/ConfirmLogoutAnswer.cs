@@ -1,5 +1,6 @@
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
+using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.ChatId == Context.User.Id));
             Context.Database.Remove(Context.User);
 
-            await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.UserName} has just successfully logout.");
+            if (Context.Message.Chat.Id != Context.Options.Value.AdminChat)
+            {
+                await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.UserName} has just successfully logout.");
+            }
             await Context.Bot.EditMessage(Context.Message, @"
 Alright, I delete everything!
 
@@ -30,6 +34,8 @@ Alright, I delete everything!
 
 Who are you again?
 ");
+
+            Context.Logger.LogInformation($"Telegram user '{Context.Message.From.Username}' ({Context.Message.From.FirstName} {Context.Message.From.LastName}) successfully logged out");
         }
     }
 }
