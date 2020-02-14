@@ -1,31 +1,32 @@
 using Francis.Database.Entities;
 using Francis.Models.Notification;
+using Francis.Telegram.Contexts;
 using System;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
-    public class CancelRequestAnswer : CallbackAnswer
+    public class CancelRequestAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Command == $"/cancel";
+        internal override bool CanProcess => Context.Command == $"/cancel";
 
 
-        public CancelRequestAnswer(IServiceProvider provider) : base(provider)
+        public CancelRequestAnswer(CallbackAnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
+            var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
             progression.Status = RequestStatus.Canceled;
 
-            if (!string.IsNullOrEmpty(Data.Message.Caption))
+            if (!string.IsNullOrEmpty(Context.Message.Caption))
             {
-                await Bot.Client.EditMessageCaptionAsync(chatId: Data.Message.Chat, messageId: Data.Message.MessageId, "Aye aye sir, I canceled your request !");
+                await Context.Bot.Client.EditMessageCaptionAsync(chatId: Context.Message.Chat, messageId: Context.Message.MessageId, "Aye aye sir, I canceled your request !");
             }
             else
             {
-                await Bot.Client.EditMessageTextAsync(chatId: Data.Message.Chat, messageId: Data.Message.MessageId, "Aye aye sir, I canceled your request !");
+                await Context.Bot.Client.EditMessageTextAsync(chatId: Context.Message.Chat, messageId: Context.Message.MessageId, "Aye aye sir, I canceled your request !");
             }
         }
     }

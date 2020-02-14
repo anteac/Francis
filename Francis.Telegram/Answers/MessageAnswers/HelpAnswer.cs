@@ -1,21 +1,21 @@
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.MessageAnswers
 {
-    public class HelpAnswer : MessageAnswer
+    public class HelpAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Command == "/help" || Command == "/start";
+        internal override bool CanProcess => Context.Command == "/help" || Context.Command == "/start";
 
 
-        public HelpAnswer(IServiceProvider provider) : base(provider)
+        public HelpAnswer(MessageAnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            await Bot.Client.SendTextMessageAsync(Data.Chat,
+            await Context.Bot.Client.SendTextMessageAsync(Context.Message.Chat,
       @"
 Francis, at your service!
 
@@ -25,7 +25,7 @@ Francis, at your service!
 Any other message will be considered as a search!
 ");
 
-            Logger.LogInformation($"User '{User.UserName}' requested help");
+            Context.Logger.LogInformation($"User '{Context.User.UserName}' requested help");
         }
     }
 }

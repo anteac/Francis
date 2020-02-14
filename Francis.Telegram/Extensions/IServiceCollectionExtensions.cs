@@ -2,11 +2,12 @@ using Francis.Database.Options;
 using Francis.Models;
 using Francis.Models.Options;
 using Francis.Telegram.Answers;
-using Francis.Telegram.Answers.CallbackAnswers;
-using Francis.Telegram.Answers.MessageAnswers;
 using Francis.Telegram.Client;
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Reflection;
 
 namespace Francis.Extensions
 {
@@ -20,23 +21,17 @@ namespace Francis.Extensions
             services.AddSingleton<ITelegramClient, TelegramClient>();
 
             services.AddScoped(typeof(DataCapture<>));
+            services.AddScoped<MessageAnswerContext>();
+            services.AddScoped<CallbackAnswerContext>();
 
-            services.AddScoped<MessageAnswer, StartAnswer>();
-            services.AddScoped<MessageAnswer, StartAnonymousAnswer>();
-            services.AddScoped<MessageAnswer, DiskUsageAnswer>();
-            services.AddScoped<MessageAnswer, HelpAnswer>();
-            services.AddScoped<MessageAnswer, SelectRequestTypeAnswer>();
+            var types = Assembly.GetExecutingAssembly().GetTypes().Where(
+                x => !x.IsAbstract && typeof(TelegramAnswer).IsAssignableFrom(x)
+            );
 
-            services.AddScoped<CallbackAnswer, NextMovieAnswer>();
-            services.AddScoped<CallbackAnswer, NextTvShowAnswer>();
-            services.AddScoped<CallbackAnswer, SelectTvSeasonsAnswer>();
-            services.AddScoped<CallbackAnswer, RequestMovieAnswer>();
-            services.AddScoped<CallbackAnswer, CancelRequestAnswer>();
-            services.AddScoped<CallbackAnswer, ApproveMovieAnswer>();
-            services.AddScoped<CallbackAnswer, DenyMovieAnswer>();
-            services.AddScoped<CallbackAnswer, RequestTvAnswer>();
-            services.AddScoped<CallbackAnswer, ApproveTvAnswer>();
-            services.AddScoped<CallbackAnswer, DenyTvAnswer>();
+            foreach (var type in types)
+            {
+                services.AddScoped(typeof(TelegramAnswer), type);
+            }
 
             return services;
         }

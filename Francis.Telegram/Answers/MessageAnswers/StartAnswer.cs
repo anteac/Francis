@@ -1,21 +1,21 @@
 using Francis.Services.Clients;
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.MessageAnswers
 {
-    public class StartAnswer : MessageAnswer
+    public class StartAnswer : TelegramAnswer
     {
         private readonly IPlexService _plexService;
 
         internal override bool Public => true;
 
-        internal override bool CanProcess => Command == "/start" && Parameters.Length > 0;
+        internal override bool CanProcess => Context.Command == "/start" && Context.Parameters.Length > 0;
 
 
-        public StartAnswer(IServiceProvider provider, IPlexService plexService) : base(provider)
+        public StartAnswer(MessageAnswerContext context, IPlexService plexService) : base(context)
         {
             _plexService = plexService;
         }
@@ -23,21 +23,21 @@ namespace Francis.Telegram.Answers.MessageAnswers
 
         public override async Task Execute()
         {
-            var pinId = Parameters[0].Split(new[] { '-' })[0];
-            var clientId = Parameters[0].Split(new[] { '-' })[1];
+            var pinId = Context.Parameters[0].Split(new[] { '-' })[0];
+            var clientId = Context.Parameters[0].Split(new[] { '-' })[1];
 
             var pin = await _plexService.GetPin(pinId, clientId);
             var plexUser = await _plexService.GetMe(pin.AuthToken);
-            var ombiUsers = await Ombi.GetUsers();
+            var ombiUsers = await Context.Ombi.GetUsers();
             var ombiUser = ombiUsers.First(x => x.UserName == plexUser.User.Username || x.EmailAddress == plexUser.User.Email);
 
-            User.PlexToken = pin.AuthToken;
-            User.UserName = ombiUser.UserName;
-            User.OmbiId = ombiUser.Id;
+            Context.User.PlexToken = pin.AuthToken;
+            Context.User.UserName = ombiUser.UserName;
+            Context.User.OmbiId = ombiUser.Id;
 
-            await Bot.Client.SendTextMessageAsync(chatId: Data.Chat, text: $"Hello {User.UserName}! 😃\nNow that I know you, ask for help with /help to start!");
+            await Context.Bot.Client.SendTextMessageAsync(chatId: Context.Message.Chat, text: $"Hello {Context.User.UserName}! 😃\nNow that I know you, ask for help with /help to start!");
 
-            Logger.LogInformation($"Telegram user '{Data.From.Username}' ({Data.From.FirstName} {Data.From.LastName}) successfully authenticated as '{User.UserName}'");
+            Context.Logger.LogInformation($"Telegram user '{Context.Message.From.Username}' ({Context.Message.From.FirstName} {Context.Message.From.LastName}) successfully authenticated as '{Context.User.UserName}'");
         }
     }
 }

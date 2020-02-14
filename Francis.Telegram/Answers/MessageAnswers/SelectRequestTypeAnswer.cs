@@ -1,32 +1,32 @@
 using Francis.Database.Entities;
 using Francis.Models.Notification;
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Francis.Telegram.Answers.MessageAnswers
 {
-    public class SelectRequestTypeAnswer : MessageAnswer
+    public class SelectRequestTypeAnswer : TelegramAnswer
     {
         internal override bool CanProcess => true;
 
-        protected override bool HasProgression => true;
+        internal override int Priority => -1;
 
 
-        public SelectRequestTypeAnswer(IServiceProvider provider) : base(provider)
+        public SelectRequestTypeAnswer(MessageAnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var progression = new RequestProgression { ChatId = Data.Chat.Id, Search = Data.Text };
-            User.Progressions.Add(progression);
+            var progression = new RequestProgression { ChatId = Context.Message.Chat.Id, Search = Context.Message.Text };
+            Context.User.Progressions.Add(progression);
 
-            Context.SaveChanges();
+            Context.Database.SaveChanges();
 
-            await Bot.Client.SendTextMessageAsync(
-                chatId: Data.Chat,
+            await Context.Bot.Client.SendTextMessageAsync(
+                chatId: Context.Message.Chat,
                 text: "What kind of media are you looking for?",
                 replyMarkup: new InlineKeyboardMarkup(new[]
                 {
@@ -42,7 +42,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
                 })
             );
 
-            Logger.LogInformation($"User '{User.UserName}' initiated search with '{progression.Search}'.");
+            Context.Logger.LogInformation($"User '{Context.User.UserName}' initiated search with '{progression.Search}'.");
         }
     }
 }

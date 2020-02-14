@@ -1,6 +1,7 @@
 using Francis.Database.Entities;
 using Francis.Extensions;
 using Francis.Models.Notification;
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -8,22 +9,22 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
-    public class SelectTvSeasonsAnswer : CallbackAnswer
+    public class SelectTvSeasonsAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Command == $"/chose_{RequestType.TvShow}";
+        internal override bool CanProcess => Context.Command == $"/chose_{RequestType.TvShow}";
 
 
-        public SelectTvSeasonsAnswer(IServiceProvider provider) : base(provider)
+        public SelectTvSeasonsAnswer(CallbackAnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var progression = Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
+            var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
 
-            var result = await Ombi.GetTv(long.Parse(Parameters[1]));
+            var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
 
-            await Bot.EditCaption(Data.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
+            await Context.Bot.EditCaption(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {
@@ -37,7 +38,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 }
             }));
 
-            Logger.LogInformation($"User '{User.UserName}' is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
+            Context.Logger.LogInformation($"User '{Context.User.UserName}' is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
         }
     }
 }

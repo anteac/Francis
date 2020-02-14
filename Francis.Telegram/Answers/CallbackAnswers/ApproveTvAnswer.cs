@@ -1,31 +1,31 @@
 using Francis.Models.Notification;
+using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
-    public class ApproveTvAnswer : CallbackAnswer
+    public class ApproveTvAnswer : TelegramAnswer
     {
-        internal override bool CanProcess => Command == $"/approve_{RequestType.TvShow}";
+        internal override bool CanProcess => Context.Command == $"/approve_{RequestType.TvShow}";
 
 
-        public ApproveTvAnswer(IServiceProvider provider) : base(provider)
+        public ApproveTvAnswer(CallbackAnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            long requestId = long.Parse(Parameters[0]);
+            long requestId = long.Parse(Context.Parameters[0]);
 
-            var requests = await Ombi.GetTvRequests();
+            var requests = await Context.Ombi.GetTvRequests();
             var request = requests.First(x => x.Id == requestId);
-            await Ombi.ApproveTv(new { id = requestId });
+            await Context.Ombi.ApproveTv(new { id = requestId });
 
-            await Bot.Client.EditMessageCaptionAsync(Data.Message.Chat, Data.Message.MessageId, Data.Message.Caption + "\n\nApproved !");
+            await Context.Bot.Client.EditMessageCaptionAsync(Context.Message.Chat, Context.Message.MessageId, Context.Message.Caption + "\n\nApproved !");
 
-            Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been approved");
+            Context.Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been approved");
         }
     }
 }

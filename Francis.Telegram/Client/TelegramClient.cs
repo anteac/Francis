@@ -66,12 +66,13 @@ namespace Francis.Telegram.Client
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
                 var user = context.BotUsers.Find(e.Message.Chat.Id);
 
-                var answer = scope.ServiceProvider.GetServices<MessageAnswer>()
+                var answer = scope.ServiceProvider.GetServices<TelegramAnswer>()
+                    .OrderByDescending(x => x.Priority)
                     .FirstOrDefault(x => x.Public == !(user?.PlexToken != null) && x.CanProcess);
 
                 await answer.Execute();
 
-                answer.Context.SaveChanges();
+                answer.Context.Database.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -103,12 +104,13 @@ namespace Francis.Telegram.Client
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
                 var user = context.BotUsers.Find(e.CallbackQuery.Message.Chat.Id);
 
-                var answer = scope.ServiceProvider.GetServices<CallbackAnswer>()
+                var answer = scope.ServiceProvider.GetServices<TelegramAnswer>()
+                    .OrderByDescending(x => x.Priority)
                     .FirstOrDefault(x => x.Public == !(user?.PlexToken != null) && x.CanProcess);
 
                 await answer.Execute();
 
-                answer.Context.SaveChanges();
+                answer.Context.Database.SaveChanges();
             }
             catch (Exception ex)
             {
