@@ -24,6 +24,8 @@ export class OmbiComponent {
     this.http.get('options/ombi').subscribe(options => {
       this.options = options;
       this.messenger.loading.next(false);
+    }, () => {
+      this.messenger.loading.next(false);
     });
   }
 
@@ -36,8 +38,8 @@ export class OmbiComponent {
       this.about = about;
       this.messenger.loading.next(false);
     }, () => {
-        this.error = 'An error occured. Please check your settings.'
-        this.messenger.loading.next(false);
+      this.error = 'An error occured. Please check your settings.'
+      this.messenger.loading.next(false);
     });
   }
 

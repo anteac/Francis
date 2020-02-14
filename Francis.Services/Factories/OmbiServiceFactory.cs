@@ -1,3 +1,4 @@
+using Castle.Core.Internal;
 using Francis.Database;
 using Francis.Models;
 using Francis.Models.Options;
@@ -37,6 +38,13 @@ namespace Francis.Services.Factories
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
 
+            var options = _options.Value;
+
+            if (options.BaseUrl.IsNullOrEmpty() || options.ApiKey.IsNullOrEmpty())
+            {
+                return service;
+            }
+
             client.BaseAddress = new Uri(_options.Value.BaseUrl);
             client.DefaultRequestHeaders.Add("ApiKey", _options.Value.ApiKey);
 
@@ -45,21 +53,21 @@ namespace Francis.Services.Factories
 
         public IBotOmbiService CreateForBot()
         {
+            var client = new HttpClient();
+            var service = RestService.For<IBotOmbiService>(client);
+
             var options = _options.Value;
             var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
 
-            if (botUser == null || options.BaseUrl == null || options.ApiKey == null)
+            if (botUser == null || options.BaseUrl.IsNullOrEmpty() || options.ApiKey.IsNullOrEmpty())
             {
-                return null;
+                return service;
             }
-
-            var client = new HttpClient();
-            var service = RestService.For<IBotOmbiService>(client);
 
             client.BaseAddress = new Uri(options.BaseUrl);
             client.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
 
-            if (botUser.OmbiId == null)
+            if (botUser.OmbiId.IsNullOrEmpty())
             {
                 return service;
             }

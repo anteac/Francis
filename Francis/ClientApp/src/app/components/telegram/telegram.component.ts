@@ -24,6 +24,8 @@ export class TelegramComponent {
     this.http.get('options/telegram').subscribe(options => {
       this.options = options;
       this.messenger.loading.next(false);
+    }, () => {
+      this.messenger.loading.next(false);
     });
   }
 
