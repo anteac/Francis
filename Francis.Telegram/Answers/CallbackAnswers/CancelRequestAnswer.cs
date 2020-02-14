@@ -1,4 +1,5 @@
 using Francis.Database.Entities;
+using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using System;
@@ -20,14 +21,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var progression = Context.Progression as RequestProgression ?? throw new InvalidOperationException("Unknown progress status");
             progression.Status = RequestStatus.Canceled;
 
-            if (!string.IsNullOrEmpty(Context.Message.Caption))
-            {
-                await Context.Bot.Client.EditMessageCaptionAsync(chatId: Context.Message.Chat, messageId: Context.Message.MessageId, "Aye aye sir, I canceled your request !");
-            }
-            else
-            {
-                await Context.Bot.Client.EditMessageTextAsync(chatId: Context.Message.Chat, messageId: Context.Message.MessageId, "Aye aye sir, I canceled your request !");
-            }
+            await Context.Bot.EditMessage(Context.Message, "Aye aye sir, I canceled your request !");
         }
     }
 }

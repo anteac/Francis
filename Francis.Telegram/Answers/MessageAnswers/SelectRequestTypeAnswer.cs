@@ -1,4 +1,5 @@
 using Francis.Database.Entities;
+using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
@@ -25,22 +26,18 @@ namespace Francis.Telegram.Answers.MessageAnswers
 
             Context.Database.SaveChanges();
 
-            await Context.Bot.Client.SendTextMessageAsync(
-                chatId: Context.Message.Chat,
-                text: "What kind of media are you looking for?",
-                replyMarkup: new InlineKeyboardMarkup(new[]
+            await Context.Bot.SendMessage(Context.Message.Chat, "What kind of media are you looking for?", new InlineKeyboardMarkup(new[]
+            {
+                new[]
                 {
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData($"{RequestType.Movie}", $"/next_{RequestType.Movie} {progression.Id}"),
-                        InlineKeyboardButton.WithCallbackData($"{RequestType.TvShow}", $"/next_{RequestType.TvShow} {progression.Id}"),
-                    },
-                    new[]
-                    {
-                        InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {progression.Id}"),
-                    }
-                })
-            );
+                    InlineKeyboardButton.WithCallbackData($"{RequestType.Movie}", $"/next_{RequestType.Movie} {progression.Id}"),
+                    InlineKeyboardButton.WithCallbackData($"{RequestType.TvShow}", $"/next_{RequestType.TvShow} {progression.Id}"),
+                },
+                new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {progression.Id}"),
+                }
+            }));
 
             Context.Logger.LogInformation($"User '{Context.User.UserName}' initiated search with '{progression.Search}'.");
         }

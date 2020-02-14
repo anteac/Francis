@@ -1,4 +1,5 @@
 using Francis.Database.Entities;
+using Francis.Telegram.Extensions;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
 using System;
@@ -32,10 +33,8 @@ namespace Francis.Telegram.Answers.MessageAnswers
                 Context.Database.Add(Context.User);
             }
 
-            await Context.Bot.Client.SendTextMessageAsync(
-                chatId: Context.Message.Chat,
-                text: $"Hello ! I'm Francis, and I will help you to request medias. 😊\nI don't know you yet, can you click on the button to authenticate?",
-                replyMarkup: new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
+            await Context.Bot.SendMessage(Context.Message.Chat, $"Hello ! I'm Francis, and I will help you to request medias. 😊\nI don't know you yet, can you click on the button to authenticate?",
+                new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
                     text: "Authenticate",
                     url: $"{Context.Options.Value.BaseUrl}/auth?clientId={Context.User.ClientId}"
                 ))

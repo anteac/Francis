@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace Francis.Extensions
+namespace Francis.Toolbox.Extensions
 {
     public static partial class IServiceCollectionExtensions
     {

@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 
-namespace Francis.Extensions
+namespace Francis.Services.Extensions
 {
     public static partial class IServiceCollectionExtensions
     {

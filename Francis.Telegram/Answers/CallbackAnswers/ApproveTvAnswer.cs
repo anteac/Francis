@@ -1,3 +1,4 @@
+using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var request = requests.First(x => x.Id == requestId);
             await Context.Ombi.ApproveTv(new { id = requestId });
 
-            await Context.Bot.Client.EditMessageCaptionAsync(Context.Message.Chat, Context.Message.MessageId, Context.Message.Caption + "\n\nApproved !");
+            await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nApproved !");
 
             Context.Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been approved");
         }

@@ -1,5 +1,5 @@
 using Francis.Database.Entities;
-using Francis.Extensions;
+using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
@@ -24,7 +24,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
 
-            await Context.Bot.EditCaption(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
+            await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
             {
                 new[]
                 {

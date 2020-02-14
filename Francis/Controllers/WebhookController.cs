@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
+using Francis.Telegram.Extensions;
 
 namespace Francis.Controllers
 {
@@ -45,7 +46,7 @@ namespace Francis.Controllers
 
             var handler = notification.NotificationType switch
             {
-                NotificationType.Test => HandleTest(notification),
+                NotificationType.Test => HandleTest(),
                 NotificationType.NewRequest => HandleNewRequest(notification, requestId),
                 NotificationType.RequestApproved => HandleRequestApproved(notification, requestId),
                 NotificationType.RequestDeclined => HandleRequestDenied(notification, requestId),
@@ -67,23 +68,18 @@ namespace Francis.Controllers
             return result + message;
         }
 
-        private async Task HandleTest(Notification notification)
+        private async Task HandleTest()
         {
-            await _client.Client.SendTextMessageAsync(_options.Value.AdminChat, "This is a test message from Ombi! If you received this, your configuration is valid.");
+            await _client.SendMessage(_options.Value.AdminChat, "This is a test message from Ombi! If you received this, your configuration is valid.");
         }
 
         private async Task HandleNewRequest(Notification notification, long requestId)
         {
-            await _client.Client.SendPhotoAsync(
-                chatId: _options.Value.AdminChat,
-                photo: new InputOnlineFile(notification.PosterImage),
-                caption: $"The user '{notification.RequestedUser}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})",
-                replyMarkup: new InlineKeyboardMarkup(new[]
-                {
-                      InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {requestId}"),
-                      InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{notification.Type} {requestId}"),
-                })
-            );
+            await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, $"The user '{notification.RequestedUser}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})", new InlineKeyboardMarkup(new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {requestId}"),
+                InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{notification.Type} {requestId}"),
+            }));
         }
 
         private async Task HandleRequestApproved(Notification notification, long requestId)
@@ -91,7 +87,7 @@ namespace Francis.Controllers
             var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
-                await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request has been approved. It will be available soon!"));
+                await _client.SendMessage(user.Id, FormatAnswer(notification, "You're request has been approved. It will be available soon!"));
             }
         }
 
@@ -100,7 +96,7 @@ namespace Francis.Controllers
             var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
-                await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request has been denied... Maybe your request doesn't match the conditions?"));
+                await _client.SendMessage(user.Id, FormatAnswer(notification, "You're request has been denied... Maybe your request doesn't match the conditions?"));
             }
         }
 
@@ -109,7 +105,7 @@ namespace Francis.Controllers
             var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
-                await _client.Client.SendTextMessageAsync(user.Id, FormatAnswer(notification, "You're request is available. You can watch it now!"));
+                await _client.SendMessage(user.Id, FormatAnswer(notification, "You're request is available. You can watch it now!"));
             }
         }
     }

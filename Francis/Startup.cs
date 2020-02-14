@@ -1,6 +1,8 @@
 using Francis.Database;
-using Francis.Extensions;
+using Francis.Services.Extensions;
 using Francis.Telegram.Client;
+using Francis.Telegram.Extensions;
+using Francis.Toolbox.Extensions;
 using Francis.Toolbox.JsonConverters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

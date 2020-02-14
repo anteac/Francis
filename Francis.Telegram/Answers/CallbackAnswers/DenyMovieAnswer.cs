@@ -1,3 +1,4 @@
+using Francis.Telegram.Extensions;
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             await Context.Ombi.DenyMovie(new { id = requestId });
 
             //TODO: Find a way to give a reason
-            await Context.Bot.Client.EditMessageCaptionAsync(Context.Message.Chat, Context.Message.MessageId, Context.Message.Caption + "\n\nDenied...");
+            await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nDenied...");
 
             Context.Logger.LogInformation($"{RequestType.Movie} '{request.Title}' has been denied");
         }

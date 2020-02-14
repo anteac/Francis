@@ -1,3 +1,4 @@
+using Francis.Telegram.Extensions;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -15,8 +16,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
 
         public override async Task Execute()
         {
-            await Context.Bot.Client.SendTextMessageAsync(Context.Message.Chat,
-      @"
+            await Context.Bot.SendMessage(Context.Message.Chat, @"
 Francis, at your service!
 
 /help - Display this message

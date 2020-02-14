@@ -1,3 +1,4 @@
+using Francis.Telegram.Extensions;
 using Francis.Services.Clients;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
             Context.User.UserName = ombiUser.UserName;
             Context.User.OmbiId = ombiUser.Id;
 
-            await Context.Bot.Client.SendTextMessageAsync(chatId: Context.Message.Chat, text: $"Hello {Context.User.UserName}! 😃\nNow that I know you, ask for help with /help to start!");
+            await Context.Bot.SendMessage(Context.Message.Chat, $"Hello {Context.User.UserName}! 😃\nNow that I know you, ask for help with /help to start!");
 
             Context.Logger.LogInformation($"Telegram user '{Context.Message.From.Username}' ({Context.Message.From.FirstName} {Context.Message.From.LastName}) successfully authenticated as '{Context.User.UserName}'");
         }

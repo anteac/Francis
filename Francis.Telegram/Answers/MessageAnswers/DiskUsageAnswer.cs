@@ -1,3 +1,4 @@
+using Francis.Telegram.Extensions;
 using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -25,7 +26,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
             }
             var result = string.Format("{0:0.##} {1}", length, sizes[order]);
 
-            await Context.Bot.Client.SendTextMessageAsync(Context.Message.Chat, result);
+            await Context.Bot.SendMessage(Context.Message.Chat, result);
 
             Context.Logger.LogInformation($"User '{Context.User.UserName}' requested remaining disk storage: {result}");
         }

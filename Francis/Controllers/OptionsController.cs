@@ -1,4 +1,5 @@
 using Francis.Database.Options;
+using Francis.Telegram.Extensions;
 using Francis.Models.Ombi;
 using Francis.Models.Options;
 using Francis.Models.Telegram;
@@ -58,7 +59,7 @@ namespace Francis.Controllers
             //TODO: Use Uri instead of string concatenation
             _updater.Save(options);
             _bot.Initialize();
-            await _bot.Client.SendTextMessageAsync(options.AdminChat, "Hello Francis' administrator, if you received this message, this means your configuration is valid.");
+            await _bot.SendMessage(options.AdminChat, "Hello Francis' administrator, if you received this message, this means your configuration is valid.");
             if (!await WebResource.Exists(options.BaseUrl + "/auth")) throw new ArgumentException("Invalid public base URL");
             if (!Directory.Exists(options.MediaLocation)) throw new ArgumentException("Invalid media location");
             return await _bot.Client.GetMeAsync();

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
 
-namespace Francis.Extensions
+namespace Francis.Telegram.Extensions
 {
     public static partial class IServiceCollectionExtensions
     {

@@ -1,6 +1,4 @@
-using System.Threading.Tasks;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace Francis.Telegram.Client
 {
@@ -12,7 +10,5 @@ namespace Francis.Telegram.Client
 
 
         public void Initialize();
-
-        public Task<User> Test();
     }
 }

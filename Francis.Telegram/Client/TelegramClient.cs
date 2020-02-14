@@ -1,5 +1,5 @@
 using Francis.Database;
-using Francis.Extensions;
+using Francis.Telegram.Extensions;
 using Francis.Models;
 using Francis.Models.Options;
 using Francis.Telegram.Answers;
@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Francis.Telegram.Client
 {
@@ -48,14 +49,6 @@ namespace Francis.Telegram.Client
             Client.StartReceiving();
         }
 
-        public async Task<User> Test()
-        {
-            Initialize();
-
-            return await Client.GetMeAsync();
-        }
-
-
         private async void OnMessage(object sender, MessageEventArgs e)
         {
             try
@@ -78,21 +71,14 @@ namespace Francis.Telegram.Client
             {
                 _logger.LogError(ex, $"An error occured while processing user message: {e.Message.Text}");
 
-                await Client.SendTextMessageAsync(e.Message.Chat, "Something went wrong... Please verify your query. If the problem persists, contact the administrator.");
+                await this.SendMessage(e.Message.Chat, "Something went wrong... Please verify your query. If the problem persists, contact the administrator.");
             }
         }
 
         private async void OnCallbackQuery(object sender, CallbackQueryEventArgs e)
         {
             await Client.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
-            if (!string.IsNullOrWhiteSpace(e.CallbackQuery.Message.Text))
-            {
-                await this.EditText(e.CallbackQuery.Message);
-            }
-            if (!string.IsNullOrWhiteSpace(e.CallbackQuery.Message.Caption))
-            {
-                await this.EditCaption(e.CallbackQuery.Message);
-            }
+            await Client.EditMessageReplyMarkupAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId);
 
             try
             {
@@ -116,7 +102,7 @@ namespace Francis.Telegram.Client
             {
                 _logger.LogError(ex, $"An error occured while processing user callback query: {e.CallbackQuery.Data}");
 
-                await Client.SendTextMessageAsync(e.CallbackQuery.Message.Chat, "Something went wrong... Please restart from the beginning. If the problem persists, contact the administrator.");
+                await this.SendMessage(e.CallbackQuery.Message.Chat, "Something went wrong... Please restart from the beginning. If the problem persists, contact the administrator.");
             }
         }
     }
