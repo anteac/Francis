@@ -6,7 +6,7 @@ namespace Francis.Models.Options
 
         public string BotToken { get; set; }
 
-        public string BaseUrl { get; set; }
+        public string PublicUrl { get; set; }
 
         public string MediaLocation { get; set; }
     }

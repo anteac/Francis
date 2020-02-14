@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Francis.Database.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20200214201319_InitialCreate")]
+    [Migration("20200214220343_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -31,7 +31,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
             await Context.Bot.SendMessage(Context.Message.Chat, $"Hello ! I'm Francis, and I will help you to request medias. 😊\nI don't know you yet, can you click on the button to authenticate?",
                 new InlineKeyboardMarkup(InlineKeyboardButton.WithUrl(
                     text: "Authenticate",
-                    url: $"{Context.Options.Value.BaseUrl}/auth?clientId={Context.User.Id}"
+                    url: $"{Context.Options.Value.PublicUrl}/auth?clientId={Context.User.Id}"
                 ))
             );
 
