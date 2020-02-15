@@ -1,9 +1,9 @@
 <mat-sidenav-container *ngIf="onMobile else innerContent" #sidenav>
-  <mat-sidenav mode="over">
+  <mat-sidenav mode="over" autoFocus="false">
 
     <mat-list role="list">
       <mat-list-item role="listitem" *ngFor="let link of navLinks">
-        <button mat-button [routerLink]="link.path" (click)="sidenav.close()">{{link.label}}</button>
+        <button mat-button [routerLink]="link.path" (click)="sidenav.close()" class="link-button">{{link.label}}</button>
       </mat-list-item>
     </mat-list>
 

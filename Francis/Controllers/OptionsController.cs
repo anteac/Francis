@@ -3,6 +3,7 @@ using Francis.Models.Ombi;
 using Francis.Models.Options;
 using Francis.Models.Telegram;
 using Francis.Services.Clients;
+using Francis.Services.Factories;
 using Francis.Telegram.Client;
 using Francis.Telegram.Extensions;
 using Francis.Toolbox.Helpers;
@@ -19,7 +20,7 @@ namespace Francis.Controllers
     public class OptionsController : ControllerBase
     {
         private readonly ITelegramClient _bot;
-        private readonly IOmbiService _ombi;
+        private readonly OmbiServiceFactory _ombi;
         private readonly DatabaseOptionsUpdater _updater;
         private readonly IOptionsSnapshot<TelegramOptions> _telegramOptions;
         private readonly IOptionsSnapshot<OmbiOptions> _ombiOptions;
@@ -27,7 +28,7 @@ namespace Francis.Controllers
 
         public OptionsController(
             ITelegramClient bot,
-            IOmbiService ombi,
+            OmbiServiceFactory ombi,
             DatabaseOptionsUpdater updater,
             IOptionsSnapshot<TelegramOptions> telegramOptions,
             IOptionsSnapshot<OmbiOptions> ombiOptions
@@ -71,7 +72,7 @@ namespace Francis.Controllers
         public async Task<AboutOmbi> UpdateOmbiOptions(OmbiOptions options)
         {
             _updater.Save(options);
-            return await _ombi.About();
+            return await _ombi.CreateGlobal(options).About();
         }
     }
 }

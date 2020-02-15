@@ -29,7 +29,7 @@ namespace Francis.Controllers
         public NoContentResult Ping() => NoContent();
 
         [HttpGet]
-        public async Task<ActionResult> Auth(long clientId)
+        public async Task<ActionResult> Auth(long clientId, int messageId)
         {
             var user = _context.BotUsers.FirstOrDefault(x => x.Id == clientId);
             if (user == null)
@@ -37,6 +37,7 @@ namespace Francis.Controllers
                 return NotFound(null);
             }
 
+            await _telegramClient.Client.EditMessageReplyMarkupAsync(clientId, messageId);
             var bot = await _telegramClient.Client.GetMeAsync();
 
             var assembly = Assembly.GetExecutingAssembly();

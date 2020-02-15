@@ -33,12 +33,12 @@ namespace Francis.Services.Factories
         }
 
 
-        public IOmbiService CreateGlobal()
+        public IOmbiService CreateGlobal(OmbiOptions options = null)
         {
             var client = new HttpClient();
             var service = RestService.For<IOmbiService>(client);
 
-            var options = _options.Value;
+            options = options ?? _options.Value;
 
             if (options.BaseUrl.IsNullOrEmpty() || options.ApiKey.IsNullOrEmpty())
             {
@@ -51,12 +51,12 @@ namespace Francis.Services.Factories
             return service;
         }
 
-        public IBotOmbiService CreateForBot()
+        public IBotOmbiService CreateForBot(OmbiOptions options = null)
         {
             var client = new HttpClient();
             var service = RestService.For<IBotOmbiService>(client);
 
-            var options = _options.Value;
+            options = options ?? _options.Value;
             var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
 
             if (botUser == null || options.BaseUrl.IsNullOrEmpty() || options.ApiKey.IsNullOrEmpty())

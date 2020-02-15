@@ -82,7 +82,7 @@ namespace Francis.Controllers
 
         private async Task HandleRequestApproved(Notification notification, long requestId)
         {
-            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId)).ToList();
             foreach (BotUser user in users)
             {
                 await _client.SendMessage(user.Id, FormatAnswer(notification, "You're request has been approved. It will be available soon!"));
@@ -91,7 +91,7 @@ namespace Francis.Controllers
 
         private async Task HandleRequestDenied(Notification notification, long requestId)
         {
-            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.Id == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId)).ToList();
             foreach (BotUser user in users)
             {
                 await _client.SendMessage(user.Id, FormatAnswer(notification, "You're request has been denied... Maybe your request doesn't match the conditions?"));
