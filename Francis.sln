@@ -26,6 +26,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Francis.Services", "Francis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Francis.Telegram", "Francis.Telegram\Francis.Telegram.csproj", "{CE4D03F4-6680-4ED0-9A98-8CB352D45C77}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lsiobase", "lsiobase", "{15C45E33-C385-488E-8E4E-530AF65BE362}"
+	ProjectSection(SolutionItems) = preProject
+		root\etc\cont-init.d\30-config = root\etc\cont-init.d\30-config
+		root\etc\services.d\francis\run = root\etc\services.d\francis\run
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +91,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{15C45E33-C385-488E-8E4E-530AF65BE362} = {05BA55E6-CE17-4E90-BD69-35F4B50436D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F1F2682-6019-461A-8013-D40889970005}
