@@ -51,6 +51,13 @@ abstract class OptionsService<TOptions, TAbout> {
 })
 export class TelegramService extends OptionsService<TelegramOptions, AboutTelegramBot> {
 
+  constructor(
+    protected http: HttpClient,
+    protected messenger: MessengerService,
+  ) {
+    super(http, messenger);
+  }
+
   protected get endpoint(): string {
     return "telegram";
   }
@@ -61,6 +68,13 @@ export class TelegramService extends OptionsService<TelegramOptions, AboutTelegr
   providedIn: 'root'
 })
 export class OmbiService extends OptionsService<OmbiOptions, AboutOmbi> {
+
+  constructor(
+    protected http: HttpClient,
+    protected messenger: MessengerService,
+  ) {
+    super(http, messenger);
+  }
 
   protected get endpoint(): string {
     return "ombi";
