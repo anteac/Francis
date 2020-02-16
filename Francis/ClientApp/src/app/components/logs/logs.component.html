@@ -1,4 +1,32 @@
-<mat-action-list>
-  <a *ngFor="let logFile of logFiles" (click)="openLogFile(logFile)" mat-list-item>{{logFile}}</a>
-</mat-action-list>
-<p *ngIf="error" class="status error">{{error}}</p>
+<ng-container *ngIf="!error else errorTemplate">
+
+  <div class="log-file-select">
+
+    <mat-form-field>
+      <mat-label>Log file</mat-label>
+      <mat-select [(ngModel)]="currentLogFile" (selectionChange)="loadLogFile()">
+        <mat-option *ngFor="let logFile of logFiles" [value]="logFile">{{logFile}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-icon-button (click)="loadLogFile()">
+      <mat-icon>refresh</mat-icon>
+    </button>
+
+  </div>
+
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let log of logs">
+      <mat-icon *ngIf="log.level == LogEventLevel.Information" mat-list-icon color="primary">info</mat-icon>
+      <mat-icon *ngIf="log.level == LogEventLevel.Warning" mat-list-icon color="accent">warning</mat-icon>
+      <mat-icon *ngIf="log.level == LogEventLevel.Error" mat-list-icon color="warn">error</mat-icon>
+      <h4 mat-line class="elipsis">{{log.message}}</h4>
+      <p mat-line>{{log.timestamp | date:'medium'}}</p>
+    </mat-list-item>
+  </mat-list>
+
+</ng-container>
+
+<ng-template #errorTemplate>
+  <p class="status error">{{error}}</p>
+</ng-template>

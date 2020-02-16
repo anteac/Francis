@@ -3,7 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Serilog;
+using Serilog.Events;
+using Serilog.Formatting;
+using Serilog.Formatting.Json;
+using System.IO;
 
 namespace Francis
 {

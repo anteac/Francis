@@ -1,5 +1,15 @@
+.log-file-select {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  .mat-form-field {
+      flex: 1;
+  }
+}
+
 .mat-list-base {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 .status {

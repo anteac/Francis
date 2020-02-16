@@ -1,7 +1,14 @@
 using Francis.Services.Clients;
 using Francis.Telegram.Client;
+using Francis.Toolbox.Logging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Serilog.Events;
+using Serilog.Parsing;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,11 +61,20 @@ namespace Francis.Controllers
         }
 
         [HttpGet("logs/{file}")]
-        public FileStreamResult GetLogFiles(string file)
+        public async Task<ContentResult> GetLogFile(string file)
         {
             var path = Path.Combine(_logsfolder, file);
-            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            return File(stream, "text/plain; charset=UTF-8");
+
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var reader = new StreamReader(stream);
+
+            var logs = new List<string>();
+            while (!reader.EndOfStream)
+            {
+                logs.Add(await reader.ReadLineAsync());
+            }
+
+            return Content($"[{string.Join(",", logs)}]", "application/json; charset=UTF-8");
         }
     }
 }
