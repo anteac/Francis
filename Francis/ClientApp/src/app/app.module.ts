@@ -1,23 +1,21 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogsComponent } from './components/logs/logs.component';
-import { OmbiComponent } from './components/ombi/ombi.component';
-import { TelegramComponent } from './components/telegram/telegram.component';
+import { OptionsComponent } from './components/options/options.component';
 
 @NgModule({
   declarations: [
     AppComponent,
 
     HomeComponent,
-    TelegramComponent,
-    OmbiComponent,
+    OptionsComponent,
     LogsComponent,
   ],
   imports: [
@@ -26,8 +24,7 @@ import { TelegramComponent } from './components/telegram/telegram.component';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: 'telegram', component: TelegramComponent },
-      { path: 'ombi', component: OmbiComponent },
+      { path: 'options', component: OptionsComponent },
       { path: 'logs', component: LogsComponent },
       { path: '**', redirectTo: '/' },
     ]),
@@ -41,6 +38,7 @@ import { TelegramComponent } from './components/telegram/telegram.component';
     MatListModule,
     MatSidenavModule,
     MatIconModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

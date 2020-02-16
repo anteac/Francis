@@ -48,3 +48,7 @@
     overflow: auto;
   }
 }
+
+::ng-deep .mat-tab-links {
+  justify-content: space-between;
+}
