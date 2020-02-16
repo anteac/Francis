@@ -73,6 +73,7 @@ namespace Francis.Controllers
             {
                 logs.Add(await reader.ReadLineAsync());
             }
+            logs.Reverse();
 
             return Content($"[{string.Join(",", logs)}]", "application/json; charset=UTF-8");
         }

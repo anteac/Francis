@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDialogModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogsComponent } from './components/logs/logs.component';
 import { OptionsComponent } from './components/options/options.component';
+import { ShowLogMessageDialog } from './dialogs/show-log-message/show-log-message.dialog';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,8 @@ import { OptionsComponent } from './components/options/options.component';
     HomeComponent,
     OptionsComponent,
     LogsComponent,
+
+    ShowLogMessageDialog,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,6 +43,10 @@ import { OptionsComponent } from './components/options/options.component';
     MatIconModule,
     MatDividerModule,
     MatSelectModule,
+    MatDialogModule,
+  ],
+  entryComponents: [
+    ShowLogMessageDialog,
   ],
   providers: [],
   bootstrap: [AppComponent]

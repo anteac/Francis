@@ -10,9 +10,9 @@ import { MessengerService } from './services/messenger.service';
 export class AppComponent {
 
   navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/options', label: 'Options' },
-    { path: '/logs', label: 'Logs' },
+    { path: '/', label: 'Home', icon: 'home' },
+    { path: '/options', label: 'Options', icon: 'settings' },
+    { path: '/logs', label: 'Logs', icon: 'insert_drive_file' },
   ];
 
   loading: boolean = false;

@@ -15,15 +15,15 @@
 
   </div>
 
-  <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let log of logs">
+  <mat-action-list role="list">
+    <mat-list-item role="listitem" *ngFor="let log of logs" (click)="showLog(log)">
       <mat-icon *ngIf="log.level == LogEventLevel.Information" mat-list-icon color="primary">info</mat-icon>
       <mat-icon *ngIf="log.level == LogEventLevel.Warning" mat-list-icon color="accent">warning</mat-icon>
       <mat-icon *ngIf="log.level == LogEventLevel.Error" mat-list-icon color="warn">error</mat-icon>
       <h4 mat-line class="elipsis">{{log.message}}</h4>
       <p mat-line>{{log.timestamp | date:'medium'}}</p>
     </mat-list-item>
-  </mat-list>
+  </mat-action-list>
 
 </ng-container>
 
