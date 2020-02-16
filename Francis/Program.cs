@@ -1,3 +1,4 @@
+using Francis.Toolbox.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -17,7 +18,7 @@ namespace Francis
 
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            return Host.CreateDefaultBuilder(args)
+            var builder = Host.CreateDefaultBuilder(args)
                 .UseSerilog()
                 .ConfigureWebHostDefaults(builder =>
                 {
@@ -25,6 +26,13 @@ namespace Francis
                     builder.UseKestrel();
                     builder.UseStartup<Startup>();
                 });
+
+            if (EnvironmentContext.InContainer())
+            {
+                builder.UseContentRoot("/app");
+            }
+
+            return builder;
         }
 
         private static void InitializeLogger()
