@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { LogEventLevel } from '../../models/generated/LogEventLevel';
+import { LogMessage } from '../../models/generated/LogMessage';
 import { MessengerService } from '../../services/messenger.service';
 
 @Component({
@@ -9,8 +11,12 @@ import { MessengerService } from '../../services/messenger.service';
 })
 export class LogsComponent {
 
+  LogEventLevel = LogEventLevel;
+
   error: string;
   logFiles: string[] = [];
+  logs: LogMessage[];
+  currentLogFile: string;
 
   constructor(private http: HttpClient, private messenger: MessengerService) {
     this.getLogFiles();
@@ -20,6 +26,8 @@ export class LogsComponent {
     this.messenger.loading.next(true);
     this.http.get<string[]>('monitoring/logs').subscribe(logFiles => {
       this.logFiles = logFiles;
+      this.currentLogFile = logFiles[0];
+      this.loadLogFile();
       this.messenger.loading.next(false);
     }, () => {
       this.error = 'An error occured while retrieving list of log files.'
@@ -27,8 +35,14 @@ export class LogsComponent {
     });
   }
 
-  openLogFile(logFile: string): void {
-    window.open(`monitoring/logs/${logFile}`, '_blank');
+  loadLogFile(): void {
+    this.messenger.loading.next(true);
+    this.http.get<LogMessage[]>(`monitoring/logs/${this.currentLogFile}`).subscribe(logs => {
+      this.logs = logs;
+      this.messenger.loading.next(false);
+    }, () => {
+      this.error = 'An error occured while retrieving list of logs.'
+      this.messenger.loading.next(false);
+    });
   }
-
 }

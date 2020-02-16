@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -39,6 +39,7 @@ import { OptionsComponent } from './components/options/options.component';
     MatSidenavModule,
     MatIconModule,
     MatDividerModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
