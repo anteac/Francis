@@ -19,7 +19,7 @@ Any bug report or contribution is very welcomed!
 
 * Back-end written in [.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
 * Front-end developed using [Angular](https://angular.io/docs/) and [Angular Material](https://material.angular.io/)
-* Dockerized using [lsiobase/alpine](https://hub.docker.com/r/lsiobase/alpine)
+* Dockerized using [lsiobase/ubuntu](https://hub.docker.com/r/lsiobase/ubuntu)
 
 ## Usage
 
@@ -28,6 +28,7 @@ For the most aventurous (or those who already have the required development tool
 
 Once Francis is up and running, open your browser on http://localhost:4703/ to fill the configuration.
 For those who are deploying on an headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
+Inside the container, all configurations and logs are stored in `/config`.
 
 The last step is to fill the Telegram and Ombi settings. Hit `Save & Test`, and if each result is green, Francis is ready to answer you messages!
 
