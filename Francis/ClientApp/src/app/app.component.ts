@@ -11,8 +11,7 @@ export class AppComponent {
 
   navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/telegram', label: 'Telegram Options' },
-    { path: '/ombi', label: 'Ombi Options' },
+    { path: '/options', label: 'Options' },
     { path: '/logs', label: 'Logs' },
   ];
 

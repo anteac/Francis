@@ -3,7 +3,7 @@
   flex-direction: column;
 
   .status {
-    margin: 16px;
+    margin: 16px 16px 0;
     text-align: center;
 
     &.success {
@@ -14,4 +14,9 @@
       color: darkred;
     }
   }
+}
+
+.mat-divider {
+  position: initial;
+  margin: 16px 0;
 }

@@ -1,0 +1,31 @@
+<div class="content">
+  <mat-form-field>
+    <input matInput [(ngModel)]="telegram.options.adminChat" placeholder="Administrator Chat Id">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="telegram.options.botToken" placeholder="Bot Token">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="telegram.options.publicUrl" placeholder="Public URL">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="telegram.options.mediaLocation" placeholder="Media Location">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="telegram.pushOptions()">Save & Test</button>
+  <p *ngIf="telegram.about" class="status success">Successfully connected to Telegram bot {{telegram.about.firstName}} (@{{telegram.about.username}})</p>
+  <p *ngIf="telegram.error" class="status error">{{telegram.error}}</p>
+</div>
+
+<mat-divider></mat-divider>
+
+<div class="content">
+  <mat-form-field>
+    <input matInput [(ngModel)]="ombi.options.baseUrl" placeholder="Base URL">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="ombi.options.apiKey" placeholder="API Key">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="ombi.pushOptions()">Save & Test</button>
+  <p *ngIf="ombi.about" class="status success">Successfully connected to Ombi v{{ombi.about.version}} ({{ombi.about.branch}})</p>
+  <p *ngIf="ombi.error" class="status error">{{ombi.error}}</p>
+</div>
