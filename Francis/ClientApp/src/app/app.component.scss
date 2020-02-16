@@ -53,7 +53,8 @@
   }
 
   .mat-sidenav-container {
-    height: 100%;
+    min-height: 100vh;
+    background-color: lightskyblue;
 
     .mat-sidenav-content {
       background-color: lightskyblue;
