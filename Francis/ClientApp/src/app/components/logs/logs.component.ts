@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ShowLogMessageDialog } from '../../dialogs/show-log-message/show-log-message.dialog';
 import { LogEventLevel } from '../../models/generated/LogEventLevel';
 import { LogMessage } from '../../models/generated/LogMessage';
 import { MessengerService } from '../../services/messenger.service';
@@ -18,7 +20,7 @@ export class LogsComponent {
   logs: LogMessage[];
   currentLogFile: string;
 
-  constructor(private http: HttpClient, private messenger: MessengerService) {
+  constructor(private http: HttpClient, private messenger: MessengerService, public dialog: MatDialog) {
     this.getLogFiles();
   }
 
@@ -44,5 +46,9 @@ export class LogsComponent {
       this.error = 'An error occured while retrieving list of logs.'
       this.messenger.loading.next(false);
     });
+  }
+
+  showLog(log: LogMessage) {
+    this.dialog.open(ShowLogMessageDialog, { data: log });
   }
 }

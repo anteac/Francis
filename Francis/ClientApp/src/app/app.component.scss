@@ -1,20 +1,9 @@
-.page {
-  position: relative;
-  display: flex;
-  padding: 8px;
+:host {
+  display: block;
+  width: 100vw;
 
-  .menu-button {
-    margin: -8px 0 8px -8px;
-  }
-
-  .nav-bar {
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .content {
-    flex-basis: 600px;
-    max-width: 600px;
+  .link-label {
+    padding: 4px;
   }
 
   .flex-padding {
@@ -30,26 +19,49 @@
     right: 0;
   }
 
-  .loading {
-    filter: blur(1px);
-    pointer-events: none;
+  .page {
+    position: relative;
+    display: flex;
+    padding: 8px;
+
+    .content {
+      flex-basis: 600px;
+      min-width: 0;
+
+      .menu-button {
+        margin: -8px 0 8px -8px;
+      }
+
+      & .loading {
+        filter: blur(1px);
+        pointer-events: none;
+      }
+    }
+
+    .nav-bar {
+      display: block;
+      margin-bottom: 16px;
+
+      .nav-link {
+        text-decoration: none;
+
+        &.mat-tab-label-active {
+          opacity: initial;
+        }
+      }
+    }
   }
-}
 
-.mat-sidenav-container {
-  height: 100%;
+  .mat-sidenav-container {
+    height: 100%;
 
-  .link-button {
-    flex: 1;
-    text-align: left;
+    .mat-sidenav-content {
+      background-color: lightskyblue;
+      overflow: auto;
+    }
   }
 
-  .mat-sidenav-content {
-    background-color: lightskyblue;
-    overflow: auto;
+  ::ng-deep .mat-tab-links {
+    justify-content: space-between;
   }
-}
-
-::ng-deep .mat-tab-links {
-  justify-content: space-between;
 }

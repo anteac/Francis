@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>{{log.level}}</h1>
+<div mat-dialog-content>
+  <p>{{log.message}}</p>
+  <p><code>{{log.exception?.message}}</code></p>
+  <p><code class="stacktrace">{{log.exception?.stackTrace}}</code></p>
+</div>

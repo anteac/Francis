@@ -1,15 +1,18 @@
 <mat-sidenav-container *ngIf="onMobile else innerContent" #sidenav>
   <mat-sidenav mode="over" autoFocus="false">
 
-    <mat-list role="list">
-      <mat-list-item role="listitem" *ngFor="let link of navLinks">
-        <button mat-button [routerLink]="link.path" (click)="sidenav.close()" class="link-button">{{link.label}}</button>
+    <mat-action-list role="list">
+      <mat-list-item role="listitem" *ngFor="let link of navLinks" [routerLink]="link.path" (click)="sidenav.close()">
+        <mat-icon mat-list-icon class="material-icons-outlined">{{link.icon}}</mat-icon>
+        <span class="link-label">{{link.label}}</span>
       </mat-list-item>
-    </mat-list>
+    </mat-action-list>
 
   </mat-sidenav>
   <mat-sidenav-content>
+
     <ng-container *ngTemplateOutlet="innerContent; context: { sidenav: sidenav }"></ng-container>
+
   </mat-sidenav-content>
 </mat-sidenav-container>
 
@@ -24,13 +27,14 @@
       </button>
 
       <nav *ngIf="!onMobile" mat-tab-nav-bar class="nav-bar">
-        <a mat-tab-link
+        <a mat-tab-link class="nav-link"
            *ngFor="let link of navLinks"
            [routerLink]="link.path"
            routerLinkActive #rla="routerLinkActive"
            [routerLinkActiveOptions]="{ exact: true }"
            [active]="rla.isActive">
-          {{link.label}}
+          <mat-icon mat-list-icon class="material-icons-outlined">{{link.icon}}</mat-icon>
+          <span class="link-label">{{link.label}}</span>
         </a>
       </nav>
 
