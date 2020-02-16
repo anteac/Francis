@@ -30,6 +30,42 @@ Once Francis is up and running, open your browser on http://localhost:4703/ to f
 For those who are deploying on an headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
 Inside the container, all configurations and logs are stored in `/config`.
 
+
+### docker
+
+```
+docker create \
+  --name=francis \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Europe/London \
+  -p 4703:4703 \
+  -v <host config path>:/config \
+  --restart unless-stopped \
+  Namaneo/francis
+```
+
+
+### docker-compose
+
+```
+---
+version: "2"
+services:
+  francis:
+    image: Namaneo/francis
+    container_name: francis
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - <host config path>:/config
+    ports:
+      - 4703:4703
+    restart: unless-stopped
+```
+
 The last step is to fill the Telegram and Ombi settings. Hit `Save & Test`, and if each result is green, Francis is ready to answer you messages!
 
 ## Contributing
