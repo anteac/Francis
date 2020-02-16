@@ -75,10 +75,11 @@ namespace Francis
             try
             {
                 client.Initialize();
+                logger.LogInformation("Telegram client started.");
             }
-            catch (Exception ex)
+            catch
             {
-                logger.LogError(ex, "Could not start telegram client. Please check your configuration.");
+                logger.LogInformation("Telegram client could not start.");
             }
         }
     }
