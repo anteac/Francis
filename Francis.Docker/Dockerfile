@@ -13,7 +13,7 @@ FROM lsiobase/ubuntu:bionic AS runtime
 WORKDIR app/
 
 COPY --from=sdk /publish .
-COPY --from=sdk /src/lsiobase /
+COPY --from=sdk /src/Francis.Docker/lsiobase /
 
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 ENV DOTNET_RUNNING_IN_CONTAINER=true

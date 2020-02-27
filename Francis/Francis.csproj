@@ -67,11 +67,11 @@
     <Error Condition="'$(ErrorCode)' != '0'" Text="Yarn is required to build and run this project. To continue, please install Yarn from https://yarnpkg.com/, and then restart your command prompt or IDE." />
     
     <Message Importance="high" Text="Restoring dependencies using 'yarn'. This may take several minutes..." />
-    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --network-timeout 600000" />
   </Target>
 
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="yarn install --network-timeout 600000" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn run build --prod" />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn run build:ssr --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
 

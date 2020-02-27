@@ -76,7 +76,7 @@ namespace Francis.Telegram.Client
         private async void OnCallbackQuery(object sender, CallbackQueryEventArgs e)
         {
             await Client.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
-            await Client.EditMessageReplyMarkupAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId);
+            await this.EditMessage(e.CallbackQuery.Message, "Please wait a bit, I'm working on it...");
 
             try
             {
