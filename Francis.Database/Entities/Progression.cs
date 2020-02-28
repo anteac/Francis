@@ -4,6 +4,6 @@ namespace Francis.Database.Entities
     {
         public int Id { get; set; }
 
-        public long ChatId { get; set; }
+        public long BotUserId { get; set; }
     }
 }

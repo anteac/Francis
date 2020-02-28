@@ -21,7 +21,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
 
         public override async Task Execute()
         {
-            var progression = new RequestProgression { ChatId = Context.Message.Chat.Id, Search = Context.Message.Text };
+            var progression = new RequestProgression { BotUserId = Context.Message.Chat.Id, Search = Context.Message.Text };
             Context.User.Progressions.Add(progression);
 
             Context.Database.SaveChanges();
