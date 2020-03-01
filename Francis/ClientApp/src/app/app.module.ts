@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LogsComponent } from './components/logs/logs.component';
 import { OptionsComponent } from './components/options/options.component';
+import { RequestsComponent } from './components/requests/requests.component';
 import { ShowLogMessageDialog } from './dialogs/show-log-message/show-log-message.dialog';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ShowLogMessageDialog } from './dialogs/show-log-message/show-log-messag
 
     HomeComponent,
     OptionsComponent,
+    RequestsComponent,
     LogsComponent,
 
     ShowLogMessageDialog,
@@ -28,6 +30,7 @@ import { ShowLogMessageDialog } from './dialogs/show-log-message/show-log-messag
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'options', component: OptionsComponent },
+      { path: 'requests', component: RequestsComponent },
       { path: 'logs', component: LogsComponent },
       { path: '**', redirectTo: '/' },
     ]),

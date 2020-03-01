@@ -1,0 +1,7 @@
+<ng-container *ngIf="!error else errorTemplate">
+
+</ng-container>
+
+<ng-template #errorTemplate>
+  <p class="status error">{{error}}</p>
+</ng-template>
