@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Francis.Database.Entities
 {
@@ -8,11 +9,12 @@ namespace Francis.Database.Entities
 
         public string UserName { get; set; }
 
+        [JsonIgnore]
         public string OmbiId { get; set; }
 
+        [JsonIgnore]
         public string PlexToken { get; set; }
 
-        public int? RequestProgressionId { get; set; }
 
         public virtual List<Progression> Progressions { get; set; }
 

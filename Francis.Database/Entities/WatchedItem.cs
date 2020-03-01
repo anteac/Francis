@@ -1,5 +1,6 @@
 using Francis.Models;
 using Francis.Models.Notification;
+using Newtonsoft.Json;
 
 namespace Francis.Database.Entities
 {
@@ -7,6 +8,7 @@ namespace Francis.Database.Entities
     {
         public int Id { get; set; }
 
+        [JsonIgnore]
         public long BotUserId { get; set; }
 
         public RequestType ItemType { get; set; }

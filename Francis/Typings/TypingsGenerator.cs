@@ -1,3 +1,5 @@
+using Francis.Database.Entities;
+using Francis.Models.Notification;
 using Francis.Models.Ombi;
 using Francis.Models.Options;
 using Francis.Models.Telegram;
@@ -22,11 +24,18 @@ namespace Francis.Typings
 
             typeof(LogMessage),
             typeof(RuntimeError),
+
+            typeof(BotUser),
+            typeof(Progression),
+            typeof(RequestProgression),
+            typeof(WatchedItem),
         };
 
         private static readonly Type[] _exportedEnums = new[]
         {
             typeof(LogEventLevel),
+            typeof(RequestType),
+            typeof(RequestStatus),
         };
 
         public static void Generate(ConfigurationBuilder builder)
@@ -42,6 +51,7 @@ namespace Francis.Typings
                 configuration.UseModules();
             });
 
+            builder.Substitute(typeof(DateTime), new RtSimpleTypeName("Date"));
             builder.Substitute(typeof(DateTimeOffset), new RtSimpleTypeName("Date"));
 
             builder.ExportAsClasses(_exportedClasses, configuration =>

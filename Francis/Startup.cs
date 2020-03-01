@@ -32,7 +32,7 @@ namespace Francis
             services.AddControllers().AddNewtonsoftJson(x =>
             {
                 x.UseCamelCasing(true);
-                x.SerializerSettings.Converters.Add(new SpacedEnumConverter());
+                x.SerializerSettings.ConfigureJsonDefaults();
             });
 
             services.AddDbContext<BotDbContext>(options =>
