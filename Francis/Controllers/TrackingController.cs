@@ -8,18 +8,18 @@ namespace Francis.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RequestsController : ControllerBase
+    public class TrackingController : ControllerBase
     {
         private readonly BotDbContext _context;
 
 
-        public RequestsController(BotDbContext context)
+        public TrackingController(BotDbContext context)
         {
             _context = context;
         }
 
 
-        [HttpGet]
+        [HttpGet("requests")]
         public List<RequestProgression> GetRequests()
         {
             return _context.RequestProgressions

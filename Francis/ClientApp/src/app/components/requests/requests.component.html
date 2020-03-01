@@ -1,5 +1,17 @@
 <ng-container *ngIf="!error else errorTemplate">
 
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let request of requests">
+      <mat-icon *ngIf="request.status == RequestStatus.Pending" mat-list-icon color="accent">more_horiz</mat-icon>
+      <mat-icon *ngIf="request.status == RequestStatus.Success" mat-list-icon color="primary">check</mat-icon>
+      <mat-icon *ngIf="request.status == RequestStatus.Error" mat-list-icon color="warn">error</mat-icon>
+      <mat-icon *ngIf="request.status == RequestStatus.Canceled" mat-list-icon>cancel</mat-icon>
+      <h4 mat-line class="elipsis">"{{request.search}}"</h4>
+      <p mat-line>{{request.botUser.userName}}</p>
+      <mat-chip-list><mat-chip>{{request.type}}</mat-chip></mat-chip-list>
+    </mat-list-item>
+  </mat-list>
+
 </ng-container>
 
 <ng-template #errorTemplate>

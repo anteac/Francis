@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatCardModule, MatDialogModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatChipsModule, MatDialogModule, MatDividerModule, MatIconModule, MatInputModule, MatListModule, MatProgressSpinnerModule, MatSelectModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -47,6 +47,7 @@ import { ShowLogMessageDialog } from './dialogs/show-log-message/show-log-messag
     MatDividerModule,
     MatSelectModule,
     MatDialogModule,
+    MatChipsModule,
   ],
   entryComponents: [
     ShowLogMessageDialog,
