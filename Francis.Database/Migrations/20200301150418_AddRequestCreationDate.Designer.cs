@@ -3,14 +3,16 @@ using System;
 using Francis.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Francis.Database.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    partial class BotDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200301150418_AddRequestCreationDate")]
+    partial class AddRequestCreationDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,6 +29,9 @@ namespace Francis.Database.Migrations
 
                     b.Property<string>("PlexToken")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("RequestProgressionId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
                         .HasColumnType("TEXT");
@@ -117,7 +122,7 @@ namespace Francis.Database.Migrations
 
             modelBuilder.Entity("Francis.Database.Entities.Progression", b =>
                 {
-                    b.HasOne("Francis.Database.Entities.BotUser", "BotUser")
+                    b.HasOne("Francis.Database.Entities.BotUser", null)
                         .WithMany("Progressions")
                         .HasForeignKey("BotUserId")
                         .OnDelete(DeleteBehavior.Cascade)
