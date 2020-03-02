@@ -8,13 +8,21 @@ Any bug report or contribution is very welcome!
 
 ## Features
 
+### User
+
 * Authenticate using Plex's OAuth2 (Plex and Ombi usernames must match)
 * Request a movie or TV Show (choosing a specific season is possible)
-* Accept or deny requests directly from the chat
 * Get a notification when a request is approved/denied/available
-* Get remaining available storage on your media folder
-* Web interface allows you to easily configure the bot and see the logs
+* Get remaining available storage
 * ... More to come!
+
+### Administrator
+
+* Accept or deny requests directly from the chat
+* Web interface allowing you to
+  * Easily configure the bot
+  * See the request history
+  * Dig into the application logs
 
 ## Used technologies
 
@@ -24,7 +32,7 @@ Any bug report or contribution is very welcome!
 
 ## Usage
 
-As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis).
+As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis): `latest` tag correspond to the `master` branch, and `development` tag matches the `development` branch (use the latter at you own risks).
 For the most aventurous (or those who already have the required development tools installed), head to the `Contributing` section!
 
 Once Francis is up and running, open your browser and hit http://localhost:4703/ to fill in the configuration.
