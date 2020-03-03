@@ -1,21 +1,30 @@
 # Francis
 
-Francis is a smart(ish) little bot that will help you and your Ombi users to request media directly from Telegram!
+Francis is a smart(ish) little bot that will help you and your [Ombi](https://github.com/tidusjar/Ombi) users to request media directly from Telegram!
 
-Development is still underway: keep in mind that everything *should* work, and that the feature set is far from complete!
+Development is still underway: keep in mind that everything *should* work and that the feature set is far from complete!
 
-Any bug report or contribution is very welcomed!
+Any bug report or contribution is very welcome!
 
 ## Features
 
-* Authentication using Plex OAuth2 (Plex and Ombi usernames have to match)
-* Request a movie or a TV Show (with ability to select the season)
-* Accept or deny a request directly from the chat
-* Get notifications when a request is approved/denied/available
-* Request remaining available storage on your media folder
-* Web interface to let you configure the bot and see the logs (more to come)
+### User
 
-## Technologies
+* Authenticate using Plex's OAuth2 (Plex and Ombi usernames must match)
+* Request a movie or TV Show (choosing a specific season is possible)
+* Get a notification when a request is approved/denied/available
+* Get remaining available storage
+* ... More to come!
+
+### Administrator
+
+* Accept or deny requests directly from the chat
+* Web interface allowing you to
+  * Easily configure the bot
+  * See the request history
+  * Dig into the application logs
+
+## Used technologies
 
 * Back-end written in [.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
 * Front-end developed using [Angular](https://angular.io/docs/) and [Angular Material](https://material.angular.io/)
@@ -23,12 +32,12 @@ Any bug report or contribution is very welcomed!
 
 ## Usage
 
-As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis).
+As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis): `latest` tag correspond to the `master` branch, and `development` tag matches the `development` branch (use the latter at you own risks).
 For the most aventurous (or those who already have the required development tools installed), head to the `Contributing` section!
 
-Once Francis is up and running, open your browser on http://localhost:4703/ to fill the configuration.
-For those who are deploying on an headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
-Inside the container, all configurations and logs are stored in `/config`.
+Once Francis is up and running, open your browser and hit http://localhost:4703/ to fill in the configuration.
+For those deploying on a headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
+Configuration and logs are stored in `/config` inside the container.
 
 
 ### docker
@@ -66,23 +75,23 @@ services:
     restart: unless-stopped
 ```
 
-The last step is to fill the Telegram and Ombi settings. Hit `Save & Test`, and if each result is green, Francis is ready to answer you messages!
+The last step is to fill the Telegram and Ombi settings. Hit `Save & Test`, and if each result is green, Francis is ready to answer your messages!
 
 ## Contributing
 
-You will need to install some softwares:
+You will need to install some software:
 
 * Visual Studio 2019 or VSCode, with ASP.NET Core support
-* Node.js and Yarn, in order to build the UI
+* Node.js and Yarn, to build the UI
 
 Once you have installed those, fork this repository, clone it, and open the solution. You should be good to go!
 
 ## Credits
 
 Big thanks to: 
-* the creator of [Ombi](https://github.com/tidusjar/Ombi) for developing his awseome tool
-* the guys from [TelegramBots](https://github.com/TelegramBots) for providing their Telegram [.NET wrapper](https://github.com/TelegramBots/Telegram.Bot)
-* the guys from [linuxserver](https://github.com/linuxserver) for creating really handy docker images
+* The creator of [Ombi](https://github.com/tidusjar/Ombi) for developing this awseome tool
+* The guys from [TelegramBots](https://github.com/TelegramBots) for their Telegram [.NET wrapper](https://github.com/TelegramBots/Telegram.Bot)
+* The guys from [linuxserver](https://github.com/linuxserver) for creating really handy docker images
 
 ## License
 
