@@ -41,7 +41,7 @@ namespace Francis.Database.Options
             var definition = _definitions.First(x => x.Type == typeof(TOptions));
             foreach (var property in definition.Type.GetProperties())
             {
-                var entry = context.Options.Find($"{definition.Name}:{property.Name}");
+                var entry = context.Options.FirstOrDefault(x => x.Id == $"{definition.Name}:{property.Name}");
                 if (entry == null)
                 {
                     continue;

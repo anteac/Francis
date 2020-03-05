@@ -9,8 +9,10 @@ export class BotUser
 {
 	public id?: number;
 	public userName?: string;
-	public ombiId?: string;
+	public plexId?: string;
 	public plexToken?: string;
+	public ombiId?: string;
+	public telegramId?: number;
 	public progressions?: Progression[];
 	public watchedItems?: WatchedItem[];
 }

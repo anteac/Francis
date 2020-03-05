@@ -55,7 +55,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<Message>>().Data = e.Message;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.BotUsers.Find(e.Message.Chat.Id);
+                var user = context.BotUsers.FirstOrDefault(x => x.TelegramId == e.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)
@@ -86,7 +86,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<CallbackQuery>>().Data = e.CallbackQuery;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.BotUsers.Find(e.CallbackQuery.Message.Chat.Id);
+                var user = context.BotUsers.FirstOrDefault(x => x.TelegramId == e.CallbackQuery.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)

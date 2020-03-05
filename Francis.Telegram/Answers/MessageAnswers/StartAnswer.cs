@@ -32,6 +32,15 @@ namespace Francis.Telegram.Answers.MessageAnswers
             var ombiUsers = await Context.Ombi.GetUsers();
             var ombiUser = ombiUsers.First(x => x.UserName == plexUser.User.Username || x.EmailAddress == plexUser.User.Email);
 
+            var existingUser = Context.Database.BotUsers.FirstOrDefault(x => x.PlexId == plexUser.User.Id);
+            if (existingUser != null)
+            {
+                Context.Database.Remove(Context.User);
+                Context.User = existingUser;
+                Context.User.TelegramId = Context.Message.Chat.Id;
+            }
+
+            Context.User.PlexId = plexUser.User.Id;
             Context.User.PlexToken = pin.AuthToken;
             Context.User.UserName = ombiUser.UserName;
             Context.User.OmbiId = ombiUser.Id;

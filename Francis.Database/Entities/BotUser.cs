@@ -5,15 +5,21 @@ namespace Francis.Database.Entities
 {
     public class BotUser
     {
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string UserName { get; set; }
+
+        [JsonIgnore]
+        public string PlexId { get; set; }
+
+        [JsonIgnore]
+        public string PlexToken { get; set; }
 
         [JsonIgnore]
         public string OmbiId { get; set; }
 
         [JsonIgnore]
-        public string PlexToken { get; set; }
+        public long TelegramId { get; set; }
 
 
         public virtual List<Progression> Progressions { get; set; }
