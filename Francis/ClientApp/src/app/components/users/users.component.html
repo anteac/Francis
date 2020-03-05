@@ -1,0 +1,17 @@
+<ng-container *ngIf="!error else errorTemplate">
+
+  <mat-list role="list">
+    <mat-list-item role="listitem" *ngFor="let user of users">
+      <h4 mat-line class="elipsis">{{user.userName}}</h4>
+      <mat-chip-list>
+        <mat-chip>{{user.progressions.length}} requests</mat-chip>
+        <mat-chip>{{user.watchedItems.length}} watched</mat-chip>
+      </mat-chip-list>
+    </mat-list-item>
+  </mat-list>
+
+</ng-container>
+
+<ng-template #errorTemplate>
+  <p class="status error">{{error}}</p>
+</ng-template>

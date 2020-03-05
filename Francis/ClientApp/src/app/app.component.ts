@@ -12,6 +12,7 @@ export class AppComponent {
   navLinks = [
     { path: '/', label: 'Home', icon: 'home' },
     { path: '/options', label: 'Options', icon: 'settings' },
+    { path: '/users', label: 'Users', icon: 'people' },
     { path: '/requests', label: 'Requests', icon: 'notifications' },
     { path: '/logs', label: 'Logs', icon: 'insert_drive_file' },
   ];

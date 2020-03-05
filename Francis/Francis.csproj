@@ -50,11 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\components\requests\requests.component.spec.ts" />
-    <None Remove="ClientApp\src\app\components\requests\requests.component.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="ClientApp\tsconfig.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

@@ -19,6 +19,14 @@ namespace Francis.Controllers
         }
 
 
+        [HttpGet("users")]
+        public List<BotUser> GetUsers()
+        {
+            return _context.BotUsers
+                .OrderByDescending(x => x.UserName)
+                .ToList();
+        }
+
         [HttpGet("requests")]
         public List<RequestProgression> GetRequests()
         {
