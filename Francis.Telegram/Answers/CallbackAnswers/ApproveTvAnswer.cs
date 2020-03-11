@@ -22,7 +22,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             var requests = await Context.Ombi.GetTvRequests();
             var request = requests.First(x => x.Id == requestId);
-            await Context.Ombi.ApproveTv(new { id = requestId });
+            await Context.Ombi.ApproveTv(new { id = request.TvDbId });
 
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nApproved !");
 

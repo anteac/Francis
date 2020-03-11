@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Telegram.Bot.Types;
 
 namespace Francis.Telegram.Contexts
@@ -40,7 +41,7 @@ namespace Francis.Telegram.Contexts
         public string[] Parameters { get; set; }
 
 
-        public TProgression Progression => Database.Progressions.Find(int.Parse(Parameters[0])) as TProgression;
+        public TProgression Progression => Database.Progressions.FirstOrDefault(x => x.Id == int.Parse(Parameters[0])) as TProgression;
 
 
         public AnswerContext(
@@ -62,7 +63,7 @@ namespace Francis.Telegram.Contexts
 
             if (Message != null)
             {
-                User = Database.BotUsers.Find(Message.Chat.Id);
+                User = Database.BotUsers.FirstOrDefault(x => x.TelegramId == Message.Chat.Id);
             }
 
             if (fullCommand != null)

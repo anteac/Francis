@@ -39,7 +39,6 @@
     }
 
     .nav-bar {
-      display: block;
       margin-bottom: 16px;
 
       .nav-link {
@@ -64,5 +63,23 @@
 
   ::ng-deep .mat-tab-links {
     justify-content: space-between;
+  }
+
+  ::ng-deep {
+    [color="green"] {
+      color: green;
+    }
+
+    [color="blue"] {
+      color: blue;
+    }
+
+    [color="red"] {
+      color: red;
+    }
+
+    [color="gray"] {
+      color: gray;
+    }
   }
 }

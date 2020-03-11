@@ -17,8 +17,8 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            Context.Database.RemoveRange(Context.Database.Progressions.Where(x => x.ChatId == Context.User.Id));
-            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.ChatId == Context.User.Id));
+            Context.Database.RemoveRange(Context.Database.Progressions.Where(x => x.BotUser.TelegramId == Context.User.Id));
+            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.BotUser.TelegramId == Context.User.Id));
             Context.Database.Remove(Context.User);
 
             if (Context.Message.Chat.Id != Context.Options.Value.AdminChat)

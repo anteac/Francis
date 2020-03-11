@@ -6,7 +6,6 @@ COPY . .
 RUN apk add yarn
 
 WORKDIR Francis/
-RUN rm Reinforced.Typings.settings.xml
 RUN dotnet publish -c Release -o /publish --runtime linux-x64
 
 FROM lsiobase/ubuntu:bionic AS runtime
