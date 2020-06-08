@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <!-- Authentication -->
-  
+
   <ItemGroup>
     <None Remove="Resources\authentication.html" />
   </ItemGroup>
@@ -54,7 +54,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  
+
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <Exec Command="node --version" ContinueOnError="true">
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
@@ -65,7 +65,7 @@
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Yarn is required to build and run this project. To continue, please install Yarn from https://yarnpkg.com/, and then restart your command prompt or IDE." />
-    
+
     <Message Importance="high" Text="Restoring dependencies using 'yarn'. This may take several minutes..." />
     <Exec WorkingDirectory="$(SpaRoot)" Command="yarn" />
   </Target>
@@ -85,5 +85,5 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
-  
+
 </Project>
