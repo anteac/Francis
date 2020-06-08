@@ -42,7 +42,7 @@ namespace Francis.Database.Options
                 var key = $"{definition.Name}:{property.Name}";
                 var value = JsonConvert.SerializeObject(property.GetValue(options));
 
-                var entry = context.Options.Find(key);
+                var entry = context.Options.FirstOrDefault(x => x.Id == key);
                 if (entry == null)
                 {
                     context.Options.Add(new OptionValue { Id = key, Value = value });

@@ -5,6 +5,7 @@
     <RtDivideTypesAmongFiles>true</RtDivideTypesAmongFiles>
     <RtTargetDirectory>$(ProjectDir)ClientApp/src/app/models/generated</RtTargetDirectory>
     <RtBypassTypeScriptCompilation>false</RtBypassTypeScriptCompilation>
-    <RtDisable>false</RtDisable>
+    <RtDisable>true</RtDisable>
+
   </PropertyGroup>
 </Project>

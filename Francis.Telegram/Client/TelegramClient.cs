@@ -55,7 +55,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<Message>>().Data = e.Message;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.BotUsers.Find(e.Message.Chat.Id);
+                var user = context.BotUsers.FirstOrDefault(x => x.TelegramId == e.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)
@@ -76,7 +76,7 @@ namespace Francis.Telegram.Client
         private async void OnCallbackQuery(object sender, CallbackQueryEventArgs e)
         {
             await Client.AnswerCallbackQueryAsync(e.CallbackQuery.Id);
-            await Client.EditMessageReplyMarkupAsync(e.CallbackQuery.Message.Chat.Id, e.CallbackQuery.Message.MessageId);
+            await this.EditMessage(e.CallbackQuery.Message, "Please wait a bit, I'm working on it...");
 
             try
             {
@@ -86,7 +86,7 @@ namespace Francis.Telegram.Client
                 scope.ServiceProvider.GetRequiredService<DataCapture<CallbackQuery>>().Data = e.CallbackQuery;
 
                 var context = scope.ServiceProvider.GetService<BotDbContext>();
-                var user = context.BotUsers.Find(e.CallbackQuery.Message.Chat.Id);
+                var user = context.BotUsers.FirstOrDefault(x => x.TelegramId == e.CallbackQuery.Message.Chat.Id);
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)

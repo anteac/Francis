@@ -9,28 +9,31 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Francis.Database.Migrations
 {
     [DbContext(typeof(BotDbContext))]
-    [Migration("20200214220343_InitialCreate")]
+    [Migration("20200305231320_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.1");
+                .HasAnnotation("ProductVersion", "3.1.2");
 
             modelBuilder.Entity("Francis.Database.Entities.BotUser", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("OmbiId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("PlexId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PlexToken")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("RequestProgressionId")
+                    b.Property<long>("TelegramId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserName")
@@ -60,11 +63,14 @@ namespace Francis.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("BotUserId")
+                    b.Property<long>("BotUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("ChatId")
+                    b.Property<int?>("BotUserId1")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -72,7 +78,7 @@ namespace Francis.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BotUserId");
+                    b.HasIndex("BotUserId1");
 
                     b.ToTable("Progressions");
 
@@ -85,10 +91,10 @@ namespace Francis.Database.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<long?>("BotUserId")
+                    b.Property<long>("BotUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<long>("ChatId")
+                    b.Property<int?>("BotUserId1")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ItemType")
@@ -99,7 +105,7 @@ namespace Francis.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BotUserId");
+                    b.HasIndex("BotUserId1");
 
                     b.ToTable("WatchedItems");
                 });
@@ -125,16 +131,16 @@ namespace Francis.Database.Migrations
 
             modelBuilder.Entity("Francis.Database.Entities.Progression", b =>
                 {
-                    b.HasOne("Francis.Database.Entities.BotUser", null)
+                    b.HasOne("Francis.Database.Entities.BotUser", "BotUser")
                         .WithMany("Progressions")
-                        .HasForeignKey("BotUserId");
+                        .HasForeignKey("BotUserId1");
                 });
 
             modelBuilder.Entity("Francis.Database.Entities.WatchedItem", b =>
                 {
                     b.HasOne("Francis.Database.Entities.BotUser", "BotUser")
                         .WithMany("WatchedItems")
-                        .HasForeignKey("BotUserId");
+                        .HasForeignKey("BotUserId1");
                 });
 #pragma warning restore 612, 618
         }

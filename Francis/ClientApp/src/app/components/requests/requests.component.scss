@@ -1,0 +1,20 @@
+.mat-list-base {
+  padding-top: 0;
+
+  .mat-chip-list {
+    pointer-events: none;
+  }
+}
+
+.status {
+  margin: 16px;
+  text-align: center;
+
+  &.success {
+    color: green;
+  }
+
+  &.error {
+    color: darkred;
+  }
+}

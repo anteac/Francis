@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Refit;
 using System;
+using System.Linq;
 using System.Net.Http;
 using Telegram.Bot.Types;
 
@@ -57,7 +58,7 @@ namespace Francis.Services.Factories
             var service = RestService.For<IBotOmbiService>(client);
 
             options = options ?? _options.Value;
-            var botUser = _context.BotUsers.Find(_capture.Data.Chat.Id);
+            var botUser = _context.BotUsers.FirstOrDefault(x => x.TelegramId == _capture.Data.Chat.Id);
 
             if (botUser == null || options.BaseUrl.IsNullOrEmpty() || options.ApiKey.IsNullOrEmpty())
             {
