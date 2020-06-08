@@ -32,7 +32,7 @@ Any bug report or contribution is very welcome!
 
 ## Usage
 
-As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis): `latest` tag correspond to the `master` branch, and `development` tag matches the `development` branch (use the latter at you own risks).
+As of now, the easiest way to deploy and use Francis is through [this docker image](https://hub.docker.com/r/namaneo/francis).
 For the most aventurous (or those who already have the required development tools installed), head to the `Contributing` section!
 
 Once Francis is up and running, open your browser and hit http://localhost:4703/ to fill in the configuration.
