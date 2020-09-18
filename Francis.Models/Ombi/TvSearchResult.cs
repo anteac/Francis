@@ -26,10 +26,6 @@ namespace Francis.Models.Ombi
         public bool PartlyAvailable { get; set; }
 
         public List<SeasonRequest> SeasonRequests { get; set; }
-
-        public IEnumerable<EpisodeRequest> AllEpisodes => SeasonRequests.SelectMany(x => x.Episodes);
-        public IEnumerable<EpisodeRequest> FirstEpisodes => SeasonRequests.First().Episodes;
-        public IEnumerable<EpisodeRequest> LatestEpisodes => SeasonRequests.Last().Episodes;
     }
 
     public class SeasonRequest

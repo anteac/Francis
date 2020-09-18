@@ -1,7 +1,10 @@
 using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
+using Francis.Toolbox.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -20,19 +23,25 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         {
             var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
 
-            await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(new[]
+            var options = result.SeasonRequests.Select(x =>
             {
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.First}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.First}"),
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.Last}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.Last}"),
-                    InlineKeyboardButton.WithCallbackData($"{TvShowSeasons.All}", $"/seasons {Context.Progression.Id} {result.TheTvDbId} {TvShowSeasons.All}"),
-                },
-                new[]
-                {
-                    InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {Context.Progression.Id}"),
-                }
-            }));
+                return InlineKeyboardButton.WithCallbackData(
+                    $"S{x.SeasonNumber.ToString().PadLeft(2, '0')}",
+                    $"/seasons {Context.Progression.Id} {result.TheTvDbId} {x.SeasonNumber}"
+                );
+            }).ToSublists(5).ToList();
+
+            options.Insert(0, new List<InlineKeyboardButton>
+            {
+                InlineKeyboardButton.WithCallbackData("All", $"/seasons {Context.Progression.Id} {result.TheTvDbId}"),
+            });
+
+            options.Add(new List<InlineKeyboardButton>
+            {
+                InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {Context.Progression.Id}"),
+            });
+
+            await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(options));
 
             Context.Logger.LogInformation($"User '{Context.User.UserName}' is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
         }

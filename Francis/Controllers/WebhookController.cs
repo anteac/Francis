@@ -73,7 +73,12 @@ namespace Francis.Controllers
 
         private async Task HandleNewRequest(Notification notification, long requestId)
         {
-            await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, $"The user '{notification.RequestedUser}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})", new InlineKeyboardMarkup(new[]
+            var message = $"The user '{notification.RequestedUser}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})";
+            if (notification.Type == RequestType.TvShow)
+            {
+                message += $"\n\nSeason(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
+            }
+            await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, message, new InlineKeyboardMarkup(new[]
             {
                 InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {requestId}"),
                 InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{notification.Type} {requestId}"),

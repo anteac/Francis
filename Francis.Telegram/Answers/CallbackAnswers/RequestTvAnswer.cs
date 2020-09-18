@@ -1,5 +1,4 @@
 using Francis.Database.Entities;
-using Francis.Models.Notification;
 using Francis.Models.Ombi;
 using Francis.Telegram.Contexts;
 using System;
@@ -22,33 +21,31 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override async Task Execute()
         {
             var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
-            var seasons = (TvShowSeasons)Enum.Parse(typeof(TvShowSeasons), Context.Parameters[2]);
+            var seasonNumber = Context.Parameters.Length > 2 ? (int?)int.Parse(Context.Parameters[2]) : null;
 
             //TODO: Try to add Denied on Ombi for episodes
-            result.Requested = GetStatus(result, seasons, x => x.Requested) ?? result.Requested;
-            result.Approved = GetStatus(result, seasons, x => x.Approved) ?? result.Approved;
-            result.Denied = GetStatus(result, seasons, x => x.Denied) ?? result.Denied;
-            result.Available = GetStatus(result, seasons, x => x.Requested) ?? result.Available;
+            result.Requested = GetStatus(result, seasonNumber, x => x.Requested) ?? result.Requested;
+            result.Approved = GetStatus(result, seasonNumber, x => x.Approved) ?? result.Approved;
+            result.Denied = GetStatus(result, seasonNumber, x => x.Denied) ?? result.Denied;
+            result.Available = GetStatus(result, seasonNumber, x => x.Available) ?? result.Available;
 
-            result.SeasonRequests = seasons switch
+            if (seasonNumber != null)
             {
-                TvShowSeasons.First => new List<SeasonRequest> { result.SeasonRequests.First() },
-                TvShowSeasons.Last => new List<SeasonRequest> { result.SeasonRequests.Last() },
-                _ => result.SeasonRequests,
-            };
+                var season = result.SeasonRequests.First(x => x.SeasonNumber == seasonNumber);
+                result.SeasonRequests = new List<SeasonRequest> { season };
+            }
 
             await HandleNewRequest(result);
         }
 
-        public static bool? GetStatus(TvSearchResult result, TvShowSeasons seasons, Func<EpisodeRequest, bool> selector)
+        public static bool? GetStatus(TvSearchResult result, int? seasonNumber, Func<EpisodeRequest, bool> selector)
         {
-            return seasons switch
+            if (seasonNumber == null)
             {
-                TvShowSeasons.All => result.AllEpisodes.All(selector),
-                TvShowSeasons.First => result.FirstEpisodes.All(selector),
-                TvShowSeasons.Last => result.LatestEpisodes.All(selector),
-                _ => null,
-            };
+                return result.SeasonRequests.SelectMany(x => x.Episodes).All(selector);
+            }
+
+            return result.SeasonRequests.First(x => x.SeasonNumber == seasonNumber).Episodes.All(selector);
         }
     }
 }
