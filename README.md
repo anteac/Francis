@@ -39,6 +39,7 @@ Once Francis is up and running, open your browser and hit http://localhost:4703/
 For those deploying on a headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
 Configuration and logs are stored in `/config` inside the container.
 
+You will also need some setup on your Ombi installation: in its settings, enable the Webhook notification with `http://localhost:4703/webhook` (or whatever hostname you have). If your Francis installation is already running, you can hit the `Test` button to receive a test message on your configured bot conversation.
 
 ### docker
 
