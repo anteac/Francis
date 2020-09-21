@@ -51,7 +51,7 @@ docker create \
   -p 4703:4703 \
   -v <host config path>:/config \
   --restart unless-stopped \
-  Namaneo/francis
+  namaneo/francis
 ```
 
 
@@ -62,7 +62,7 @@ docker create \
 version: "2"
 services:
   francis:
-    image: Namaneo/francis
+    image: namaneo/francis
     container_name: francis
     environment:
       - PUID=1000
