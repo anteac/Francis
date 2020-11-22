@@ -9,7 +9,7 @@ namespace Francis.Database.Entities
         public int Id { get; set; }
 
         [JsonIgnore]
-        public long BotUserId { get; set; }
+        public int BotUserId { get; set; }
 
         public RequestType ItemType { get; set; }
 

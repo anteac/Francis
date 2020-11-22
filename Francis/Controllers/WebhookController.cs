@@ -34,18 +34,29 @@ namespace Francis.Controllers
         [HttpPost]
         public async Task Webhook(Notification notification)
         {
-            long.TryParse(notification.RequestId, out var requestId);
-
-            var requestedUser = _context.BotUsers.FirstOrDefault(x => x.UserName == notification.RequestedUser);
-            if (requestedUser != null && notification.Type != null && !requestedUser.WatchedItems.Any(x => x.RequestId == requestId))
+            if (notification.NotificationType == NotificationType.Test)
             {
-                requestedUser.WatchedItems.Add(WatchedItem.From(requestId, notification.Type.Value, requestedUser));
-                _context.SaveChanges();
+                await HandleTest();
+            }
+
+            if (!long.TryParse(notification.RequestId, out var requestId))
+            {
+                return;
+            }
+
+            if (notification.Type != null)
+            {
+                var requestedUser = _context.BotUsers.FirstOrDefault(x => x.UserName == notification.RequestedUser);
+                var alreadyWatching = requestedUser.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type);
+                if (requestedUser != null && !alreadyWatching)
+                {
+                    requestedUser.WatchedItems.Add(WatchedItem.From(requestId, notification.Type.Value, requestedUser));
+                    _context.SaveChanges();
+                }
             }
 
             var handler = notification.NotificationType switch
             {
-                NotificationType.Test => HandleTest(),
                 NotificationType.NewRequest => HandleNewRequest(notification, requestId),
                 NotificationType.RequestApproved => HandleRequestApproved(notification, requestId),
                 NotificationType.RequestDeclined => HandleRequestDenied(notification, requestId),
