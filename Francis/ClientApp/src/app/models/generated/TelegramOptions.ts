@@ -6,6 +6,5 @@ export class TelegramOptions
 {
 	public adminChat?: number;
 	public botToken?: string;
-	public publicUrl?: string;
 	public mediaLocation?: string;
 }

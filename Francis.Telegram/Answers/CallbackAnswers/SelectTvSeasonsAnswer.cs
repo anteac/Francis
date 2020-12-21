@@ -43,7 +43,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(options));
 
-            Context.Logger.LogInformation($"User '{Context.User.UserName}' is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
+            Context.Logger.LogInformation($"User '{Context.User.Username}' is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
         }
     }
 }

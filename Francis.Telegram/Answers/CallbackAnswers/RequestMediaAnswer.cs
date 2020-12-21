@@ -31,7 +31,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             {
                 Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
                 await Context.Bot.EditMessage(Context.Message, $"This {item.Type} {message}", item);
-                Context.Logger.LogInformation($"User '{Context.User.UserName}' requested an already {item.OmbiStatus} item: {item.Title} ({item.Type} - {item.Year})");
+                Context.Logger.LogInformation($"User '{Context.User.Username}' requested an already {item.OmbiStatus} item: {item.Title} ({item.Type} - {item.Year})");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
 
             await Context.Bot.EditMessage(Context.Message, $"The {item.Type} has been added to the request queue! I will tell you when it will be approved.", item);
-            Context.Logger.LogInformation($"User '{Context.User.UserName}' has just requested item: {item.Title} ({item.Type} - {item.Year})");
+            Context.Logger.LogInformation($"User '{Context.User.Username}' has just requested item: {item.Title} ({item.Type} - {item.Year})");
         }
     }
 }

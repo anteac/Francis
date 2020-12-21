@@ -68,27 +68,6 @@ namespace Francis.Services.Factories
             client.BaseAddress = new Uri(options.BaseUrl);
             client.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
 
-            if (botUser.OmbiId.IsNullOrEmpty())
-            {
-                return service;
-            }
-
-            try
-            {
-                var ombiUser = service.GetUser(botUser.OmbiId).Result;
-                client.DefaultRequestHeaders.Add("UserName", ombiUser.UserName);
-
-                if (botUser.UserName != ombiUser.UserName)
-                {
-                    botUser.UserName = ombiUser.UserName;
-                    _context.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occured while trying to contact Ombi");
-            }
-
             return service;
         }
     }

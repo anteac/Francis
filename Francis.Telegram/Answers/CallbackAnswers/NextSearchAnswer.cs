@@ -23,7 +23,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             {
                 Context.Progression.Status = RequestStatus.Error;
                 await Context.Bot.EditMessage(Context.Message, "I'm sorry, I could not find anything that matches your search... Are you sure you typed the name correctly?");
-                Context.Logger.LogError($"User '{Context.User.UserName}' could not find any suitable media that matches '{Context.Progression.Search}'.");
+                Context.Logger.LogError($"User '{Context.User.Username}' could not find any suitable media that matches '{Context.Progression.Search}'.");
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 }
             }));
 
-            Context.Logger.LogInformation($"User '{Context.User.UserName}' continued searching with '{Context.Progression.Search}'. Result found: {item.Title} ({item.Type} - {item.Year})");
+            Context.Logger.LogInformation($"User '{Context.User.Username}' continued searching with '{Context.Progression.Search}'. Result found: {item.Title} ({item.Type} - {item.Year})");
         }
 
 

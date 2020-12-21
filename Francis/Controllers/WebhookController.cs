@@ -46,7 +46,7 @@ namespace Francis.Controllers
 
             if (notification.Type != null)
             {
-                var requestedUser = _context.BotUsers.FirstOrDefault(x => x.UserName == notification.RequestedUser);
+                var requestedUser = _context.BotUsers.FirstOrDefault(x => x.Username == notification.RequestedUser);
                 var alreadyWatching = requestedUser.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type);
                 if (requestedUser != null && !alreadyWatching)
                 {

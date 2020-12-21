@@ -33,14 +33,6 @@
 
   <!-- Authentication -->
 
-  <ItemGroup>
-    <None Remove="Resources\authentication.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\authentication.html" />
-  </ItemGroup>
-
   <!-- UI -->
 
   <ItemGroup>

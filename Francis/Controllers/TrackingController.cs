@@ -23,7 +23,7 @@ namespace Francis.Controllers
         public List<BotUser> GetUsers()
         {
             return _context.BotUsers
-                .OrderByDescending(x => x.UserName)
+                .OrderByDescending(x => x.Username)
                 .ToList();
         }
 

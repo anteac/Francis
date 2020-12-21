@@ -7,16 +7,7 @@ namespace Francis.Database.Entities
     {
         public int Id { get; set; }
 
-        public string UserName { get; set; }
-
-        [JsonIgnore]
-        public string PlexId { get; set; }
-
-        [JsonIgnore]
-        public string PlexToken { get; set; }
-
-        [JsonIgnore]
-        public string OmbiId { get; set; }
+        public string Username { get; set; }
 
         [JsonIgnore]
         public long TelegramId { get; set; }

@@ -6,9 +6,6 @@
     <input matInput [(ngModel)]="telegram.options.botToken" placeholder="Bot Token">
   </mat-form-field>
   <mat-form-field>
-    <input matInput [(ngModel)]="telegram.options.publicUrl" placeholder="Public URL">
-  </mat-form-field>
-  <mat-form-field>
     <input matInput [(ngModel)]="telegram.options.mediaLocation" placeholder="Media Location">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="telegram.pushOptions()">Save & Test</button>

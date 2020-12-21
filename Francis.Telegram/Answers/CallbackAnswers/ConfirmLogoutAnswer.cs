@@ -17,13 +17,13 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            Context.Database.RemoveRange(Context.Database.Progressions.Where(x => x.BotUser.TelegramId == Context.User.Id));
-            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.BotUser.TelegramId == Context.User.Id));
+            Context.Database.RemoveRange(Context.Database.Progressions.Where(x => x.BotUser.TelegramId == Context.User.TelegramId));
+            Context.Database.RemoveRange(Context.Database.WatchedItems.Where(x => x.BotUser.TelegramId == Context.User.TelegramId));
             Context.Database.Remove(Context.User);
 
             if (Context.Message.Chat.Id != Context.Options.Value.AdminChat)
             {
-                await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.UserName} has just successfully logout.");
+                await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.Username} has just successfully logout.");
             }
             await Context.Bot.EditMessage(Context.Message, @"
 Alright, I delete everything!
@@ -35,7 +35,7 @@ Alright, I delete everything!
 Who are you again?
 ");
 
-            Context.Logger.LogInformation($"Telegram user '{Context.Message.From.Username}' ({Context.Message.From.FirstName} {Context.Message.From.LastName}) successfully logged out");
+            Context.Logger.LogInformation($"Telegram user '{Context.Message.Chat.Username}' ({Context.Message.Chat.FirstName} {Context.Message.Chat.LastName}) successfully logged out");
         }
     }
 }
