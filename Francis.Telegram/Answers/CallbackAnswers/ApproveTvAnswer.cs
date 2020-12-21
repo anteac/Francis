@@ -20,9 +20,9 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         {
             long requestId = long.Parse(Context.Parameters[0]);
 
-            var requests = await Context.Ombi.GetTvRequests();
+            var requests = await Context.OmbiAdmin.GetTvRequests();
             var request = requests.First(x => x.Id == requestId);
-            await Context.Ombi.ApproveTv(new { id = request.TvDbId });
+            await Context.OmbiAdmin.ApproveTv(new { id = request.TvDbId });
 
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nApproved !");
 

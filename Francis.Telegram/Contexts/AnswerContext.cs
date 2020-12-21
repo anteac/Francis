@@ -29,6 +29,8 @@ namespace Francis.Telegram.Contexts
 
         public IOptionsSnapshot<TelegramOptions> Options { get; }
 
+        public IOmbiService OmbiAdmin { get; }
+
         public IBotOmbiService Ombi { get; }
 
         public ILogger Logger { get; }
@@ -50,6 +52,7 @@ namespace Francis.Telegram.Contexts
             BotDbContext context,
             ITelegramClient bot,
             IOptionsSnapshot<TelegramOptions> options,
+            IOmbiService ombiAdmin,
             IBotOmbiService ombi,
             ILogger<AnswerContext<TProgression>> logger
         )
@@ -58,6 +61,7 @@ namespace Francis.Telegram.Contexts
             Database = context;
             Bot = bot;
             Options = options;
+            OmbiAdmin = ombiAdmin;
             Ombi = ombi;
             Logger = logger;
 

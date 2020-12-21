@@ -18,9 +18,10 @@ namespace Francis.Telegram.Contexts
             BotDbContext context,
             ITelegramClient bot,
             IOptionsSnapshot<TelegramOptions> options,
+            IOmbiService ombiAdmin,
             IBotOmbiService ombi,
             ILogger<MessageAnswerContext<TProgression>> logger
-        ) : base(capture.Data?.Text, capture?.Data, context, bot, options, ombi, logger)
+        ) : base(capture.Data?.Text, capture?.Data, context, bot, options, ombiAdmin, ombi, logger)
         { }
     }
 
@@ -31,9 +32,10 @@ namespace Francis.Telegram.Contexts
             BotDbContext context,
             ITelegramClient bot,
             IOptionsSnapshot<TelegramOptions> options,
+            IOmbiService ombiAdmin,
             IBotOmbiService ombi,
             ILogger<MessageAnswerContext> logger
-        ) : base(capture, context, bot, options, ombi, logger)
+        ) : base(capture, context, bot, options, ombiAdmin, ombi, logger)
         { }
     }
 }
