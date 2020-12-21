@@ -44,17 +44,6 @@ namespace Francis.Controllers
                 return;
             }
 
-            if (notification.Type != null)
-            {
-                var requestedUser = _context.BotUsers.FirstOrDefault(x => x.Username == notification.RequestedUser);
-                var alreadyWatching = requestedUser.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type);
-                if (requestedUser != null && !alreadyWatching)
-                {
-                    requestedUser.WatchedItems.Add(WatchedItem.From(requestId, notification.Type.Value, requestedUser));
-                    _context.SaveChanges();
-                }
-            }
-
             var handler = notification.NotificationType switch
             {
                 NotificationType.NewRequest => HandleNewRequest(notification, requestId),
