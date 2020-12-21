@@ -67,6 +67,7 @@ namespace Francis.Services.Factories
 
             client.BaseAddress = new Uri(options.BaseUrl);
             client.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
+            client.DefaultRequestHeaders.Add("UserName", "Francis");
 
             return service;
         }

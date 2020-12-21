@@ -10,7 +10,6 @@ Any bug report or contribution is very welcome!
 
 ### User
 
-* Authenticate using Plex's OAuth2 (Plex and Ombi usernames must match)
 * Request a movie or TV Show (choosing a specific season is possible)
 * Get a notification when a request is approved/denied/available
 * Get remaining available storage
@@ -38,6 +37,8 @@ For the most aventurous (or those who already have the required development tool
 Once Francis is up and running, open your browser and hit http://localhost:4703/ to fill in the configuration.
 For those deploying on a headless server, the WebUI listens on `http://*:4703`, so you'll be able to access it from your hostname or IP address.
 Configuration and logs are stored in `/config` inside the container.
+
+For users to be able to properly send requests, you must configure a user in Ombi (named "Francis") and you must grant him all the request-related roles.
 
 You will also need some setup on your Ombi installation: in its settings, enable the Webhook notification with `http://localhost:4703/webhook` (or whatever hostname you have). If your Francis installation is already running, you can hit the `Test` button to receive a test message on your configured bot conversation.
 
