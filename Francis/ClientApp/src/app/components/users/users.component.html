@@ -2,7 +2,7 @@
 
   <mat-list role="list">
     <mat-list-item role="listitem" *ngFor="let user of users">
-      <h4 mat-line class="elipsis">{{user.userName}}</h4>
+      <h4 mat-line class="elipsis">{{user.username}}</h4>
       <mat-chip-list>
         <mat-chip>{{user.progressions.length}} requests</mat-chip>
         <mat-chip>{{user.watchedItems.length}} watched</mat-chip>

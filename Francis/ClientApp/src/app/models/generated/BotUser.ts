@@ -8,10 +8,7 @@ import { WatchedItem } from './WatchedItem';
 export class BotUser
 {
 	public id?: number;
-	public userName?: string;
-	public plexId?: string;
-	public plexToken?: string;
-	public ombiId?: string;
+	public authorized?: boolean;
 	public telegramId?: number;
 	public progressions?: Progression[];
 	public watchedItems?: WatchedItem[];

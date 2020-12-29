@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { BotUser } from '../../models/generated/BotUser';
+import { EnhancedBotUser } from '../../models/generated/EnhancedBotUser';
 import { MessengerService } from '../../services/messenger.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { MessengerService } from '../../services/messenger.service';
 export class UsersComponent {
 
   error: string;
-  users: BotUser[];
+  users: EnhancedBotUser[];
 
   constructor(private http: HttpClient, private messenger: MessengerService, public dialog: MatDialog) {
     this.getUsers();
@@ -20,7 +20,7 @@ export class UsersComponent {
 
   getUsers(): void {
     this.messenger.loading.next(true);
-    this.http.get<BotUser[]>('tracking/users').subscribe(users => {
+    this.http.get<EnhancedBotUser[]>('tracking/users').subscribe(users => {
       this.users = users;
       this.messenger.loading.next(false);
     }, () => {
