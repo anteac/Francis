@@ -1,4 +1,5 @@
 using Francis.Database.Entities;
+using Francis.Models;
 using Francis.Models.Notification;
 using Francis.Models.Ombi;
 using Francis.Models.Options;
@@ -26,6 +27,7 @@ namespace Francis.Typings
             typeof(RuntimeError),
 
             typeof(BotUser),
+            typeof(EnhancedBotUser),
             typeof(Progression),
             typeof(RequestProgression),
             typeof(WatchedItem),

@@ -59,7 +59,7 @@ namespace Francis.Telegram.Client
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)
-                    .FirstOrDefault(x => x.Public == !(user?.Username != null) && x.CanProcess);
+                    .FirstOrDefault(x => x.Public == !(user?.Authorized ?? false) && x.CanProcess);
 
                 await answer.Execute();
 
@@ -90,7 +90,7 @@ namespace Francis.Telegram.Client
 
                 var answer = scope.ServiceProvider.GetServices<ITelegramAnswer>()
                     .OrderByDescending(x => x.Priority)
-                    .FirstOrDefault(x => x.Public == !(user?.Username != null) && x.CanProcess);
+                    .FirstOrDefault(x => x.Public == !(user?.Authorized ?? false) && x.CanProcess);
 
                 await answer.Execute();
 

@@ -73,11 +73,17 @@ namespace Francis.Controllers
 
         private async Task HandleNewRequest(Notification notification, long requestId)
         {
-            var message = $"The user '{notification.RequestedUser}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})";
+            var item = _context.WatchedItems.FirstOrDefault(x => x.RequestId == requestId);
+            var username = item != null
+                ? await _client.GetName(item.BotUser.TelegramId)
+                : notification.RequestedUser;
+
+            var message = $"The user '{username}' has requested item: {notification.Title} ({notification.Type} - {notification.Year})";
             if (notification.Type == RequestType.TvShow)
             {
                 message += $"\n\nSeason(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
             }
+
             await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, message, new InlineKeyboardMarkup(new[]
             {
                 InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {requestId}"),

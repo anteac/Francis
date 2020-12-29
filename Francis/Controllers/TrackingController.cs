@@ -1,8 +1,11 @@
 using Francis.Database;
 using Francis.Database.Entities;
+using Francis.Models;
+using Francis.Telegram.Client;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Francis.Controllers
 {
@@ -11,20 +14,24 @@ namespace Francis.Controllers
     public class TrackingController : ControllerBase
     {
         private readonly BotDbContext _context;
+        private readonly ITelegramClient _client;
 
 
-        public TrackingController(BotDbContext context)
+        public TrackingController(BotDbContext context, ITelegramClient client)
         {
             _context = context;
+            _client = client;
         }
 
 
         [HttpGet("users")]
-        public List<BotUser> GetUsers()
+        public async Task<List<EnhancedBotUser>> GetUsers()
         {
-            return _context.BotUsers
-                .OrderByDescending(x => x.Username)
-                .ToList();
+            var users = _context.BotUsers.AsEnumerable();
+            var enhanced = users.Select(async x => await EnhancedBotUser.Create(x, _client));
+
+            return (await Task.WhenAll(enhanced)).ToList();
+                
         }
 
         [HttpGet("requests")]

@@ -77,5 +77,21 @@ namespace Francis.Telegram.Extensions
                 replyMarkup: replies
             );
         }
+
+        public static async Task<string> GetName(this ITelegramClient bot, long telegramId)
+        {
+            var chat = await bot.Client.GetChatAsync(telegramId);
+            var username = string.Empty;
+            if (!string.IsNullOrWhiteSpace(chat.Username))
+            {
+                username += $"'{chat.Username}'";
+            }
+            if (!string.IsNullOrWhiteSpace(chat.FirstName) || !string.IsNullOrWhiteSpace(chat.LastName))
+            {
+                var fullname = $"{chat.FirstName} {chat.LastName}".Trim();
+                username = !string.IsNullOrWhiteSpace(username) ? $"{username} ({fullname})" : fullname;
+            }
+            return username;
+        }
     }
 }

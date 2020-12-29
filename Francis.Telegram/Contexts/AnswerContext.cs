@@ -3,11 +3,13 @@ using Francis.Database.Entities;
 using Francis.Models.Options;
 using Francis.Services.Clients;
 using Francis.Telegram.Client;
+using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
 namespace Francis.Telegram.Contexts
@@ -45,6 +47,8 @@ namespace Francis.Telegram.Contexts
 
         public TProgression Progression => Database.Progressions.FirstOrDefault(x => x.Id == int.Parse(Parameters[0])) as TProgression;
 
+        public bool IsAdmin => Message.Chat.Id == Options.Value.AdminChat;
+
 
         public AnswerContext(
             string fullCommand,
@@ -79,5 +83,8 @@ namespace Francis.Telegram.Contexts
                 Parameters = queue.ToArray();
             }
         }
+
+
+        public async Task<string> GetName() => await Bot.GetName(Message.Chat.Id);
     }
 }
