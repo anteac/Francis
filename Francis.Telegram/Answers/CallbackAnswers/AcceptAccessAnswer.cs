@@ -24,9 +24,9 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             user.Authorized = true;
 
             await Context.Bot.SendMessage(chatId, $"Your access request has been accepted! You can now start using Francis. 😊");
-            await Context.Bot.EditMessage(Context.Message, $"Access request has been accepted for user \"{chat.Username}\"!");
+            await Context.Bot.EditMessage(Context.Message, $"Access request has been accepted for user {await Context.GetName()}!");
 
-            Context.Logger.LogInformation($"Access request from user '{chat.Username}' has just been accepted");
+            Context.Logger.LogInformation($"Access request from user {await Context.GetName()} has just been accepted");
         }
     }
 }

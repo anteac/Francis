@@ -21,9 +21,9 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var chat = await Context.Bot.Client.GetChatAsync(chatId);
 
             await Context.Bot.SendMessage(chatId, $"Your access request has been rejected...");
-            await Context.Bot.EditMessage(Context.Message, $"Access request has been rejected for user {chat.Username}.");
+            await Context.Bot.EditMessage(Context.Message, $"Access request has been rejected for user {await Context.GetName()}.");
 
-            Context.Logger.LogInformation($"Access request from user '{chat.Username}' has just been rejected");
+            Context.Logger.LogInformation($"Access request from user {await Context.GetName()} has just been rejected");
         }
     }
 }

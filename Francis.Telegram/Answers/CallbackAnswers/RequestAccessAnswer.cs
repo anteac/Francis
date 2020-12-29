@@ -19,8 +19,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
         public override async Task Execute()
         {
-            var userDescription = $"User \"{Context.Message.Chat.Username}\" ({Context.Message.Chat.FirstName} {Context.Message.Chat.LastName})";
-            await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{userDescription} has requested access to Francis, do you accept?", new InlineKeyboardMarkup(new[]
+            await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"User {await Context.GetName()} has requested access to Francis, do you accept?", new InlineKeyboardMarkup(new[]
             {
                 InlineKeyboardButton.WithCallbackData("Accept", $"/accept_access_request {Context.Message.Chat.Id}"),
                 InlineKeyboardButton.WithCallbackData("Reject", $"/reject_access_request {Context.Message.Chat.Id}")
@@ -28,7 +27,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Context.Bot.EditMessage(Context.Message, "Request has been sent! Please wait for the approval of the administrator.");
 
-            Context.Logger.LogInformation($"User '{Context.Message.Chat.Username}' has just requested access to Francis");
+            Context.Logger.LogInformation($"User {await Context.GetName()} has just requested access to Francis");
         }
     }
 }

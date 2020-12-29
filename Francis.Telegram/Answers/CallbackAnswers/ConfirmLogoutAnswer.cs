@@ -35,7 +35,7 @@ Alright, I delete everything!
 Who are you again?
 ");
 
-            Context.Logger.LogInformation($"Telegram user '{Context.Message.Chat.Username}' ({Context.Message.Chat.FirstName} {Context.Message.Chat.LastName}) successfully logged out");
+            Context.Logger.LogInformation($"Telegram user {await Context.GetName()} successfully logged out");
         }
     }
 }
