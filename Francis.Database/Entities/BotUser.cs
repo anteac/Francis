@@ -7,7 +7,7 @@ namespace Francis.Database.Entities
     {
         public int Id { get; set; }
 
-        public string Username { get; set; }
+        public bool Authorized { get; set; }
 
         [JsonIgnore]
         public long TelegramId { get; set; }

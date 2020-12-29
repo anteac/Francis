@@ -2,6 +2,8 @@ using Francis.Database.Converters;
 using Francis.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 
+// dotnet ef migrations add <insert_name_here> --project Francis.Database --startup-project Francis
+
 namespace Francis.Database
 {
     public class BotDbContext : DbContext
