@@ -39,7 +39,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
                 }
             }));
 
-            Context.Logger.LogInformation($"User '{Context.User.Username}' initiated search with '{progression.Search}'.");
+            Context.Logger.LogInformation($"User {await Context.GetName()} initiated search with '{progression.Search}'.");
         }
     }
 }

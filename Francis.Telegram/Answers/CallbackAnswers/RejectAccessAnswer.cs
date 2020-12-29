@@ -7,8 +7,6 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class RejectAccessAnswer : TelegramAnswer
     {
-        public override bool Public => true;
-
         public override bool CanProcess => Context.Command == $"/reject_access_request";
 
 

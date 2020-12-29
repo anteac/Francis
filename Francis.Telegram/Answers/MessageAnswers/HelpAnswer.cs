@@ -26,7 +26,7 @@ Francis, at your service!
 Any other message will be considered as a search!
 ");
 
-            Context.Logger.LogInformation($"User '{Context.User.Username}' requested help");
+            Context.Logger.LogInformation($"User {await Context.GetName()} requested help");
         }
     }
 }

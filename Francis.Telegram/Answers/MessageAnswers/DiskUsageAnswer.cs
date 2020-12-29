@@ -28,7 +28,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
 
             await Context.Bot.SendMessage(Context.Message.Chat, result);
 
-            Context.Logger.LogInformation($"User '{Context.User.Username}' requested remaining disk storage: {result}");
+            Context.Logger.LogInformation($"User {await Context.GetName()} requested remaining disk storage: {result}");
         }
     }
 }

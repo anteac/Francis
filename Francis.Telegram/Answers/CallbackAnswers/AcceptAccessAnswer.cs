@@ -8,8 +8,6 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class AcceptAccessAnswer : TelegramAnswer
     {
-        public override bool Public => true;
-
         public override bool CanProcess => Context.Command == $"/accept_access_request";
 
 
@@ -23,7 +21,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             var chat = await Context.Bot.Client.GetChatAsync(chatId);
             var user = Context.Database.BotUsers.First(x => x.TelegramId == chatId);
-            user.Username = chat.Username;
+            user.Authorized = true;
 
             await Context.Bot.SendMessage(chatId, $"Your access request has been accepted! You can now start using Francis. 😊");
             await Context.Bot.EditMessage(Context.Message, $"Access request has been accepted for user \"{chat.Username}\"!");

@@ -30,7 +30,7 @@ However, you can come back anytime you want! You would just have to tell me what
 
 Can you confirm your choice? 🙂", replies);
 
-            Context.Logger.LogInformation($"User '{Context.User.Username}' initiated a logout process");
+            Context.Logger.LogInformation($"User {await Context.GetName()} initiated a logout process");
         }
     }
 }

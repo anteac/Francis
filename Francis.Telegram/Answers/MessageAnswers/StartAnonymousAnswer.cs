@@ -29,15 +29,23 @@ namespace Francis.Telegram.Answers.MessageAnswers
                 Context.Database.SaveChanges();
             }
 
-            var text = $"Hello! I'm Francis, and I will help you to request medias. 😊\nI don't know you yet, can you click on the button to authenticate?";
-            var message = await Context.Bot.SendMessage(Context.Message.Chat, text);
+            if (Context.User.TelegramId == Context.Options.Value.AdminChat)
+            {
+                Context.User.Authorized = true;
 
-            await Context.Bot.EditMessage(message, text, replies: new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData(
+                var adminText = $"Hello! I'm Francis, and I will help you to request medias. 😊\nWelcome back, Mr. the administrator!";
+                await Context.Bot.SendMessage(Context.Message.Chat, adminText);
+
+                return;
+            }
+
+            var text = $"Hello! I'm Francis, and I will help you to request medias. 😊\nI don't know you yet, can you click on the button to authenticate?";
+            await Context.Bot.SendMessage(Context.Message.Chat, text, new InlineKeyboardMarkup(InlineKeyboardButton.WithCallbackData(
                 text: "Send access request",
                 callbackData: $"/request_access"
             )));
 
-            Context.Logger.LogInformation($"Telegram user '{Context.Message.Chat.Username}' ({Context.Message.Chat.FirstName} {Context.Message.Chat.LastName}) started a new session");
+            Context.Logger.LogInformation($"Telegram user {await Context.GetName()} started a new session");
         }
     }
 }

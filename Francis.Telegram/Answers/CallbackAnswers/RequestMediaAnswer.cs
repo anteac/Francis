@@ -31,24 +31,25 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             {
                 Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
                 await Context.Bot.EditMessage(Context.Message, $"This {item.Type} {message}", item);
-                Context.Logger.LogInformation($"User '{Context.User.Username}' requested an already {item.OmbiStatus} item: {item.Title} ({item.Type} - {item.Year})");
+                Context.Logger.LogInformation($"User {await Context.GetName()} requested an already {item.OmbiStatus} item: {item.Title} ({item.Type} - {item.Year})");
                 return;
             }
 
+            var ombiService = Context.IsAdmin ? Context.OmbiAdmin : Context.Ombi;
             switch (item.Type)
             {
                 case RequestType.Movie:
-                    item.RequestId = (await Context.Ombi.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
+                    item.RequestId = (await ombiService.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
                     break;
                 case RequestType.TvShow:
-                    item.RequestId = (await Context.Ombi.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
+                    item.RequestId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
                     break;
             }
 
             Context.Database.WatchedItems.Add(WatchedItem.From(item, Context.User));
 
             await Context.Bot.EditMessage(Context.Message, $"The {item.Type} has been added to the request queue! I will tell you when it will be approved.", item);
-            Context.Logger.LogInformation($"User '{Context.User.Username}' has just requested item: {item.Title} ({item.Type} - {item.Year})");
+            Context.Logger.LogInformation($"User {await Context.GetName()} has just requested item: {item.Title} ({item.Type} - {item.Year})");
         }
     }
 }

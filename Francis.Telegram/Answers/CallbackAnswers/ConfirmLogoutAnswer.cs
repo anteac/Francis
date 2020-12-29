@@ -23,7 +23,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             if (Context.Message.Chat.Id != Context.Options.Value.AdminChat)
             {
-                await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{Context.User.Username} has just successfully logout.");
+                await Context.Bot.SendMessage(Context.Options.Value.AdminChat, $"{await Context.GetName()} has just successfully logout.");
             }
             await Context.Bot.EditMessage(Context.Message, @"
 Alright, I delete everything!
