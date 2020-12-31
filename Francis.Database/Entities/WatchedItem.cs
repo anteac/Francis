@@ -1,6 +1,7 @@
 using Francis.Models;
 using Francis.Models.Notification;
 using Newtonsoft.Json;
+using System;
 
 namespace Francis.Database.Entities
 {
@@ -14,6 +15,8 @@ namespace Francis.Database.Entities
         public RequestType ItemType { get; set; }
 
         public long RequestId { get; set; }
+
+        public DateTime RequestDate { get; set; } = DateTime.Now;
 
 
         public virtual BotUser BotUser { get; set; }

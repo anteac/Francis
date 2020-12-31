@@ -73,10 +73,8 @@ namespace Francis.Controllers
 
         private async Task HandleNewRequest(Notification notification, long requestId)
         {
-            var item = _context.WatchedItems.FirstOrDefault(x => x.RequestId == requestId);
-            var username = item != null
-                ? await _client.GetName(item.BotUser.TelegramId)
-                : $"'{notification.RequestedUser}'";
+            var item = _context.WatchedItems.OrderByDescending(x => x.RequestDate).FirstOrDefault(x => x.RequestId == requestId);
+            var username = item != null ? await _client.GetName(item.BotUser.TelegramId) : $"'{notification.RequestedUser}'";
 
             var message = $"The user {username} has requested item: {notification.Title} ({notification.Type} - {notification.Year})";
             if (notification.Type == RequestType.TvShow)

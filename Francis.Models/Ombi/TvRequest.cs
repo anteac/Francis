@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Francis.Models.Ombi
 {
@@ -16,5 +17,12 @@ namespace Francis.Models.Ombi
         public string Status { get; set; }
         public long TotalSeasons { get; set; }
         public long Id { get; set; }
+
+        public List<ChildRequest> ChildRequests { get; set; }
+    }
+
+    public class ChildRequest
+    {
+        public DateTime RequestedDate { get; set; }
     }
 }

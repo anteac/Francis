@@ -4,6 +4,7 @@ using Francis.Models.Notification;
 using Francis.Telegram.Contexts;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
@@ -42,7 +43,11 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                     item.RequestId = (await ombiService.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
                     break;
                 case RequestType.TvShow:
-                    item.RequestId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
+                    var tvdbId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
+                    item.RequestId = (await ombiService.GetTvRequests())
+                        .OrderByDescending(x => x.ChildRequests.Max(x => x.RequestedDate))
+                        .First(x => x.TvDbId == tvdbId)
+                        .Id;
                     break;
             }
 

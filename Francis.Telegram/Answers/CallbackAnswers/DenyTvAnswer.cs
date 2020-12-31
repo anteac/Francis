@@ -20,7 +20,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         {
             long requestId = long.Parse(Context.Parameters[0]);
 
-            var requests = await Context.OmbiAdmin.GetMovieRequests();
+            var requests = await Context.OmbiAdmin.GetTvRequests();
             var request = requests.First(x => x.Id == requestId);
             await Context.OmbiAdmin.DenyTv(new { id = requestId });
 
