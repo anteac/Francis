@@ -19,14 +19,13 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         {
             long chatId = long.Parse(Context.Parameters[0]);
 
-            var chat = await Context.Bot.Client.GetChatAsync(chatId);
             var user = Context.Database.BotUsers.First(x => x.TelegramId == chatId);
             user.Authorized = true;
 
             await Context.Bot.SendMessage(chatId, $"Your access request has been accepted! You can now start using Francis. 😊");
-            await Context.Bot.EditMessage(Context.Message, $"Access request has been accepted for user {await Context.GetName()}!");
+            await Context.Bot.EditMessage(Context.Message, $"Access request has been accepted for user {await Context.Bot.GetName(chatId)}!");
 
-            Context.Logger.LogInformation($"Access request from user {await Context.GetName()} has just been accepted");
+            Context.Logger.LogInformation($"Access request from user {await Context.Bot.GetName(chatId)} has just been accepted");
         }
     }
 }
