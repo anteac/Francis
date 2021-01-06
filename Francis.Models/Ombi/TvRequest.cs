@@ -23,6 +23,8 @@ namespace Francis.Models.Ombi
 
     public class ChildRequest
     {
+        public long Id { get; set; }
+        public long ParentRequestId { get; set; }
         public DateTime RequestedDate { get; set; }
     }
 }

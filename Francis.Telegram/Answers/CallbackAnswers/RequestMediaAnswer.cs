@@ -45,9 +45,11 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 case RequestType.TvShow:
                     var tvdbId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
                     item.RequestId = (await ombiService.GetTvRequests())
-                        .OrderByDescending(x => x.ChildRequests.Max(x => x.RequestedDate))
-                        .First(x => x.TvDbId == tvdbId)
-                        .Id;
+                        .SelectMany(x => x.ChildRequests)
+                        .OrderByDescending(x => x.RequestedDate)
+                        .First(x => x.Id == tvdbId)
+                        .ParentRequestId;
+                    Context.Database.SaveChanges();
                     break;
             }
 
