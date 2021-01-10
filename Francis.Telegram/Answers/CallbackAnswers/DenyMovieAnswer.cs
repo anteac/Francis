@@ -24,7 +24,6 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             var request = requests.First(x => x.Id == requestId);
             await Context.OmbiAdmin.DenyMovie(new { id = requestId });
 
-            //TODO: Find a way to give a reason
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nDenied...");
 
             Context.Logger.LogInformation($"{RequestType.Movie} '{request.Title}' has been denied");

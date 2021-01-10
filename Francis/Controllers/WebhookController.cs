@@ -46,7 +46,6 @@ namespace Francis.Controllers
 
             var handler = notification.NotificationType switch
             {
-                NotificationType.NewRequest => HandleNewRequest(notification, requestId),
                 NotificationType.RequestApproved => HandleRequestApproved(notification, requestId),
                 NotificationType.RequestDeclined => HandleRequestDenied(notification, requestId),
                 NotificationType.RequestAvailable => HandleRequestAvailable(notification, requestId),
@@ -69,24 +68,6 @@ namespace Francis.Controllers
         private async Task HandleTest()
         {
             await _client.SendMessage(_options.Value.AdminChat, "This is a test message from Ombi! If you received this, your configuration is valid.");
-        }
-
-        private async Task HandleNewRequest(Notification notification, long requestId)
-        {
-            var item = _context.WatchedItems.OrderByDescending(x => x.RequestDate).FirstOrDefault(x => x.RequestId == requestId);
-            var username = item != null ? await _client.GetName(item.BotUser.TelegramId) : $"'{notification.RequestedUser}'";
-
-            var message = $"The user {username} has requested item: {notification.Title} ({notification.Type} - {notification.Year})";
-            if (notification.Type == RequestType.TvShow)
-            {
-                message += $"\n\nSeason(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
-            }
-
-            await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, message, new InlineKeyboardMarkup(new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {requestId}"),
-                InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{notification.Type} {requestId}"),
-            }));
         }
 
         private async Task HandleRequestApproved(Notification notification, long requestId)

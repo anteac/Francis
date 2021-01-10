@@ -6,6 +6,7 @@ using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
@@ -36,20 +37,14 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 return;
             }
 
-            var ombiService = Context.IsAdmin ? Context.OmbiAdmin : Context.Ombi;
+            var ombiService = Context.IsAdmin ? Context.Ombi : Context.Ombi;
             switch (item.Type)
             {
                 case RequestType.Movie:
                     item.RequestId = (await ombiService.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
                     break;
                 case RequestType.TvShow:
-                    var tvdbId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
-                    item.RequestId = (await ombiService.GetTvRequests())
-                        .SelectMany(x => x.ChildRequests)
-                        .OrderByDescending(x => x.RequestedDate)
-                        .First(x => x.Id == tvdbId)
-                        .ParentRequestId;
-                    Context.Database.SaveChanges();
+                    item.RequestId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
                     break;
             }
 
@@ -57,6 +52,24 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Context.Bot.EditMessage(Context.Message, $"The {item.Type} has been added to the request queue! I will tell you when it will be approved.", item);
             Context.Logger.LogInformation($"User {await Context.GetName()} has just requested item: {item.Title} ({item.Type} - {item.Year})");
+
+            await NotifyAdministrator(item);
+        }
+
+        private async Task NotifyAdministrator(RequestItem item)
+        {
+            var message = $"The user {await Context.GetName()} has requested item: {item.Title} ({item.Type} - {item.Year})";
+            if (item.Type == RequestType.TvShow)
+            {
+                var seasons = item.Seasons.Select(x => $"- Season {x.SeasonNumber} ({x.Episodes.Count} episodes)");
+                message += $"\n\n{string.Join('\n', seasons)}";
+            }
+
+            await Context.Bot.SendImage(Context.Options.Value.AdminChat, item.Image, message, new InlineKeyboardMarkup(new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{item.Type} {item.RequestId}"),
+                InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{item.Type} {item.RequestId}"),
+            }));
         }
     }
 }

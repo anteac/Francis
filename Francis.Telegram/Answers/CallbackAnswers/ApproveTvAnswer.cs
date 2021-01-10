@@ -21,8 +21,8 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             long requestId = long.Parse(Context.Parameters[0]);
 
             var requests = await Context.OmbiAdmin.GetTvRequests();
-            var request = requests.First(x => x.Id == requestId);
-            await Context.OmbiAdmin.ApproveTv(new { id = request.TvDbId });
+            var request = requests.First(x => x.Id == requestId || x.ChildRequests.Any(x => x.Id == requestId));
+            await Context.OmbiAdmin.ApproveTv(new { id = requestId });
 
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nApproved !");
 

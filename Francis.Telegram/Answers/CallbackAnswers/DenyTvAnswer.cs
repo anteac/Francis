@@ -21,10 +21,9 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             long requestId = long.Parse(Context.Parameters[0]);
 
             var requests = await Context.OmbiAdmin.GetTvRequests();
-            var request = requests.First(x => x.Id == requestId);
+            var request = requests.First(x => x.Id == requestId || x.ChildRequests.Any(x => x.Id == requestId));
             await Context.OmbiAdmin.DenyTv(new { id = requestId });
 
-            //TODO: Find a way to give a reason
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nDenied...");
 
             Context.Logger.LogInformation($"{RequestType.TvShow} '{request.Title}' has been denied");
