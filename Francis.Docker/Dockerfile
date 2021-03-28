@@ -3,7 +3,7 @@ WORKDIR src/
 
 COPY . .
 
-RUN apk add yarn
+RUN apk add --no-cache make gcc g++ python2 yarn
 
 WORKDIR Francis/
 RUN dotnet publish -c Release -o /publish --runtime linux-x64
