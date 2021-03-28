@@ -1,5 +1,5 @@
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -9,10 +9,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class ApproveMovieAnswer : TelegramAnswer
     {
-        public override bool CanProcess => Context.Command == $"/approve_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/approve_{MediaType.Movie}";
 
 
-        public ApproveMovieAnswer(CallbackAnswerContext context) : base(context)
+        public ApproveMovieAnswer(AnswerContext context) : base(context)
         { }
 
 
@@ -26,7 +26,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nApproved !");
 
-            Context.Logger.LogInformation($"{RequestType.Movie} '{request.Title}' has been approved");
+            Context.Logger.LogInformation($"{MediaType.Movie} '{request.Title}' has been approved");
         }
     }
 }

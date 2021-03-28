@@ -1,5 +1,6 @@
 using Francis.Database;
 using Francis.Database.Entities;
+using Francis.Models;
 using Francis.Models.Options;
 using Francis.Services.Clients;
 using Francis.Telegram.Client;
@@ -12,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
-namespace Francis.Telegram.Contexts
+namespace Francis.Telegram.Answers
 {
     public interface IAnswerContext
     {
@@ -51,8 +52,8 @@ namespace Francis.Telegram.Contexts
 
 
         public AnswerContext(
-            string fullCommand,
-            Message message,
+            DataCapture<Message> message,
+            DataCapture<CallbackQuery> callback,
             BotDbContext context,
             ITelegramClient bot,
             IOptionsSnapshot<TelegramOptions> options,
@@ -61,7 +62,7 @@ namespace Francis.Telegram.Contexts
             ILogger<AnswerContext<TProgression>> logger
         )
         {
-            Message = message;
+            Message = message.Data;
             Database = context;
             Bot = bot;
             Options = options;
@@ -74,6 +75,7 @@ namespace Francis.Telegram.Contexts
                 User = Database.BotUsers.FirstOrDefault(x => x.TelegramId == Message.Chat.Id);
             }
 
+            var fullCommand = message.Data?.Text ?? callback.Data?.Data;
             if (fullCommand != null)
             {
                 var parameters = fullCommand.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -86,5 +88,20 @@ namespace Francis.Telegram.Contexts
 
 
         public async Task<string> GetName() => await Bot.GetName(Message.Chat.Id);
+    }
+
+    public class AnswerContext : AnswerContext<Progression>
+    {
+        public AnswerContext(
+            DataCapture<Message> message,
+            DataCapture<CallbackQuery> callback,
+            BotDbContext context,
+            ITelegramClient bot,
+            IOptionsSnapshot<TelegramOptions> options,
+            IOmbiService ombiAdmin,
+            IBotOmbiService ombi,
+            ILogger<AnswerContext> logger
+        ) : base(message, callback, context, bot, options, ombiAdmin, ombi, logger)
+        { }
     }
 }

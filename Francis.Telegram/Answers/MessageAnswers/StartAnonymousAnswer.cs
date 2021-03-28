@@ -1,5 +1,5 @@
 using Francis.Database.Entities;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
         public override int Priority => -1;
 
 
-        public StartAnonymousAnswer(MessageAnswerContext context) : base(context)
+        public StartAnonymousAnswer(AnswerContext context) : base(context)
         { }
 
 

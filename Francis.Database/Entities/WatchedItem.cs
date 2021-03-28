@@ -12,7 +12,7 @@ namespace Francis.Database.Entities
         [JsonIgnore]
         public int BotUserId { get; set; }
 
-        public RequestType ItemType { get; set; }
+        public MediaType ItemType { get; set; }
 
         public long RequestId { get; set; }
 
@@ -22,7 +22,7 @@ namespace Francis.Database.Entities
         public virtual BotUser BotUser { get; set; }
 
 
-        public static WatchedItem From(long requestId, RequestType type, BotUser user) => new WatchedItem
+        public static WatchedItem From(long requestId, MediaType type, BotUser user) => new WatchedItem
         {
             RequestId = requestId,
             BotUserId = user.Id,

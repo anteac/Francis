@@ -36,7 +36,7 @@ namespace Francis.Typings
         private static readonly Type[] _exportedEnums = new[]
         {
             typeof(LogEventLevel),
-            typeof(RequestType),
+            typeof(MediaType),
             typeof(RequestStatus),
         };
 

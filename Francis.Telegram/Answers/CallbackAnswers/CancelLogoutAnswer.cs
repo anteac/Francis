@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using System.Threading.Tasks;
 
@@ -9,7 +9,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override bool CanProcess => Context.Command == $"/cancel_logout";
 
 
-        public CancelLogoutAnswer(CallbackAnswerContext context) : base(context)
+        public CancelLogoutAnswer(AnswerContext context) : base(context)
         { }
 
 

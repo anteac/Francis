@@ -6,7 +6,7 @@ namespace Francis.Models.Notification
         public string RequestedUser { get; set; }
         public string Title { get; set; }
         public string RequestedDate { get; set; }
-        public RequestType? Type { get; set; }
+        public MediaType? Type { get; set; }
         public string TvdbId { get; set; }
         public string ImdbId { get; set; }
         public string ForeignAlbumId { get; set; }
