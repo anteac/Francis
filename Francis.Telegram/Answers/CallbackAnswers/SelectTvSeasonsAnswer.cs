@@ -1,5 +1,6 @@
+using Francis.Models;
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Francis.Toolbox.Extensions;
 using Microsoft.Extensions.Logging;
@@ -12,28 +13,28 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class SelectTvSeasonsAnswer : TelegramAnswer
     {
-        public override bool CanProcess => Context.Command == $"/chose_{RequestType.TvShow}";
+        public override bool CanProcess => Context.Command == $"/chose_{MediaType.Tv}";
 
 
-        public SelectTvSeasonsAnswer(CallbackAnswerContext context) : base(context)
+        public SelectTvSeasonsAnswer(AnswerContext context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
+            var result = await Context.Ombi.GetTv(Context.Parameters[1]);
 
             var options = result.SeasonRequests.Select(x =>
             {
                 return InlineKeyboardButton.WithCallbackData(
                     $"S{x.SeasonNumber.ToString().PadLeft(2, '0')}",
-                    $"/seasons {Context.Progression.Id} {result.TheTvDbId} {x.SeasonNumber}"
+                    $"/seasons {Context.Progression.Id} {result.Id} {x.SeasonNumber}"
                 );
             }).ToSublists(5).ToList();
 
             options.Insert(0, new List<InlineKeyboardButton>
             {
-                InlineKeyboardButton.WithCallbackData("All", $"/seasons {Context.Progression.Id} {result.TheTvDbId}"),
+                InlineKeyboardButton.WithCallbackData("All", $"/seasons {Context.Progression.Id} {result.Id}"),
             });
 
             options.Add(new List<InlineKeyboardButton>
@@ -41,9 +42,9 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 InlineKeyboardButton.WithCallbackData("Cancel request", $"/cancel {Context.Progression.Id}"),
             });
 
-            await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", result, new InlineKeyboardMarkup(options));
+            await Context.Bot.EditMessage(Context.Message, $"I'm about to send the request. Can you please tell me which season(s) you want?", (RequestItem)result, new InlineKeyboardMarkup(options));
 
-            Context.Logger.LogInformation($"User {await Context.GetName()} is requesting {RequestType.TvShow} '{result.Title}'. Waiting for seasons selection.");
+            Context.Logger.LogInformation($"User {await Context.GetName()} is requesting {MediaType.Tv} '{result.Title}'. Waiting for seasons selection.");
         }
     }
 }

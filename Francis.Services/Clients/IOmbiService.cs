@@ -21,17 +21,15 @@ namespace Francis.Services.Clients
         [Get("/api/v1/Request/tv")]
         Task<TvRequest[]> GetTvRequests();
 
-        [Get("/api/v1/Search/movie/{search}")]
-        Task<MovieSearchResult[]> SearchMovie(string search);
+        [Post("/api/v2/Search/multi/{search}")]
+        [Headers("accept: text/plain", "Content-Type: application/json-patch+json")]
+        Task<MultiSearchResult[]> SearchMulti(string search, [Body]string body = "{\"movies\":true,\"tvShows\":true,\"music\":false,\"people\":false}");
 
-        [Get("/api/v1/Search/tv/{search}")]
-        Task<TvSearchResult[]> SearchTv(string search);
+        [Get("/api/v2/Search/tv/{id}")]
+        Task<TvSearchResult> GetTv(string id);
 
-        [Get("/api/v1/Search/movie/info/{id}")]
-        Task<MovieSearchResult> GetMovie(long id);
-
-        [Get("/api/v1/Search/tv/info/{id}")]
-        Task<TvSearchResult> GetTv(long id);
+        [Get("/api/v2/Search/movie/{id}")]
+        Task<MovieSearchResult> GetMovie(string id);
 
         [Post("/api/v1/Request/movie")]
         Task<RequestResult> RequestMovie([Body] object body);
@@ -42,7 +40,7 @@ namespace Francis.Services.Clients
         [Put("/api/v1/Request/movie/deny")]
         Task DenyMovie([Body] object body);
 
-        [Post("/api/v1/Request/tv")]
+        [Post("/api/v2/Requests/tv")]
         Task<RequestResult> RequestTv([Body] object body);
 
         [Post("/api/v1/Request/tv/approve")]
