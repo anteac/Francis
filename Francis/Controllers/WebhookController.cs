@@ -58,10 +58,10 @@ namespace Francis.Controllers
         private string FormatAnswer(Notification notification, string message)
         {
             //TODO: Messy seasons and episodes: maybe there's a way to change Ombi's behavior to send more accurate data?
-            var result = $"{notification.Title} ({notification.Type} - {notification.Year})\n\n";
+            var result = $"{notification.Title} ({notification.Type} - {notification.Year})";
             if (notification.Type == MediaType.Tv)
             {
-                result += $"Season(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
+                result += $"\n\nSeason(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
             }
             return $"{result}\n\n{message}";
         }
