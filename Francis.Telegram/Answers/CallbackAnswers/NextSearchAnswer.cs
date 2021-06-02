@@ -35,7 +35,17 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             if (item == null)
             {
                 Context.Progression.Status = RequestStatus.Error;
-                await Context.Bot.EditMessage(Context.Message, "I'm sorry, I could not find anything that matches your search... Are you sure you typed the name correctly?");
+
+                var message = "I'm sorry, I could not find anything that matches your search... Are you sure you typed the name correctly?";
+                if (Context.Message.From.Id == Context.User.TelegramId) 
+                {
+                    await Context.Bot.SendMessage(Context.User.TelegramId, message);
+                }
+                else 
+                {
+                    await Context.Bot.EditMessage(Context.Message, message);
+                }
+
                 Context.Logger.LogError($"User {await Context.GetName()} could not find any suitable media that matches '{Context.Progression.Search}'.");
                 return;
             }
