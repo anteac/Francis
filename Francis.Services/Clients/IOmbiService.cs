@@ -22,7 +22,7 @@ namespace Francis.Services.Clients
         Task<TvRequest[]> GetTvRequests();
 
         [Post("/api/v2/Search/multi/{search}")]
-        [Headers("accept: text/plain", "Content-Type: application/json-patch+json")]
+        [Headers("accept: application/json", "Content-Type: application/json-patch+json")]
         Task<MultiSearchResult[]> SearchMulti(string search, [Body]string body = "{\"movies\":true,\"tvShows\":true,\"music\":false,\"people\":false}");
 
         [Get("/api/v2/Search/tv/{id}")]

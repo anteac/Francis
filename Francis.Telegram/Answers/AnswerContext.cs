@@ -75,7 +75,7 @@ namespace Francis.Telegram.Answers
                 User = Database.BotUsers.FirstOrDefault(x => x.TelegramId == Message.Chat.Id);
             }
 
-            var fullCommand = message.Data?.Text ?? callback.Data?.Data;
+            var fullCommand = callback.Data?.Data ?? message.Data?.Text;
             if (fullCommand != null)
             {
                 var parameters = fullCommand.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
