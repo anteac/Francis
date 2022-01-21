@@ -46,6 +46,7 @@ namespace Francis.Controllers
 
             var handler = notification.NotificationType switch
             {
+                NotificationType.NewRequest => HandleNewRequest(notification, requestId),
                 NotificationType.RequestApproved => HandleRequestApproved(notification, requestId),
                 NotificationType.RequestDeclined => HandleRequestDenied(notification, requestId),
                 NotificationType.RequestAvailable => HandleRequestAvailable(notification, requestId),
@@ -57,12 +58,12 @@ namespace Francis.Controllers
         private string FormatAnswer(Notification notification, string message)
         {
             //TODO: Messy seasons and episodes: maybe there's a way to change Ombi's behavior to send more accurate data?
-            var result = $"{notification.Title} ({notification.Type} - {notification.Year})\n\n";
-            if (!string.IsNullOrEmpty(notification.SeasonsList) && !string.IsNullOrEmpty(notification.EpisodesList))
+            var result = $"{notification.Title} ({notification.Type} - {notification.Year})";
+            if (notification.Type == MediaType.Tv)
             {
-                result += $"Season(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}\n\n";
+                result += $"\n\nSeason(s) concerned: {notification.SeasonsList}\nEpisode(s) concerned: {notification.EpisodesList}";
             }
-            return result + message;
+            return $"{result}\n\n{message}";
         }
 
         private async Task HandleTest()
@@ -70,30 +71,47 @@ namespace Francis.Controllers
             await _client.SendMessage(_options.Value.AdminChat, "This is a test message from Ombi! If you received this, your configuration is valid.");
         }
 
+        private async Task HandleNewRequest(Notification notification, long requestId)
+        {
+            if (notification.IssueUser == "Francis") return;
+
+            var formatted = FormatAnswer(notification, string.Empty);
+            var message = $"The user {notification.IssueUser} has requested item: {formatted}";
+
+            await _client.SendImage(_options.Value.AdminChat, notification.PosterImage, message, new InlineKeyboardMarkup(new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Approve", $"/approve_{notification.Type} {notification.RequestId}"),
+                InlineKeyboardButton.WithCallbackData("Deny", $"/deny_{notification.Type} {notification.RequestId}"),
+            }));
+        }
+
         private async Task HandleRequestApproved(Notification notification, long requestId)
         {
-            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId)).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type)).ToList();
             foreach (BotUser user in users)
             {
-                await _client.SendMessage(user.TelegramId, FormatAnswer(notification, "You're request has been approved. It will be available soon!"));
+                await _client.SendMessage(user.TelegramId, FormatAnswer(notification,
+                    "You're request has been approved. It will be available soon!"));
             }
         }
 
         private async Task HandleRequestDenied(Notification notification, long requestId)
         {
-            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId)).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type)).ToList();
             foreach (BotUser user in users)
             {
-                await _client.SendMessage(user.TelegramId, FormatAnswer(notification, "You're request has been denied... Maybe your request doesn't match the conditions?"));
+                await _client.SendMessage(user.TelegramId, FormatAnswer(notification,
+                    "You're request has been denied... Maybe your request doesn't match the conditions?"));
             }
         }
 
         private async Task HandleRequestAvailable(Notification notification, long requestId)
         {
-            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId) || x.TelegramId == _options.Value.AdminChat).ToList();
+            var users = _context.BotUsers.Where(x => x.WatchedItems.Any(x => x.RequestId == requestId && x.ItemType == notification.Type) || x.TelegramId == _options.Value.AdminChat).ToList();
             foreach (BotUser user in users)
             {
-                await _client.SendMessage(user.TelegramId, FormatAnswer(notification, "You're request is available. You can watch it now!"));
+                await _client.SendMessage(user.TelegramId, FormatAnswer(notification,
+                    "You're request is available. You can watch it now!"));
             }
         }
     }

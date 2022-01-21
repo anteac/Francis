@@ -39,9 +39,9 @@ namespace Francis.Controllers
 
 
         [HttpGet("telegram/status")]
-        public bool GetTelegramStatus()
+        public async Task<bool> GetTelegramStatus()
         {
-            return _bot.Running;
+            return await _bot.IsRunning();
         }
 
         [HttpGet("ombi/status")]

@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override bool CanProcess => Context.Command == $"/confirm_logout";
 
 
-        public ConfirmLogoutAnswer(CallbackAnswerContext context) : base(context)
+        public ConfirmLogoutAnswer(AnswerContext context) : base(context)
         { }
 
 

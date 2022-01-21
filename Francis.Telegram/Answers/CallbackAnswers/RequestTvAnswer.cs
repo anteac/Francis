@@ -1,6 +1,6 @@
 using Francis.Database.Entities;
+using Francis.Models;
 using Francis.Models.Ombi;
-using Francis.Telegram.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,16 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class RequestTvAnswer : RequestMediaAnswer
     {
-
         public override bool CanProcess => Context.Command == $"/seasons";
 
 
-        public RequestTvAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
+        public RequestTvAnswer(AnswerContext<RequestProgression> context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var result = await Context.Ombi.GetTv(long.Parse(Context.Parameters[1]));
+            var result = await Context.Ombi.GetTv(Context.Parameters[1]);
             var seasonNumber = Context.Parameters.Length > 2 ? (int?)int.Parse(Context.Parameters[2]) : null;
 
             //TODO: Try to add Denied on Ombi for episodes
@@ -35,7 +34,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 result.SeasonRequests = new List<SeasonRequest> { season };
             }
 
-            await HandleNewRequest(result);
+            await HandleNewRequest((RequestItem)result);
         }
 
         public static bool? GetStatus(TvSearchResult result, int? seasonNumber, Func<EpisodeRequest, bool> selector)

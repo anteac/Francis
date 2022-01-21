@@ -1,24 +1,25 @@
 using Francis.Database.Entities;
+using Francis.Models;
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using System.Threading.Tasks;
 
 namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class RequestMovieAnswer : RequestMediaAnswer
     {
-        public override bool CanProcess => Context.Command == $"/chose_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/chose_{MediaType.Movie}";
 
 
-        public RequestMovieAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
+        public RequestMovieAnswer(AnswerContext<RequestProgression> context) : base(context)
         { }
 
 
         public override async Task Execute()
         {
-            var result = await Context.Ombi.GetMovie(long.Parse(Context.Parameters[1]));
+            var result = await Context.Ombi.GetMovie(Context.Parameters[1]);
 
-            await HandleNewRequest(result);
+            await HandleNewRequest((RequestItem)result);
         }
     }
 }

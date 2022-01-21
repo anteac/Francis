@@ -7,7 +7,7 @@ namespace Francis.Database.Entities
     {
         public string Search { get; set; }
 
-        public RequestType Type { get; set; }
+        public MediaType Type { get; set; }
 
         public RequestStatus Status { get; set; } = RequestStatus.Pending;
 

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Telegram.Bot;
 
 namespace Francis.Controllers
 {
@@ -55,7 +56,7 @@ namespace Francis.Controllers
             //TODO: Answer more descriptive messages
             //TODO: Use Uri instead of string concatenation
             _updater.Save(options);
-            _bot.Initialize();
+            await _bot.Initialize();
             await _bot.SendMessage(options.AdminChat, "Hello Francis administrator, if you received this message, this means your configuration is valid.");
             if (!Directory.Exists(options.MediaLocation)) throw new ArgumentException("Invalid media location");
             return await _bot.Client.GetMeAsync();

@@ -1,7 +1,7 @@
 using Francis.Database.Entities;
 using Francis.Models;
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public abstract class RequestMediaAnswer : TelegramAnswer<RequestProgression>
     {
-        public RequestMediaAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
+        public RequestMediaAnswer(AnswerContext<RequestProgression> context) : base(context)
         { }
 
 
@@ -37,14 +37,14 @@ namespace Francis.Telegram.Answers.CallbackAnswers
                 return;
             }
 
-            var ombiService = Context.IsAdmin ? Context.Ombi : Context.Ombi;
+            var ombiService = Context.IsAdmin ? Context.OmbiAdmin : Context.Ombi;
             switch (item.Type)
             {
-                case RequestType.Movie:
+                case MediaType.Movie:
                     item.RequestId = (await ombiService.RequestMovie(new { theMovieDbId = item.Id })).RequestId;
                     break;
-                case RequestType.TvShow:
-                    item.RequestId = (await ombiService.RequestTv(new { tvDbId = item.Id, seasons = item.Seasons })).RequestId;
+                case MediaType.Tv:
+                    item.RequestId = (await ombiService.RequestTv(new { theMovieDbId = item.Id, seasons = item.Seasons })).RequestId;
                     break;
             }
 
@@ -53,13 +53,16 @@ namespace Francis.Telegram.Answers.CallbackAnswers
             await Context.Bot.EditMessage(Context.Message, $"The {item.Type} has been added to the request queue! I will tell you when it will be approved.", item);
             Context.Logger.LogInformation($"User {await Context.GetName()} has just requested item: {item.Title} ({item.Type} - {item.Year})");
 
-            await NotifyAdministrator(item);
+            if (!Context.IsAdmin)
+            {
+                await NotifyAdministrator(item);
+            }
         }
 
         private async Task NotifyAdministrator(RequestItem item)
         {
             var message = $"The user {await Context.GetName()} has requested item: {item.Title} ({item.Type} - {item.Year})";
-            if (item.Type == RequestType.TvShow)
+            if (item.Type == MediaType.Tv)
             {
                 var seasons = item.Seasons.Select(x => $"- Season {x.SeasonNumber} ({x.Episodes.Count} episodes)");
                 message += $"\n\n{string.Join('\n', seasons)}";

@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
         public override bool CanProcess => Context.Command == "/help" || Context.Command == "/start";
 
 
-        public HelpAnswer(MessageAnswerContext context) : base(context)
+        public HelpAnswer(AnswerContext context) : base(context)
         { }
 
 

@@ -1,6 +1,6 @@
 using Francis.Database.Entities;
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override bool CanProcess => Context.Command == $"/cancel";
 
 
-        public CancelRequestAnswer(CallbackAnswerContext<RequestProgression> context) : base(context)
+        public CancelRequestAnswer(AnswerContext<RequestProgression> context) : base(context)
         { }
 
 

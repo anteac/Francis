@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -11,7 +11,7 @@ namespace Francis.Telegram.Answers.MessageAnswers
         public override bool CanProcess => Context.Command == "/disk";
 
 
-        public DiskUsageAnswer(MessageAnswerContext context) : base(context)
+        public DiskUsageAnswer(AnswerContext context) : base(context)
         { }
 
 

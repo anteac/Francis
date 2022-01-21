@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override bool CanProcess => Context.Command == $"/accept_access_request";
 
 
-        public AcceptAccessAnswer(CallbackAnswerContext context) : base(context)
+        public AcceptAccessAnswer(AnswerContext context) : base(context)
         { }
 
 

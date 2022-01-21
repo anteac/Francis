@@ -1,4 +1,4 @@
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
         public override bool CanProcess => Context.Command == $"/reject_access_request";
 
 
-        public RejectAccessAnswer(CallbackAnswerContext context) : base(context)
+        public RejectAccessAnswer(AnswerContext context) : base(context)
         { }
 
 

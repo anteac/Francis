@@ -1,5 +1,5 @@
 using Francis.Models.Notification;
-using Francis.Telegram.Contexts;
+using Francis.Telegram.Answers;
 using Francis.Telegram.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -9,10 +9,10 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 {
     public class DenyMovieAnswer : TelegramAnswer
     {
-        public override bool CanProcess => Context.Command == $"/deny_{RequestType.Movie}";
+        public override bool CanProcess => Context.Command == $"/deny_{MediaType.Movie}";
 
 
-        public DenyMovieAnswer(CallbackAnswerContext context) : base(context)
+        public DenyMovieAnswer(AnswerContext context) : base(context)
         { }
 
 
@@ -26,7 +26,7 @@ namespace Francis.Telegram.Answers.CallbackAnswers
 
             await Context.Bot.EditMessage(Context.Message, Context.Message.Caption + "\n\nDenied...");
 
-            Context.Logger.LogInformation($"{RequestType.Movie} '{request.Title}' has been denied");
+            Context.Logger.LogInformation($"{MediaType.Movie} '{request.Title}' has been denied");
         }
     }
 }

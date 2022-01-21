@@ -3,7 +3,6 @@ using Francis.Models;
 using Francis.Models.Options;
 using Francis.Telegram.Answers;
 using Francis.Telegram.Client;
-using Francis.Telegram.Contexts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
@@ -21,10 +20,8 @@ namespace Francis.Telegram.Extensions
             services.AddSingleton<ITelegramClient, TelegramClient>();
 
             services.AddScoped(typeof(DataCapture<>));
-            services.AddScoped(typeof(MessageAnswerContext<>));
-            services.AddScoped<MessageAnswerContext>();
-            services.AddScoped(typeof(CallbackAnswerContext<>));
-            services.AddScoped<CallbackAnswerContext>();
+            services.AddScoped(typeof(AnswerContext<>));
+            services.AddScoped<AnswerContext>();
 
             var types = Assembly.GetExecutingAssembly().GetTypes().Where(
                 x => !x.IsAbstract && typeof(ITelegramAnswer).IsAssignableFrom(x)

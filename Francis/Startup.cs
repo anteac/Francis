@@ -72,15 +72,10 @@ namespace Francis
                 }
             });
 
-            try
-            {
-                client.Initialize();
+            if (client.Initialize().Result)
                 logger.LogInformation("Telegram client started.");
-            }
-            catch
-            {
+            else
                 logger.LogInformation("Telegram client could not start.");
-            }
         }
     }
 }

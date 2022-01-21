@@ -9,6 +9,8 @@ using Refit;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
 namespace Francis.Services.Factories
@@ -33,11 +35,13 @@ namespace Francis.Services.Factories
             _options = options;
         }
 
-
         public IOmbiService CreateGlobal(OmbiOptions options = null)
         {
             var client = new HttpClient();
-            var service = RestService.For<IOmbiService>(client);
+            var service = RestService.For<IOmbiService>(client, new RefitSettings
+            {
+                ContentSerializer = new NewtonsoftJsonContentSerializer()
+            });
 
             options = options ?? _options.Value;
 
@@ -46,8 +50,8 @@ namespace Francis.Services.Factories
                 return service;
             }
 
-            client.BaseAddress = new Uri(_options.Value.BaseUrl);
-            client.DefaultRequestHeaders.Add("ApiKey", _options.Value.ApiKey);
+            client.BaseAddress = new Uri(options.BaseUrl);
+            client.DefaultRequestHeaders.Add("ApiKey", options.ApiKey);
 
             return service;
         }
@@ -55,7 +59,10 @@ namespace Francis.Services.Factories
         public IBotOmbiService CreateForBot(OmbiOptions options = null)
         {
             var client = new HttpClient();
-            var service = RestService.For<IBotOmbiService>(client);
+            var service = RestService.For<IBotOmbiService>(client, new RefitSettings
+            {
+                ContentSerializer = new NewtonsoftJsonContentSerializer()
+            });
 
             options = options ?? _options.Value;
             var botUser = _context.BotUsers.FirstOrDefault(x => x.TelegramId == _capture.Data.Chat.Id);

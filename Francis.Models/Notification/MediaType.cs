@@ -1,9 +1,9 @@
 namespace Francis.Models.Notification
 {
-    public enum RequestType
+    public enum MediaType
     {
-        TvShow = 0,
+        Tv = 0,
+        TvShow = Tv,
         Movie = 1,
-        Album = 2,
     }
 }
